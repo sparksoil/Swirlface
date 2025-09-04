@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ron — Modular Ledger (Ron • Lucy • Coffee)</title>
+
+  <!-- THEMES -->
+  <link rel="stylesheet" href="theme/ron-style.css">
+  <link rel="stylesheet" href="theme/lucy-mode.css">
+  <link rel="stylesheet" href="theme/coffee-mode.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel" role="region" aria-label="Ron Ledger">
+
+      <!-- TOP art (case-smart images) -->
+      <div class="top-art" aria-hidden="true">
+        <img id="ronArt" class="art" alt="Ron board art"
+             data-folder="assets" data-name="ron-board" data-ext="png,PNG,jpg,JPG,webp,WEBP">
+        <img id="lucyArt" class="art" alt="Lucy cozy art" style="display:none"
+             data-folder="assets" data-name="Lucy-cozy-lilac" data-ext="png,PNG,jpg,JPG,webp,WEBP">
+        <div class="ron-quote-text">
+          <div id="ronQuoteMain"></div>
+          <div id="ronQuoteSub"></div>
+        </div>
+      </div>
+
+      <!-- Title + modes -->
+      <div class="inline">
+        <div>
+          <h1 id="titleSwap">Money and Things</h1>
+          <div id="quoteMain" class="muted"></div>
+        </div>
+        <div class="modes" role="group" aria-label="Felt mode">
+          <label><input type="radio" name="felt" value="ron" checked> Ron</label>
+          <label><input type="radio" name="felt" value="lucy"> Lucy</label>
+          <label><input type="radio" name="felt" value="coffee"> Coffee</label>
+        </div>
+      </div>
+
+      <hr class="quietline">
+
+      <!-- Settings -->
+      <details>
+        <summary><strong>Settings</strong> — Set-Aside % (Ron’s Jar)</summary>
+        <div class="row" style="margin-top:8px;">
+          <label>Set-Aside Percentage (% to reserve)
+            <input id="reservePct" type="number" step="0.1" min="0" max="100" placeholder="25">
+          </label>
+          <div class="inline" style="align-items:flex-end;">
+            <button id="saveSettings" type="button" class="secondary">Save</button>
+            <span class="muted">Used to compute “Set-Aside” and “Net”. Defaults to 25%.</span>
+          </div>
+        </div>
+      </details>
+
+      <hr class="quietline">
+
+      <!-- Form -->
+      <form id="entryForm" aria-describedby="savedMsg">
+        <div class="row">
+          <label>Date <input type="date" name="date" required></label>
+          <label>Client <input name="client" placeholder="Keely / Dexter / Witcher" required></label>
+        </div>
+
+        <div class="row-3">
+          <label>Service <input name="service" placeholder="Drop-in / Overnight / Litter clean" required></label>
+          <label>Amount (USD) <input type="number" step="0.01" name="amount" min="0" required placeholder="45.00"></label>
+          <label>Payment Method
+            <select name="method" required>
+              <option value="Cash">Cash</option><option value="Venmo">Venmo</option>
+              <option value="Zelle">Zelle</option><option value="Card">Card</option><option>Other</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="row">
+          <label class="inline"><input type="checkbox" name="paid"> Mark as paid</label>
+          <label>Field Log <input name="notes" placeholder="Council remarks, special care, etc."></label>
+        </div>
+
+        <!-- Multi-day toggle -->
+        <div class="row" style="align-items:end;">
+          <label class="inline"><input id="multiToggle" type="checkbox" name="multiday"> Multi-day job?</label>
+          <div class="muted">For house sitting or multi-day care (Income only).</div>
+        </div>
+        <div id="multiFields" class="row-3" style="display:none;">
+          <label>Start Date <input type="date" name="startDate"></label>
+          <label>End Date   <input type="date" name="endDate"></label>
+          <label>Split evenly across days?
+            <select name="splitEvenly"><option value="yes">Yes — divide total amount</option><option value="no">No — keep on first day</option></select>
+          </label>
+        </div>
+        <div id="multiChoice" class="row" style="display:none;">
+          <label>Destination mode
+            <select name="expandMode"><option value="summary">One summary row</option><option value="expand">Auto-expand into daily rows</option></select>
+          </label>
+        </div>
+
+        <div class="inline" style="margin-top:10px;">
+          <div>
+            <button class="primary" type="submit" id="logBtn">Log to Ledger</button>
+            <button class="secondary" type="button" id="clearBtn">Wipe Slate</button>
+          </div>
+          <p id="savedMsg" class="success" role="status" aria-live="polite">Logged. Ron set it on the shelf. 🪵</p>
+        </div>
+      </form>
+
+      <div class="row" style="margin-top:14px;">
+        <div>
+          <h2>This Season’s Stack</h2>
+          <div class="inline" style="gap:8px; flex-wrap:wrap;">
+            <span class="pill" id="monthLabel">Month</span>
+            <span class="pill">Logs: <span id="countMonth">0</span></span>
+            <span class="pill">Gross Income: $<span id="grossMonth">0.00</span></span>
+            <span class="pill">Expenses: $<span id="expMonth">0.00</span></span>
+            <span class="pill">Net After Exp: $<span id="netMonth">0.00</span></span>
+            <span class="pill">Tax Set-Aside: $<span id="reserveMonth">0.00</span></span>
+          </div>
+          <div class="card watermark" style="margin-top:10px;">
+            <div class="inline"><strong>Ledger</strong><small class="muted">The mountain remembers.</small></div>
+            <div class="table-wrap" style="margin-top:6px;">
+              <table aria-label="Logged entries">
+                <thead><tr>
+                  <th>Date / Range</th><th>Client</th><th>Category</th><th>Service</th><th>Platform</th><th>Method</th>
+                  <th class="right">Amount</th><th class="right">Set-Aside</th><th class="right">Net</th><th>Paid</th><th>Field Log</th>
+                </tr></thead>
+                <tbody id="rows"></tbody>
+                <tfoot><tr>
+                  <td colspan="6">Totals</td>
+                  <td class="right">$<span id="totalFoot">0.00</span></td>
+                  <td class="right">$<span id="totalReserveFoot">0.00</span></td>
+                  <td class="right">$<span id="totalNetFoot">0.00</span></td>
+                  <td colspan="2"></td>
+                </tr></tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <h2 id="titleRight">The Mountain’s Record</h2>
+          <div>Logs: <strong id="countAll">0</strong></div>
+          <div>Gross Income: <strong>$<span id="totalAll">0.00</span></strong></div>
+          <div>Expenses: <strong>$<span id="expAll">0.00</span></strong></div>
+          <div>Net After Expenses: <strong>$<span id="netAll">0.00</span></strong></div>
+          <div>Tax Set-Aside: <strong>$<span id="reserveAll">0.00</span></strong></div>
+
+          <!-- Coffee mini (shows only in coffee mode) -->
+          <div id="coffeeMini" class="card" style="display:none; margin-top:12px;">
+            <div class="inline"><strong>Reading Timer</strong><button id="start10" class="secondary">10 min</button></div>
+            <div class="row" style="margin-top:8px;">
+              <label>DNF / Juice Box
+                <input id="coffeeNote" placeholder="Too many italics. Emotionally allergic.">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="muted" style="margin-top:10px;">🦦 Nudge: Tides come four times a year — <strong>Apr 15 • Jun 15 • Sep 15 • Jan 15</strong></p>
+    </div>
+  </div>
+
+  <!-- Sparkle layer -->
+  <div class="sparkles" id="sparkles"></div>
+
+  <!-- MODULES -->
+  <script type="module">
+    import {resolveImage, resolveBgVar} from './ui/image-resolver.js';
+    import {current, setMode, initModeRadio} from './ui/modes.js';
+    import {showOnce} from './ui/quotes.js';
+    import * as store from './ui/storage.js';
+    import {wireForm} from './ui/ledger-form.js';
+    import {renderTable} from './ui/ledger-table.js';
+    import {renderSummaries} from './ui/summaries.js';
+    import {burst as sparklesBurst} from './ui/sparkles.js';
+    import {wireCoffeeMini} from './ui/coffee-mini.js';
+
+    // Resolve top art (case-flex)
+    resolveImage(document.getElementById('ronArt'));
+    resolveImage(document.getElementById('lucyArt'));
+    // Resolve backgrounds for CSS vars
+    resolveBgVar('--bg-lucy',   'assets/Lucy-bokeh');
+    resolveBgVar('--bg-coffee', 'assets/coffee-paper');
+
+    // Mode init
+    initModeRadio(document.querySelectorAll('input[name="felt"]'), (m)=>{
+      titleUpdate(m);
+      artSwap(m);
+      showOnce(m);
+      document.getElementById('coffeeMini').style.display = (m==='coffee') ? '' : 'none';
+    });
+    function titleUpdate(m){
+      const t = document.getElementById('titleSwap');
+      const r = document.getElementById('titleRight');
+      t.textContent = m==='lucy' ? "Pebbles and Things" : (m==='coffee' ? "Beans and Receipts" : "Money and Things");
+      r.textContent = m==='lucy' ? "The River’s Ledger"  : (m==='coffee' ? "The Café’s Till"     : "The Mountain’s Record");
+    }
+    function artSwap(m){
+      const ron = document.getElementById('ronArt');
+      const lucy= document.getElementById('lucyArt');
+      if(ron && lucy){
+        ron.style.display  = (m==='lucy') ? 'none' : '';
+        lucy.style.display = (m==='lucy') ? ''     : 'none';
+      }
+    }
+
+    // Settings
+    const reservePctInput = document.getElementById('reservePct');
+    const saveSettingsBtn = document.getElementById('saveSettings');
+    reservePctInput.value = store.loadSettings().reservePct;
+    saveSettingsBtn.addEventListener('click', ()=>{
+      const v = Number(reservePctInput.value);
+      const pct = isNaN(v)||v<0 ? 0 : Math.min(100,v);
+      const s = store.loadSettings(); s.reservePct = pct; store.saveSettings(s);
+      paint();
+    });
+
+    // Form wiring
+    const form = document.getElementById('entryForm');
+    const clearBtn = document.getElementById('clearBtn');
+    clearBtn.addEventListener('click', ()=> form.reset());
+
+    wireForm(form, {
+      onSubmit(entry, meta){
+        const entries = store.loadEntries();
+        if(meta.multiday.mode==='summary'){
+          entries.push(entry);
+        }else if(meta.multiday.mode==='expand'){
+          meta.multiday.expanded.forEach(e => entries.push(e));
+        }else{
+          entries.push(entry);
+        }
+        store.saveEntries(entries);
+
+        // Sparkles
+        const btn = document.getElementById('logBtn');
+        const r = btn.getBoundingClientRect();
+        const y = r.top + r.height/2 + window.scrollY;
+        sparklesBurst(r.left + r.width/2, y, current());
+
+        const saved = document.getElementById('savedMsg');
+        saved.style.display='block'; setTimeout(()=> saved.style.display='none', 1200);
+        form.reset();
+        form.date.value = new Date().toISOString().slice(0,10);
+        document.getElementById('multiFields').style.display='none';
+        document.getElementById('multiChoice').style.display='none';
+        document.getElementById('multiToggle').checked=false;
+
+        paint();
+      }
+    });
+
+    // Coffee mini
+    wireCoffeeMini(document.getElementById('coffeeMini'));
+
+    // Initial paint
+    function paint(){
+      showOnce(current());
+      const entries = store.loadEntries();
+      const reservePct = store.loadSettings().reservePct;
+      const totals = renderTable(document.getElementById('rows'), entries, reservePct);
+      renderSummaries(entries, reservePct, totals);
+    }
+    paint();
+  </script>
+</body>
+</html>

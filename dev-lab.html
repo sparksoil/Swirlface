@@ -3,53 +3,77 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Dev Lab — Ron Components</title>
-  <link rel="stylesheet" href="ron-style.css">
-  <link rel="stylesheet" href="lucy-mode.css">
+  <title>Dev Lab — Modes + Quotes</title>
+  <link rel="stylesheet" href="theme/ron-style.css">
+  <link rel="stylesheet" href="theme/lucy-mode.css">
+  <link rel="stylesheet" href="theme/coffee-mode.css">
 </head>
 <body>
-  <!-- DEV LAB: test pieces in isolation -->
-  <header class="site-header">
-    <h1 class="title">Dev Lab — Ron Components</h1>
-    <label class="toggle">
-      <input id="lucyToggle" type="checkbox"><span>Lucy mode</span>
-    </label>
-  </header>
-
-  <!-- QUOTE ROTATOR -->
-  <section class="panel">
-    <h2>Quote Rotator</h2>
-    <blockquote id="quoteBox" class="quote"></blockquote>
-  </section>
-
-  <!-- FORM ONLY -->
-  <section class="panel">
-    <h2>Form Only</h2>
-    <form class="grid">
-      <label>Client <input placeholder="Sparkie"></label>
-      <label>Date <input type="date"></label>
-      <label>Service
-        <select><option>Drop-in</option><option>Overnight</option></select>
-      </label>
-      <label>Amount ($)<input type="number" step="0.01"></label>
-      <label>Paid?<select><option>No</option><option>Yes</option></select></label>
-      <label>Notes <input placeholder="Optional"></label>
-      <div class="row-actions">
-        <button class="btn" type="button">Fake Add</button>
-        <button class="btn ghost" type="reset">Clear</button>
+  <div class="wrap">
+    <div class="panel">
+      <div class="inline">
+        <h1>Dev Lab</h1>
+        <div class="modes" role="group" aria-label="Felt mode">
+          <label><input type="radio" name="felt" value="ron" checked> Ron</label>
+          <label><input type="radio" name="felt" value="lucy"> Lucy</label>
+          <label><input type="radio" name="felt" value="coffee"> Coffee</label>
+        </div>
       </div>
-    </form>
-  </section>
+      <p class="muted">Use this page to test background behavior, quotes, and Coffee mini without touching the ledger.</p>
 
-  <footer class="site-footer">
-    <p class="ronism">This is a safe sandbox. If something breaks here, your real ledger stays fine.</p>
-  </footer>
+      <div class="top-art" aria-hidden="true">
+        <img id="ronArt" class="art" alt="Ron board art"
+             data-folder="assets" data-name="ron-board" data-ext="png,PNG,jpg,JPG,webp,WEBP">
+        <img id="lucyArt" class="art" alt="Lucy cozy art" style="display:none"
+             data-folder="assets" data-name="Lucy-cozy-lilac" data-ext="png,PNG,jpg,JPG,webp,WEBP">
+        <div class="ron-quote-text">
+          <div id="ronQuoteMain"></div>
+          <div id="ronQuoteSub"></div>
+        </div>
+      </div>
 
-  <script src="quote-rotator.js"></script>
-  <script>
-    document.getElementById('lucyToggle').addEventListener('change', (e)=>{
-      document.documentElement.classList.toggle('lucy', e.target.checked);
+      <div class="inline">
+        <strong>Quote:</strong> <span id="quoteMain" class="muted"></span>
+        <button id="another" class="secondary">Another</button>
+      </div>
+
+      <div id="coffeeMini" class="card" style="display:none; margin-top:12px;">
+        <div class="inline"><strong>Reading Timer</strong><button id="start10" class="secondary">10 min</button></div>
+        <div class="row" style="margin-top:8px;">
+          <label>DNF / Juice Box
+            <input id="coffeeNote" placeholder="Too many italics. Emotionally allergic.">
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sparkles" id="sparkles"></div>
+
+  <script type="module">
+    import {resolveImage, resolveBgVar} from './ui/image-resolver.js';
+    import {current, setMode, initModeRadio} from './ui/modes.js';
+    import {showOnce} from './ui/quotes.js';
+    import {wireCoffeeMini} from './ui/coffee-mini.js';
+
+    resolveImage(document.getElementById('ronArt'));
+    resolveImage(document.getElementById('lucyArt'));
+    resolveBgVar('--bg-lucy',   'assets/Lucy-bokeh');
+    resolveBgVar('--bg-coffee', 'assets/coffee-paper');
+
+    initModeRadio(document.querySelectorAll('input[name="felt"]'), (m)=>{
+      document.getElementById('coffeeMini').style.display = (m==='coffee') ? '' : 'none';
+      const ron = document.getElementById('ronArt');
+      const lucy= document.getElementById('lucyArt');
+      if(ron && lucy){
+        ron.style.display  = (m==='lucy') ? 'none' : '';
+        lucy.style.display = (m==='lucy') ? ''     : 'none';
+      }
+      showOnce(m);
     });
+
+    document.getElementById('another').addEventListener('click', ()=> showOnce(current()));
+    wireCoffeeMini(document.getElementById('coffeeMini'));
   </script>
 </body>
 </html>
