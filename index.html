@@ -137,7 +137,26 @@
               </table>
             </div>
           </div>
+
+          <!-- BACKUPS -->
+          <div class="card" style="margin-top:12px; padding:12px;">
+            <div class="inline" style="justify-content:space-between; align-items:center;">
+              <strong>Backups</strong>
+              <small class="muted">Your data lives in this browser. Export often.</small>
+            </div>
+            <div class="actions" style="margin-top:8px; flex-wrap:wrap;">
+              <button type="button" class="primary" id="exportCsvBtn">Export CSV</button>
+              <button type="button" class="secondary" id="exportJsonBtn">Export JSON</button>
+              <label class="inline" style="gap:6px;">
+                <input type="file" id="importJsonInput" accept="application/json" style="display:none">
+                <button type="button" class="secondary" id="importJsonBtn">Import JSON</button>
+                <span class="muted">Restores entries from a JSON file</span>
+              </label>
+            </div>
+            <p class="footer">📦 Tip: Keep backups off-device (Drive, iCloud). Exports do not include your settings; that’s okay.</p>
+          </div>
         </div>
+
         <div class="right">
           <h2 id="titleRight">The Mountain’s Record</h2>
           <div>Logs: <strong id="countAll">0</strong></div>
@@ -265,7 +284,8 @@
     }
     paint();
   </script>
-  <!-- add this near your other scripts, before </body> -->
-<script src="ui/backup.js" defer></script>
+
+  <!-- BACKUP MODULE -->
+  <script src="ui/backup.js" defer></script>
 </body>
 </html>
