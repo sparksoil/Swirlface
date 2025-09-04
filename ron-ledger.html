@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ron — Pet Job Income Ledger</title>
+
+  <!-- STYLES -->
+  <link rel="stylesheet" href="ron-style.css">
+  <link rel="stylesheet" href="lucy-mode.css">
+
+  <!-- FONTS (safe system stack by default; swap later if desired) -->
+</head>
+<body class="body-bg">
+  <!-- ========================= HEADER ========================= -->
+  <header class="site-header">
+    <h1 class="title">Ron — Pet Job Income Ledger</h1>
+    <div class="header-right">
+      <label class="toggle">
+        <input id="lucyToggle" type="checkbox">
+        <span>Lucy mode</span>
+      </label>
+      <label class="toggle">
+    <input id="bizToggle" type="checkbox">
+    <span>Business mode</span>
+  </label>
+</div>
+</header>
+
+  <!-- ========================= QUOTE ROTATOR ========================= -->
+  <!-- QUOTE ROTATOR -->
+  <section class="quote-wrap">
+    <blockquote id="quoteBox" class="quote"></blockquote>
+  </section>
+
+  <!-- ========================= ENTRY FORM ========================= -->
+  <!-- ENTRY FORM -->
+  <section class="panel">
+    <h2>Add Entry</h2>
+    <form id="entryForm" class="grid">
+      <label>Client
+        <input name="client" placeholder="e.g., Sparkie" required>
+      </label>
+      <label>Date
+        <input name="date" type="date" required>
+      </label>
+      <label>Service
+        <select name="service">
+          <option>Drop-in</option>
+          <option>Overnight</option>
+          <option>Walk / Play</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label>Amount ($)
+        <input name="amount" type="number" step="0.01" min="0" placeholder="40.00" required>
+      </label>
+      <label>Paid?
+        <select name="paid">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </label>
+      <label>Notes
+        <input name="notes" placeholder="Optional details">
+      </label>
+      <div class="row-actions">
+        <button type="submit" class="btn">Add</button>
+        <button id="clearForm" type="button" class="btn ghost">Clear</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ========================= FILTERS ========================= -->
+  <!-- FILTERS -->
+  <section class="panel">
+    <h2>Filters</h2>
+    <div class="grid">
+      <label>Client
+        <input id="filterClient" placeholder="Start typing a name">
+      </label>
+      <label>Month
+        <input id="filterMonth" type="month">
+      </label>
+      <label>Paid?
+        <select id="filterPaid">
+          <option value="">Any</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </label>
+      <div class="row-actions">
+        <button id="applyFilters" class="btn">Apply</button>
+        <button id="resetFilters" class="btn ghost">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= TABLE ========================= -->
+  <!-- LEDGER TABLE -->
+  <section class="panel">
+    <div class="table-actions">
+      <h2>Entries</h2>
+      <div class="row-actions">
+        <button id="loadSeed" class="btn ghost" title="Load ron-entries.js sample data">Load Seed</button>
+        <button id="saveLocal" class="btn" title="Save to this browser only">Save</button>
+        <button id="exportCSV" class="btn ghost">Export CSV</button>
+        <button id="exportJSON" class="btn ghost">Export JSON</button>
+        <button id="clearLocal" class="btn danger" title="Clears local browser copy only">Clear Local</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table id="ledgerTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Client</th>
+            <th>Service</th>
+            <th class="num">Amount</th>
+            <th>Paid</th>
+            <th>Notes</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="ledgerBody"><!-- rows injected by JS --></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="num">Subtotal (visible):</td>
+            <td class="num" id="subtotalCell">$0.00</td>
+            <td colspan="3"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- ========================= FOOTER ========================= -->
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p class="ronism">“One number at a time is still progress.”</p>
+    <p class="ronism">“You already did more than you think.”</p>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="quote-rotator.js"></script>
+  <script src="ron-entries.js"></script>
+  <script src="ron-logic.js"></script>
+</body>
+</html>

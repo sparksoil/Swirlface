@@ -1,0 +1,12 @@
+/* =========================
+   LUCY MODE — soft grayscale + bokeh
+   Toggled by adding .lucy to <html> or via checkbox
+   ========================= */
+html.lucy body{
+  background: url("Lucy-bokeh.png") center/cover fixed no-repeat !important;
+}
+html.lucy .panel{ background: rgba(250,250,250,0.82); }
+html.lucy .btn{ background:#f1f5f9; border-color:#cbd5e1; color:#334155; }
+html.lucy .site-header, html.lucy .site-footer{
+  background: rgba(248,250,252,0.6);
+}

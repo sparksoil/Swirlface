@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dev Lab — Ron Components</title>
+  <link rel="stylesheet" href="ron-style.css">
+  <link rel="stylesheet" href="lucy-mode.css">
+</head>
+<body>
+  <!-- DEV LAB: test pieces in isolation -->
+  <header class="site-header">
+    <h1 class="title">Dev Lab — Ron Components</h1>
+    <label class="toggle">
+      <input id="lucyToggle" type="checkbox"><span>Lucy mode</span>
+    </label>
+  </header>
+
+  <!-- QUOTE ROTATOR -->
+  <section class="panel">
+    <h2>Quote Rotator</h2>
+    <blockquote id="quoteBox" class="quote"></blockquote>
+  </section>
+
+  <!-- FORM ONLY -->
+  <section class="panel">
+    <h2>Form Only</h2>
+    <form class="grid">
+      <label>Client <input placeholder="Sparkie"></label>
+      <label>Date <input type="date"></label>
+      <label>Service
+        <select><option>Drop-in</option><option>Overnight</option></select>
+      </label>
+      <label>Amount ($)<input type="number" step="0.01"></label>
+      <label>Paid?<select><option>No</option><option>Yes</option></select></label>
+      <label>Notes <input placeholder="Optional"></label>
+      <div class="row-actions">
+        <button class="btn" type="button">Fake Add</button>
+        <button class="btn ghost" type="reset">Clear</button>
+      </div>
+    </form>
+  </section>
+
+  <footer class="site-footer">
+    <p class="ronism">This is a safe sandbox. If something breaks here, your real ledger stays fine.</p>
+  </footer>
+
+  <script src="quote-rotator.js"></script>
+  <script>
+    document.getElementById('lucyToggle').addEventListener('change', (e)=>{
+      document.documentElement.classList.toggle('lucy', e.target.checked);
+    });
+  </script>
+</body>
+</html>
