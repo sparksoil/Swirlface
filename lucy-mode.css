@@ -1,12 +1,15 @@
-/* =========================
-   LUCY MODE — soft grayscale + bokeh
-   Toggled by adding .lucy to <html> or via checkbox
-   ========================= */
+/* LUCY MODE — soft bokeh, translucent panels, iOS-safe scroll */
+:root{ --bg-lucy: url("assets/Lucy-bokeh.png"); }
+
 html.lucy body{
-  background: url("Lucy-bokeh.png") center/cover fixed no-repeat !important;
+  background-image: var(--bg-lucy);
+  background-attachment:scroll; background-repeat:repeat-y;
+  background-size:900px auto; background-position:left 10% top 0;
 }
-html.lucy .panel{ background: rgba(250,250,250,0.82); }
-html.lucy .btn{ background:#f1f5f9; border-color:#cbd5e1; color:#334155; }
-html.lucy .site-header, html.lucy .site-footer{
-  background: rgba(248,250,252,0.6);
+@media (max-width:800px){ html.lucy body{ background-size:820px auto; } }
+
+html.lucy .panel, html.lucy .card, html.lucy table,
+html.lucy input, html.lucy select, html.lucy textarea {
+  background: rgba(255,255,255,0.20) !important;
+  color:#1f2328 !important; border-color:rgba(0,0,0,.08) !important;
 }

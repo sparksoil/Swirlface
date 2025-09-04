@@ -1,0 +1,22 @@
+/* COFFEE MODE — espresso paper, watermark, dry buttons */
+:root{ --bg-coffee: url("assets/coffee-paper.png"); }
+
+html.coffee body{
+  background-image: var(--bg-coffee);
+  background-attachment:scroll; background-repeat:repeat-y;
+  background-size:cover; background-position:center top; background-color:#2a2622;
+}
+
+html.coffee .panel, html.coffee .card, html.coffee table,
+html.coffee input, html.coffee select, html.coffee textarea{
+  background: rgba(245,240,233,.25)!important; border-color:rgba(0,0,0,.08)!important; color:#1f2328!important;
+}
+
+/* optional coffee ring watermark */
+html.coffee .card.watermark{
+  background-image:url("assets/coffee-ring.png");
+  background-repeat:no-repeat; background-position:right 12px bottom 12px; background-size:120px auto;
+}
+
+/* hide sparkles in coffee */
+html.coffee .sparkles{ display:none !important; }
