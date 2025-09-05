@@ -1,0 +1,175 @@
+/* ================================
+   Swirlface Dev Lab — Styles
+   Palette = art-pastels (not baby)
+   ================================ */
+
+/* ~lines 6-38: base + palette */
+:root{
+  --ink: #2a2a2a;
+  --veil: rgba(255,255,255,0.5);
+  --ring: rgba(0,0,0,0.08);
+
+  /* glow + shimmer */
+  --glow: 0 12px 26px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06);
+  --glow-strong: 0 18px 42px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.08);
+
+  /* artsy gradient backdrop (dunes at sunrise) */
+  --bg-a: #efe1d3;   /* warm paper */
+  --bg-b: #d9dde9;   /* misty periwinkle */
+  --bg-c: #e7d0d9;   /* muted mauve */
+  --bg-d: #d8eadb;   /* sage haze */
+}
+
+* { box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0; color:var(--ink); font: 16px/1.45 ui-sans-serif, system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial, sans-serif;
+  background:
+    radial-gradient(1200px 800px at 20% 10%, var(--bg-a), transparent 60%),
+    radial-gradient(900px 900px at 80% 0%, var(--bg-b), transparent 50%),
+    radial-gradient(900px 900px at 0% 90%, var(--bg-c), transparent 45%),
+    radial-gradient(900px 900px at 100% 85%, var(--bg-d), transparent 50%),
+    #ece9e4;
+}
+
+/* ~lines 40-78: toolbar */
+.lab-toolbar{
+  position:fixed; inset: 16px 16px auto 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; padding:10px 12px;
+  background:rgba(255,255,255,0.55); backdrop-filter: blur(8px);
+  border-radius:14px; box-shadow: var(--glow);
+}
+.brand{ display:flex; align-items:center; gap:10px; }
+.swirl-dot{
+  width:18px; height:18px; border-radius:50%;
+  background:conic-gradient(from 0deg, #9fb5c9, #e5c5b8, #d1e0cb, #c59ab2, #9fb5c9);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08) inset;
+}
+.pill{
+  appearance:none; border:0; border-radius:999px; padding:8px 14px;
+  background:#f1efe8; box-shadow: var(--glow); cursor:pointer;
+}
+.pill.active{ background:#fff; box-shadow: var(--glow-strong); }
+.modes{ display:flex; gap:8px; }
+
+/* ~lines 80-144: pond + swirl + ripples */
+#pond{
+  position:relative; height:100dvh; width:100%;
+  overflow:hidden;
+  display:grid; place-items:center;
+}
+
+/* very subtle rippling field */
+#pond::before{
+  content:""; position:absolute; inset:-20%;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.45), transparent 45%),
+    repeating-radial-gradient(circle at 50% 50%,
+      rgba(255,255,255,0.18) 0 2px,
+      transparent 2px 10px);
+  mix-blend-mode: soft-light;
+  animation: ripple 16s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes ripple{
+  0%,100%{ transform: scale(1); opacity:0.6; }
+  50%    { transform: scale(1.06); opacity:0.8; }
+}
+
+.swirl{
+  width:220px; height:220px; border-radius:50%;
+  display:grid; place-items:center;
+  color:#6b7280;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.08));
+  animation: breathe 6.5s ease-in-out infinite;
+}
+@keyframes breathe{ 0%,100%{ transform:scale(1)} 50%{ transform:scale(1.03)} }
+.swirl-svg{ width:82%; height:82%; }
+
+/* ~lines 146-220: tokens (circles → doors) */
+.token{
+  --size: 88px;
+  position:absolute; inset:auto;
+  width:var(--size); height:var(--size); border-radius:50%;
+  border:none; cursor:pointer;
+  color:#2b2b2b; font-weight:600; letter-spacing:0.2px;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255,255,255,0.65), transparent 45%),
+    linear-gradient(145deg,
+      hsl(var(--hue) var(--sat) calc(var(--lit) + 6%)),
+      hsl(var(--hue) calc(var(--sat) - 6%) calc(var(--lit) - 8%)));
+  box-shadow: var(--glow);
+  transition: transform .25s ease, border-radius .35s ease, box-shadow .25s ease, width .35s ease, height .35s ease, background .35s ease;
+  animation: drift linear infinite;
+  /* custom orbit values get set inline by JS */
+}
+.token:hover{ box-shadow: var(--glow-strong); transform: translateZ(0) scale(1.045); }
+
+/* morph into DOOR on click */
+.token.door{
+  --size: 110px;
+  width:140px; height:180px; border-radius:16px;
+  background:
+    radial-gradient(circle at 35% 14%, rgba(255,255,255,0.7), transparent 35%),
+    repeating-linear-gradient(90deg,
+      rgba(255,255,255,0.08) 0 6px,
+      rgba(0,0,0,0.05) 6px 7px),
+    linear-gradient(160deg,
+      hsl(var(--hue) var(--sat) calc(var(--lit) + 2%)),
+      hsl(var(--hue) calc(var(--sat) - 10%) calc(var(--lit) - 12%)));
+  box-shadow: var(--glow-strong);
+  animation-play-state: paused; /* stop drifting when it becomes a door */
+}
+
+/* tiny knob */
+.token.door::after{
+  content:"";
+  position:absolute; right:16px; top:50%;
+  width:10px; height:10px; border-radius:50%;
+  background:rgba(0,0,0,0.35);
+  transform: translateY(-50%);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.4) inset;
+}
+
+/* orbit motion */
+@keyframes drift{
+  from { transform: rotate(var(--angle, 0deg)) translate(var(--radius, 160px)) rotate(calc(var(--angle, 0deg) * -1)); }
+  to   { transform: rotate(calc(var(--angle, 0deg) + 360deg)) translate(var(--radius, 160px)) rotate(calc(var(--angle, 0deg) * -1 - 360deg)); }
+}
+
+/* ~lines 222-260: modes + portal + a11y */
+body.mode-avlock .token{ animation-play-state: paused; }
+body.mode-avlock #pond{ place-items: center; }
+body.mode-avlock .token{
+  /* snap into a quiet ring when Avlock is on */
+  transform: rotate(var(--angle,0deg)) translate(210px) rotate(calc(var(--angle,0deg) * -1));
+  transition: transform .45s ease;
+}
+
+.sparkles{
+  position:absolute; inset:0; pointer-events:none;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.9), transparent 65%),
+    radial-gradient(1.5px 1.5px at 72% 40%, rgba(255,255,255,0.9), transparent 65%),
+    radial-gradient(1.7px 1.7px at 34% 70%, rgba(255,255,255,0.9), transparent 65%),
+    radial-gradient(1.8px 1.8px at 60% 78%, rgba(255,255,255,0.9), transparent 65%);
+  animation: twinkle 8s ease-in-out infinite;
+  opacity:0.55;
+}
+@keyframes twinkle{ 0%,100%{ opacity:0.25 } 50%{ opacity:0.7 } }
+
+dialog#portal{
+  border:0; padding:0; background:transparent;
+}
+.portal-card{
+  width:min(520px, 90vw);
+  margin:auto; padding:22px 20px;
+  background:rgba(255,255,255,0.75); backdrop-filter: blur(12px);
+  border-radius:18px; box-shadow: var(--glow-strong);
+}
+
+/* reduced motion kindness */
+@media (prefers-reduced-motion: reduce){
+  #pond::before, .swirl, .token, .sparkles{ animation: none !important; }
+}
