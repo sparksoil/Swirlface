@@ -2,22 +2,23 @@
 
 /* Fallback image + Lucy palette tokens (works even if image fails) */
 :root{
-  /* If your image exists as assets/Lucy-bokeh.png, keep .png here */
+  /* Your file is assets/Lucy-bokeh.png (lowercase .png) */
   --bg-lucy: url("../assets/Lucy-bokeh.png");
 
   /* Lucy palette (independent of the background image) */
-  --lucy-ink:        #1f2330;   /* main text */
-  --lucy-muted:      #56607a;   /* secondary */
-  --lucy-accent:     #6a7bd6;   /* links / pills */
-  --lucy-panel-rgb:  255,255,255;  /* base panel color as RGB */
-  --lucy-panel-alpha: 0.22;     /* translucency strength */
+  --lucy-ink:        #1f2330;      /* main text */
+  --lucy-muted:      #56607a;      /* secondary text */
+  --lucy-accent:     #6a7bd6;      /* links / pills */
+  --lucy-panel-rgb:  255,255,255;  /* base panel as RGB */
+  --lucy-panel-alpha: 0.22;        /* translucency strength */
   --lucy-border:     rgba(0,0,0,.08);
 }
 
-/* Background image behavior (safe for iOS) */
+/* Background image behavior (iOS-safe) */
 html.lucy body{
+  background-color: #f3f5fa;           /* gentle fallback even if image fails */
   background-image: var(--bg-lucy);
-  background-attachment: scroll;     /* iOS-safe */
+  background-attachment: scroll;       /* iOS-safe */
   background-repeat: repeat-y;
   background-size: 900px auto;
   background-position: left 10% top 0;
@@ -40,7 +41,7 @@ html.lucy textarea{
   border-color: var(--lucy-border) !important;
 }
 
-/* Legible subtitles and small helper text in Lucy */
+/* Legible subtitles and helper text in Lucy */
 html.lucy .muted,
 html.lucy .quote-sub,
 html.lucy .table-wrap small,
@@ -48,18 +49,16 @@ html.lucy details summary small{
   color: var(--lucy-muted) !important;
 }
 
-/* Title + quote area tweaks for contrast on Lucy */
+/* Title + quote area tweaks */
 html.lucy #titleSwap{ color: var(--lucy-ink) !important; }
 html.lucy #quoteMain,
-html.lucy #quoteSub{
-  color: var(--lucy-muted) !important;
-}
+html.lucy #quoteSub{ color: var(--lucy-muted) !important; }
 
-/* Pills / links tint (optional) */
+/* Pills / links tint */
 html.lucy .pill{
   border-color: var(--lucy-accent) !important;
   color: var(--lucy-accent) !important;
 }
 
-/* Optional: hide Coffee mug sprite if any CSS leak happens */
+/* Never show the coffee mug outside Coffee mode (safety) */
 html:not(.coffee) .coffee-face{ display:none !important; }
