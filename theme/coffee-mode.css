@@ -2,10 +2,11 @@
 
 /* If resolveBgVar sets --bg-coffee, this is just a fallback path. */
 :root{
-  /* NOTE: file lives in /theme/, so use ../ */
-  --bg-coffee: url("../assets/coffee/coffee-paper.PNG");
+  /* NOTE: this CSS file lives in /theme/, so asset paths need ../ */
+  --bg-coffee: url("../assets/coffee/coffee-paper.PNG"); /* uppercase .PNG */
 }
-/* Belt-and-suspenders: hide mug unless <html> has .coffee */
+
+/* Always hide mug unless Coffee is active (belt + suspenders) */
 html:not(.coffee) .coffee-face{ display:none !important; }
 
 /* Background + general UI wash */
@@ -22,7 +23,7 @@ html.coffee body{
 html.coffee #quoteMain,
 html.coffee #quoteSub {
   color: #e9e2d8;
-  font-family: "Courier New", Courier, ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: "Courier New", Courier, monospace; /* typewriter */
   font-size: 0.95em;
   letter-spacing: 0.02em;
 }
@@ -34,48 +35,47 @@ html.coffee table,
 html.coffee input,
 html.coffee select,
 html.coffee textarea{
-  background: rgba(245,240,233,.25) !important;
-  border-color: rgba(0,0,0,.08) !important;
+  background: rgba(245, 240, 233, .25) !important;
+  border-color: rgba(0, 0, 0, .08) !important;
   color: #1f2328 !important;
 }
 
 /* optional coffee ring watermark on ledger card */
 html.coffee .card.watermark{
-  background-image: url("../assets/coffee/coffee-ring.PNG");
+  background-image: url("../assets/coffee/coffee-ring.PNG"); /* uppercase .PNG */
   background-repeat: no-repeat;
   background-position: right 12px bottom 12px;
   background-size: 120px auto;
 }
 
 /* hide sparkles in coffee */
-html.coffee .sparkles{ display:none !important; }
+html.coffee .sparkles { display: none !important; }
 
-/* ---------------------------------------------------
-   COFFEE FACE SPRITE (2 columns x 4 rows = 8 moods)
-   File: assets/coffee/coffee-faces.PNG
-   --------------------------------------------------- */
+/* COFFEE FACE SPRITE (2 cols x 4 rows = 8 moods) */
 .coffee-face{
-  display: none;                 /* hidden by default */
+  /* hidden by default via the html:not(.coffee) rule above */
   width: 120px; height: 120px;
-  background: url("../assets/coffee/coffee-faces.PNG") no-repeat;
-  background-size: 200% 400%;    /* X=2 columns, Y=4 rows */
+  background: url("../assets/coffee/coffee-faces.PNG") no-repeat; /* uppercase .PNG */
+  background-size: 200% 400%;
   border-radius: 12px;
 }
 
 /* Show only when Coffee Mode is active */
 html.coffee .coffee-face{ display:block; }
 
-/* Utility: place mug at the right edge of the title row */
+/* Place mug at the right edge of the title row */
 .coffee-face.right-of-title{
   margin-left: auto;
   align-self: center;
 }
 
-/* 2×4 grid positions */
+/* Left column (col 0%), rows 1..4 */
 .coffee-face.expression-1 { background-position:   0%   0%; }
 .coffee-face.expression-2 { background-position:   0%  33.333%; }
 .coffee-face.expression-3 { background-position:   0%  66.667%; }
 .coffee-face.expression-4 { background-position:   0% 100%; }
+
+/* Right column (col 100%), rows 1..4 */
 .coffee-face.expression-5 { background-position: 100%   0%; }
 .coffee-face.expression-6 { background-position: 100%  33.333%; }
 .coffee-face.expression-7 { background-position: 100%  66.667%; }
