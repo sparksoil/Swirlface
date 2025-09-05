@@ -5,6 +5,8 @@
   /* NOTE: file lives in /theme/, so use ../ */
   --bg-coffee: url("../assets/coffee/coffee-paper.PNG");
 }
+/* Belt-and-suspenders: hide mug unless <html> has .coffee */
+html:not(.coffee) .coffee-face{ display:none !important; }
 
 /* Background + general UI wash */
 html.coffee body{
