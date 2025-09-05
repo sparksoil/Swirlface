@@ -1,9 +1,5 @@
-/* LUCY MODE — soft bokeh, translucent panels, cozy serif */
-
-:root{
-  /* index’s resolver will set this var if available; this is a fallback */
-  --bg-lucy: url("../assets/Lucy-bokeh.png");
-}
+/* LUCY MODE — soft bokeh, translucent panels, iOS-safe scroll */
+:root{ --bg-lucy: url("../assets/Lucy-bokeh.png"); }
 
 /* Background */
 html.lucy body{
