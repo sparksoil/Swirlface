@@ -3,7 +3,7 @@
 /* If your JS resolver sets --bg-coffee, this is just a fallback path. */
 :root{
   /* NOTE: this CSS file lives in /theme/, so asset paths need ../ */
-  --bg-coffee: url("../assets/coffee/coffee-paper.png");
+  --bg-coffee: url("../assets/coffee/coffee-paper.PNG");
 }
 
 /* Background + general UI wash */
@@ -29,7 +29,7 @@ html.coffee textarea{
 
 /* optional coffee ring watermark on ledger card */
 html.coffee .card.watermark{
-  background-image: url("../assets/coffee/coffee-ring.png");
+  background-image: url("../assets/coffee/coffee-ring.PNG");
   background-repeat: no-repeat;
   background-position: right 12px bottom 12px;
   background-size: 120px auto;
@@ -40,12 +40,12 @@ html.coffee .sparkles{ display:none !important; }
 
 /* ---------------------------------------------------
    COFFEE FACE SPRITE (2 columns x 4 rows = 8 moods)
-   File lives at: assets/coffee/coffee-faces.png
+   File lives at: assets/coffee/coffee-faces.PNG
    --------------------------------------------------- */
 .coffee-face{
   display: none;                 /* hidden by default */
   width: 120px; height: 120px;
-  background: url("../assets/coffee/coffee-faces.png") no-repeat;
+  background: url("../assets/coffee/coffee-faces.PNG") no-repeat;
   background-size: 200% 400%;    /* X=2 columns, Y=4 rows */
   border-radius: 12px;
 }
