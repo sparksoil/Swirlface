@@ -1,15 +1,53 @@
-/* LUCY MODE — soft bokeh, translucent panels, iOS-safe scroll */
-:root{ --bg-lucy: url("assets/Lucy-bokeh.png"); }
+/* LUCY MODE — soft bokeh, translucent panels, cozy serif */
 
+:root{
+  /* index’s resolver will set this var if available; this is a fallback */
+  --bg-lucy: url("../assets/Lucy-bokeh.png");
+}
+
+/* Background */
 html.lucy body{
   background-image: var(--bg-lucy);
-  background-attachment:scroll; background-repeat:repeat-y;
-  background-size:900px auto; background-position:left 10% top 0;
+  background-attachment: scroll;
+  background-repeat: repeat-y;
+  background-size: 900px auto;
+  background-position: left 10% top 0;
 }
-@media (max-width:800px){ html.lucy body{ background-size:820px auto; } }
 
-html.lucy .panel, html.lucy .card, html.lucy table,
-html.lucy input, html.lucy select, html.lucy textarea {
+/* Smaller viewports */
+@media (max-width: 800px){
+  html.lucy body{ background-size: 820px auto; }
+}
+
+/* Typography — gentle serif for Lucy */
+html.lucy body,
+html.lucy .panel,
+html.lucy .card {
+  font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+}
+
+/* Legible subtitle & muted copy */
+html.lucy #quoteMain,
+html.lucy #quoteSub,
+html.lucy .muted {
+  color: rgba(34, 34, 40, 0.75);
+}
+
+/* Panels, inputs, tables */
+html.lucy .panel,
+html.lucy .card,
+html.lucy table,
+html.lucy input,
+html.lucy select,
+html.lucy textarea{
   background: rgba(255,255,255,0.20) !important;
-  color:#1f2328 !important; border-color:rgba(0,0,0,.08) !important;
+  color: #1f2328 !important;
+  border-color: rgba(0,0,0,.08) !important;
+}
+
+/* Make help text (“For house sitting…”) readable */
+html.lucy .hint,
+html.lucy .helper,
+html.lucy details > summary + * {
+  color: rgba(34,34,40,0.72);
 }
