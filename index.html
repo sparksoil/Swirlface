@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="ron">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -36,7 +36,6 @@
         <div>
           <h1 id="titleSwap">Money and Things</h1>
           <div id="quoteMain" class="muted"></div>
-          <!-- subline used by modes -->
           <div id="quoteSub" class="quote-sub muted" style="margin-top:2px;"></div>
         </div>
 
@@ -211,9 +210,10 @@
     // Resolve top art (case-flex)
     resolveImage(document.getElementById('ronArt'));
     resolveImage(document.getElementById('lucyArt'));
-    // Resolve backgrounds for CSS vars
-    resolveBgVar('--bg-lucy',   'assets/Lucy-bokeh');
-    resolveBgVar('--bg-coffee', 'assets/coffee/coffee-paper');
+
+    // Resolve backgrounds for CSS vars (case EXACT)
+    resolveBgVar('--bg-lucy',   'assets/Lucy-bokeh.png');           // <-- lowercase .png
+    resolveBgVar('--bg-coffee', 'assets/coffee/coffee-paper.PNG');  // <-- uppercase .PNG
 
     // Mode init
     initModeRadio(document.querySelectorAll('input[name="felt"]'), (m)=>{
@@ -222,10 +222,11 @@
       showOnce(m);
       applyCoffeeOnMode(m);
       document.getElementById('coffeeMini').style.display = (m==='coffee') ? '' : 'none';
-     // Keep <html> mode classes in sync for CSS themes
-  document.documentElement.classList.toggle('ron',    m === 'ron');
-  document.documentElement.classList.toggle('lucy',   m === 'lucy');
-  document.documentElement.classList.toggle('coffee', m === 'coffee');
+
+      // Keep <html> mode classes in sync for CSS themes
+      document.documentElement.classList.toggle('ron',    m === 'ron');
+      document.documentElement.classList.toggle('lucy',   m === 'lucy');
+      document.documentElement.classList.toggle('coffee', m === 'coffee');
     });
 
     function titleUpdate(m){
