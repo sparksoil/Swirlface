@@ -62,3 +62,21 @@ html.lucy .pill{
 
 /* Never show the coffee mug outside Coffee mode (safety) */
 html:not(.coffee) .coffee-face{ display:none !important; }
+/* -------------------------------------------------
+   LUCY TYPE: soft serif for body + headings
+   ------------------------------------------------- */
+html.lucy body,
+html.lucy .panel,
+html.lucy .card,
+html.lucy input,
+html.lucy select,
+html.lucy textarea,
+html.lucy table { 
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif !important;
+}
+
+/* Headings a touch heavier so they don’t look wispy */
+html.lucy h1, html.lucy h2, html.lucy h3 { 
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
