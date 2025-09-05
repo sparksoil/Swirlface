@@ -3,7 +3,7 @@
 /* If your JS resolver sets --bg-coffee, this is just a fallback path. */
 :root{
   /* NOTE: this CSS file lives in /theme/, so asset paths need ../ */
-  --bg-coffee: url("../assets/coffee-paper.png");
+  --bg-coffee: url("../assets/coffee/coffee-paper.png");
 }
 
 /* Background + general UI wash */
