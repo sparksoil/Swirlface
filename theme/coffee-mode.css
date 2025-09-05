@@ -1,49 +1,72 @@
-/* COFFEE MODE — espresso paper, watermark, dry buttons */
-:root{ --bg-coffee: url("assets/coffee-paper.png"); }
+/* COFFEE MODE — espresso paper, watermark, mugs, dry buttons */
 
+/* If your JS resolver sets --bg-coffee, this is just a fallback path. */
+:root{
+  /* NOTE: this CSS file lives in /theme/, so asset paths need ../ */
+  --bg-coffee: url("../assets/coffee-paper.png");
+}
+
+/* Background + general UI wash */
 html.coffee body{
   background-image: var(--bg-coffee);
-  background-attachment:scroll; background-repeat:repeat-y;
-  background-size:cover; background-position:center top; background-color:#2a2622;
+  background-attachment: scroll;
+  background-repeat: repeat-y;
+  background-size: cover;
+  background-position: center top;
+  background-color: #2a2622;
 }
 
-html.coffee .panel, html.coffee .card, html.coffee table,
-html.coffee input, html.coffee select, html.coffee textarea{
-  background: rgba(245,240,233,.25)!important; border-color:rgba(0,0,0,.08)!important; color:#1f2328!important;
+html.coffee .panel,
+html.coffee .card,
+html.coffee table,
+html.coffee input,
+html.coffee select,
+html.coffee textarea{
+  background: rgba(245,240,233,.25) !important;
+  border-color: rgba(0,0,0,.08) !important;
+  color: #1f2328 !important;
 }
 
-/* optional coffee ring watermark */
+/* optional coffee ring watermark on ledger card */
 html.coffee .card.watermark{
-  background-image:url("assets/coffee-ring.png");
-  background-repeat:no-repeat; background-position:right 12px bottom 12px; background-size:120px auto;
+  background-image: url("../assets/coffee/coffee-ring.png");
+  background-repeat: no-repeat;
+  background-position: right 12px bottom 12px;
+  background-size: 120px auto;
 }
 
 /* hide sparkles in coffee */
 html.coffee .sparkles{ display:none !important; }
-/* Coffee Mode typewriter tone */
-html.coffee h1,
-html.coffee h2 {
-  font-family: "Courier New", ui-monospace, monospace;
-  font-weight: 500;
-  letter-spacing: -0.5px;
-  color: #3a3a3a;
+
+/* ---------------------------------------------------
+   COFFEE FACE SPRITE (2 columns x 4 rows = 8 moods)
+   File lives at: assets/coffee/coffee-faces.png
+   --------------------------------------------------- */
+.coffee-face{
+  display: none;                 /* hidden by default */
+  width: 120px; height: 120px;
+  background: url("../assets/coffee/coffee-faces.png") no-repeat;
+  background-size: 200% 400%;    /* X=2 columns, Y=4 rows */
+  border-radius: 12px;
 }
 
-/* Passive footer mutter */
-html.coffee .footer::after {
-  content: " (He logged it. Be impressed.)";
-  color: #6d625c;
-  font-style: italic;
-  margin-left: 4px;
+/* Show only when Coffee Mode is active */
+html.coffee .coffee-face{ display:block; }
+
+/* Utility: place mug at the right edge of the title row */
+.coffee-face.right-of-title{
+  margin-left: auto;             /* push to the far right */
+  align-self: center;            /* line up with title text */
 }
 
-/* Button adjustments — dry and flat */
-html.coffee button.primary {
-  background: #6d625c !important;
-  color: #eae6e1 !important;
-  border-radius: 6px !important;
-}
-html.coffee button.secondary {
-  background: #d4cbc3 !important;
-  color: #3a3a3a !important;
-}
+/* Left column (col 0%), rows 1..4 */
+.coffee-face.expression-1 { background-position:   0%   0%; }      /* row1 L */
+.coffee-face.expression-2 { background-position:   0%  33.333%; }  /* row2 L */
+.coffee-face.expression-3 { background-position:   0%  66.667%; }  /* row3 L */
+.coffee-face.expression-4 { background-position:   0% 100%; }      /* row4 L */
+
+/* Right column (col 100%), rows 1..4 */
+.coffee-face.expression-5 { background-position: 100%   0%; }      /* row1 R */
+.coffee-face.expression-6 { background-position: 100%  33.333%; }  /* row2 R */
+.coffee-face.expression-7 { background-position: 100%  66.667%; }  /* row3 R */
+.coffee-face.expression-8 { background-position: 100% 100%; }      /* row4 R */
