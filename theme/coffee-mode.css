@@ -80,3 +80,21 @@ html.coffee .coffee-face{ display:block; }
 .coffee-face.expression-6 { background-position: 100%  33.333%; }
 .coffee-face.expression-7 { background-position: 100%  66.667%; }
 .coffee-face.expression-8 { background-position: 100% 100%; }
+/* -------------------------------------------------
+   COFFEE TYPE: honest monospace (typewriter vibe)
+   ------------------------------------------------- */
+html.coffee body,
+html.coffee .panel,
+html.coffee .card,
+html.coffee input,
+html.coffee select,
+html.coffee textarea,
+html.coffee table {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
+/* Optional: headings stay sans so the page isn’t a wall of mono */
+html.coffee h1, html.coffee h2, html.coffee h3 {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+  letter-spacing: 0.2px;
+}
