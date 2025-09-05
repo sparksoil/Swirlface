@@ -17,7 +17,7 @@ const COFFEE_LINES = [
   { text: "Fine. Keep track.",                     mood: "classic_grump" },
   { text: "Is this… going to matter? Probably.",   mood: "worried" },
   { text: "Okay, maybe this helps. Maybe.",        mood: "cautiously_optimistic" },
-  { text: "I’m tired on a spiritual level.",       mood: "existentially_tired" },
+  { text: "I’m tired.",       mood: "existentially_tired" },
   { text: "Don’t look at me; I’m logging it.",     mood: "avoiding_eye_contact" },
   { text: "…zzz… (it still counts).",              mood: "snoring" },
   { text: "Impressive. In a technical sense.",     mood: "unimpressed" },
