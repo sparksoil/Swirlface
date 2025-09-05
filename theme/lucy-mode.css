@@ -1,49 +1,65 @@
 /* LUCY MODE — soft bokeh, translucent panels, iOS-safe scroll */
-:root{ --bg-lucy: url("../assets/Lucy-bokeh.png"); }
 
-/* Background */
+/* Fallback image + Lucy palette tokens (works even if image fails) */
+:root{
+  /* If your image exists as assets/Lucy-bokeh.png, keep .png here */
+  --bg-lucy: url("../assets/Lucy-bokeh.png");
+
+  /* Lucy palette (independent of the background image) */
+  --lucy-ink:        #1f2330;   /* main text */
+  --lucy-muted:      #56607a;   /* secondary */
+  --lucy-accent:     #6a7bd6;   /* links / pills */
+  --lucy-panel-rgb:  255,255,255;  /* base panel color as RGB */
+  --lucy-panel-alpha: 0.22;     /* translucency strength */
+  --lucy-border:     rgba(0,0,0,.08);
+}
+
+/* Background image behavior (safe for iOS) */
 html.lucy body{
   background-image: var(--bg-lucy);
-  background-attachment: scroll;
+  background-attachment: scroll;     /* iOS-safe */
   background-repeat: repeat-y;
   background-size: 900px auto;
   background-position: left 10% top 0;
 }
 
-/* Smaller viewports */
+/* Scale the background slightly on small screens */
 @media (max-width: 800px){
   html.lucy body{ background-size: 820px auto; }
 }
 
-/* Typography — gentle serif for Lucy */
-html.lucy body,
-html.lucy .panel,
-html.lucy .card {
-  font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
-}
-
-/* Legible subtitle & muted copy */
-html.lucy #quoteMain,
-html.lucy #quoteSub,
-html.lucy .muted {
-  color: rgba(34, 34, 40, 0.75);
-}
-
-/* Panels, inputs, tables */
+/* Panels, cards, inputs, tables get a Lucy wash */
 html.lucy .panel,
 html.lucy .card,
 html.lucy table,
 html.lucy input,
 html.lucy select,
 html.lucy textarea{
-  background: rgba(255,255,255,0.20) !important;
-  color: #1f2328 !important;
-  border-color: rgba(0,0,0,.08) !important;
+  background: rgba(var(--lucy-panel-rgb), var(--lucy-panel-alpha)) !important;
+  color: var(--lucy-ink) !important;
+  border-color: var(--lucy-border) !important;
 }
 
-/* Make help text (“For house sitting…”) readable */
-html.lucy .hint,
-html.lucy .helper,
-html.lucy details > summary + * {
-  color: rgba(34,34,40,0.72);
+/* Legible subtitles and small helper text in Lucy */
+html.lucy .muted,
+html.lucy .quote-sub,
+html.lucy .table-wrap small,
+html.lucy details summary small{
+  color: var(--lucy-muted) !important;
 }
+
+/* Title + quote area tweaks for contrast on Lucy */
+html.lucy #titleSwap{ color: var(--lucy-ink) !important; }
+html.lucy #quoteMain,
+html.lucy #quoteSub{
+  color: var(--lucy-muted) !important;
+}
+
+/* Pills / links tint (optional) */
+html.lucy .pill{
+  border-color: var(--lucy-accent) !important;
+  color: var(--lucy-accent) !important;
+}
+
+/* Optional: hide Coffee mug sprite if any CSS leak happens */
+html:not(.coffee) .coffee-face{ display:none !important; }
