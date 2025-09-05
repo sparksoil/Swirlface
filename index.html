@@ -197,6 +197,7 @@
     import {renderSummaries} from './ui/summaries.js';
     import {burst as sparklesBurst} from './ui/sparkles.js';
     import {wireCoffeeMini} from './ui/coffee-mini.js';
+    import {applyCoffeeOnMode} from './ui/coffee-faces.js';
 
     // Resolve top art (case-flex)
     resolveImage(document.getElementById('ronArt'));
@@ -210,6 +211,7 @@
       titleUpdate(m);
       artSwap(m);
       showOnce(m);
+      applyCoffeeOnMode(m);
       document.getElementById('coffeeMini').style.display = (m==='coffee') ? '' : 'none';
     });
     function titleUpdate(m){
