@@ -62,3 +62,75 @@ button.secondary{background:rgba(231,223,209,.6)}
 .quietline{border:none; height:1px; background:var(--line); opacity:.7; margin:6px 0 12px}
 .pill{display:inline-block; padding:4px 10px; border-radius:999px; background: rgba(231,223,209,0.6); font-size:.85rem}
 .right{text-align:right}
+/* ---------- Mobile polish (drop-in) ---------- */
+
+/* 1) Ledger table: smooth horizontal scroll + edge fades */
+.table-wrap{
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* edge fade hint (Safari/Chromium support) */
+  --fade: 16px;
+  mask-image: linear-gradient(to right,
+    transparent 0, black var(--fade),
+    black calc(100% - var(--fade)), transparent 100%);
+}
+.table-wrap table{
+  border-collapse: collapse;
+  min-width: 720px;          /* prevents over-squish on small phones */
+}
+.table-wrap th, .table-wrap td{
+  white-space: nowrap;       /* keep cells tidy; text won’t wrap weirdly */
+  padding: 8px 10px;
+  font-size: 0.95rem;
+}
+
+/* 2) Super small screens: hide low-priority columns */
+@media (max-width: 480px){
+  /* Column order in your table:
+     1 Date, 2 Client, 3 Category, 4 Service, 5 Platform, 6 Method,
+     7 Amount, 8 Set-Aside, 9 Net, 10 Paid, 11 Field Log */
+  table thead th:nth-child(5),
+  table tbody td:nth-child(5),   /* Platform */
+  table thead th:nth-child(6),
+  table tbody td:nth-child(6),   /* Method */
+  table thead th:nth-child(8),
+  table tbody td:nth-child(8),   /* Set-Aside */
+  table thead th:nth-child(11),
+  table tbody td:nth-child(11)   /* Field Log */
+  { display: none; }
+
+  /* allow wrapping for a few text-heavy columns */
+  table thead th:nth-child(4),
+  table tbody td:nth-child(4){ white-space: normal; } /* Service */
+}
+
+/* 3) Buttons: bigger tap targets + stack on phones */
+.inline > div > button,
+.actions button{
+  min-height: 44px;          /* Apple HIG tap size */
+  padding: 10px 16px;
+}
+@media (max-width: 560px){
+  .inline > div{ display: grid; gap: 10px; }   /* Log/Wipe pair */
+  .inline > div > button{ width: 100%; }
+
+  .actions{
+    display: grid; grid-template-columns: 1fr; gap: 10px; /* backup buttons */
+  }
+}
+
+/* 4) Pills and small text: keep readable spacing */
+.pill{ margin-bottom: 6px; }
+
+/* 5) Help text under the multi-day toggle: make legible on dark-ish themes */
+.muted{ opacity: 0.9; }              /* a bit stronger on mobile */
+@media (max-width: 560px){
+  .muted{ font-size: 0.98em; }
+}
+
+/* 6) Card/table visuals: slightly tighter on phones so more fits */
+@media (max-width: 560px){
+  .card{ padding: 10px; }
+  .panel{ padding: 14px; }
+  h2{ font-size: 1.35rem; }
+}
