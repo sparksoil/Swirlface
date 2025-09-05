@@ -20,8 +20,8 @@ html.lucy body{
   background-image: var(--bg-lucy);
   background-attachment: scroll;       /* iOS-safe */
   background-repeat: repeat-y;
-  background-size: 900px auto;
-  background-position: left 20% top 0;
+  background-size: 1000px auto;
+  background-position: left 30% top 0;
 }
 
 /* Scale the background slightly on small screens */
