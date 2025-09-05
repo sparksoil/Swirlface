@@ -222,6 +222,10 @@
       showOnce(m);
       applyCoffeeOnMode(m);
       document.getElementById('coffeeMini').style.display = (m==='coffee') ? '' : 'none';
+     // Keep <html> mode classes in sync for CSS themes
+  document.documentElement.classList.toggle('ron',    m === 'ron');
+  document.documentElement.classList.toggle('lucy',   m === 'lucy');
+  document.documentElement.classList.toggle('coffee', m === 'coffee');
     });
 
     function titleUpdate(m){
