@@ -50,7 +50,7 @@ button.secondary{background:rgba(231,223,209,.6)}
 .top-art img.art{ display:block; width:50%; height:auto; opacity:.92; }
 .top-art .ron-quote-text{
   position:absolute; left:50%; top:70%; transform:translate(-50%,-50%);
-  width:72%; text-align:left; color:#fff; line-height:3.25;
+  width:72%; text-align:left; color:#fff; line-height:1.25;
   text-shadow:0 1px 0 rgba(0,0,0,.25); pointer-events:none;
 }
 
