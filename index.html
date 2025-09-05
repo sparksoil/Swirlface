@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Ron — Modular Ledger (Ron • Lucy • Coffee)</title>
 
+  <!-- FONTS (Lucy: soft serif; Coffee uses system monospace) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
   <!-- THEMES -->
   <link rel="stylesheet" href="theme/ron-style.css">
   <link rel="stylesheet" href="theme/lucy-mode.css">
@@ -31,7 +36,7 @@
         <div>
           <h1 id="titleSwap">Money and Things</h1>
           <div id="quoteMain" class="muted"></div>
-          <!-- NEW: subline for Coffee/Lucy/Ron when needed -->
+          <!-- subline used by modes -->
           <div id="quoteSub" class="quote-sub muted" style="margin-top:2px;"></div>
         </div>
 
@@ -193,7 +198,7 @@
   <!-- MODULES -->
   <script type="module">
     import {resolveImage, resolveBgVar} from './ui/image-resolver.js';
-    import {current, setMode, initModeRadio} from './ui/modes.js';
+    import {current, initModeRadio} from './ui/modes.js';
     import {showOnce} from './ui/quotes.js';
     import * as store from './ui/storage.js';
     import {wireForm} from './ui/ledger-form.js';
@@ -208,7 +213,7 @@
     resolveImage(document.getElementById('lucyArt'));
     // Resolve backgrounds for CSS vars
     resolveBgVar('--bg-lucy',   'assets/Lucy-bokeh');
-    resolveBgVar('--bg-coffee', 'assets/coffee-paper');
+    resolveBgVar('--bg-coffee', 'assets/coffee/coffee-paper');
 
     // Mode init
     initModeRadio(document.querySelectorAll('input[name="felt"]'), (m)=>{
@@ -226,21 +231,14 @@
       r.textContent = m==='lucy' ? "The River’s Ledger"  : (m==='coffee' ? "The Café’s Till"     : "The Mountain’s Record");
     }
 
-    // UPDATED: hide both arts in Coffee mode
+    // Hide both arts in Coffee
     function artSwap(m){
       const ron  = document.getElementById('ronArt');
       const lucy = document.getElementById('lucyArt');
       if(!ron || !lucy) return;
-      if(m === 'lucy'){
-        ron.style.display  = 'none';
-        lucy.style.display = '';
-      }else if(m === 'coffee'){
-        ron.style.display  = 'none';
-        lucy.style.display = 'none';
-      }else{
-        ron.style.display  = '';
-        lucy.style.display = 'none';
-      }
+      if(m==='lucy'){ ron.style.display='none'; lucy.style.display=''; }
+      else if(m==='coffee'){ ron.style.display='none'; lucy.style.display='none'; }
+      else { ron.style.display=''; lucy.style.display='none'; }
     }
 
     // Settings
