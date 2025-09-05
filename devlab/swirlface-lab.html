@@ -5,59 +5,58 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Swirlface — Dev Lab (Floating Circles)</title>
   <link rel="stylesheet" href="swirlface.css">
+  <meta name="theme-color" content="#ece9e4">
 </head>
 <body class="mode-lucy">
-  <!-- MODE TOGGLES -->
-  <!-- ~lines 12-28 -->
+  <!-- LAB TOOLBAR -->
+  <!-- =================================== -->
   <header class="lab-toolbar" aria-label="Dev Lab Controls">
     <div class="brand">
       <span class="swirl-dot" aria-hidden="true"></span>
       <strong>Swirlface Dev Lab</strong>
     </div>
-    <nav class="modes">
+    <nav class="modes" aria-label="Modes">
       <button id="btnLucy" class="pill active" aria-pressed="true">Lucy</button>
-      <button id="btnAvlock" class="pill">Avlock</button>
+      <button id="btnAvlock" class="pill" aria-pressed="false">Avlock</button>
     </nav>
   </header>
 
-  <!-- POND + SWIRL CENTER -->
-  <!-- ~lines 30-65 -->
+  <!-- POND + CENTER SWIRL -->
+  <!-- =================================== -->
   <main id="pond">
     <div class="swirl" aria-hidden="true">
-      <!-- minimalist spiral using SVG so we avoid images -->
-      <svg viewBox="0 0 200 200" class="swirl-svg">
-        <path d="M100,100
-                 m-5,0
-                 a5,5 0 1,0 10,0
-                 m-15,0
-                 a15,15 0 1,0 30,0
-                 m-30,0
-                 a30,30 0 1,0 60,0
-                 m-45,0
-                 a45,45 0 1,0 90,0
-                 m-60,0
-                 a60,60 0 1,0 120,0"
-              fill="none" stroke="currentColor" stroke-width="1.75" opacity="0.8"/>
+      <!-- soft, elegant spiral -->
+      <svg viewBox="0 0 240 240" class="swirl-svg" aria-hidden="true" focusable="false">
+        <path d="M120,120
+                 m0,-2
+                 c 18,0 34,16 34,34
+                 c 0,30 -26,46 -53,46
+                 c -44,0 -76,-35 -76,-78
+                 c 0,-59 48,-100 104,-100
+                 c 72,0 124,56 124,126
+                 c 0,90 -73,152 -162,152"
+              fill="none" stroke="currentColor" stroke-linecap="round"
+              stroke-width="2" opacity="0.65"/>
       </svg>
     </div>
 
-    <!-- FLOATING TOKENS (start soft; they become doors on click) -->
-    <!-- ~lines 68-110 -->
-    <button class="token" data-app="Crumb Catcher" style="--hue: 18;  --sat: 34%; --lit: 76%;">Crumb</button>
-    <button class="token" data-app="Ron Ledger"     style="--hue: 170; --sat: 24%; --lit: 70%;">Ron</button>
-    <button class="token" data-app="Pelican Logs"   style="--hue: 42;  --sat: 38%; --lit: 76%;">Logs</button>
-    <button class="token" data-app="Scene Studio"   style="--hue: 288; --sat: 22%; --lit: 78%;">Scene</button>
-    <button class="token" data-app="Parts Filter"   style="--hue: 205; --sat: 26%; --lit: 74%;">Parts</button>
-    <button class="token" data-app="Scripture Sieve"style="--hue: 96;  --sat: 26%; --lit: 74%;">Scripture</button>
+    <!-- FLOATING TOKENS (become doors on click) -->
+    <!-- =================================== -->
+    <button class="token" data-app="Crumb Catcher"  style="--hue: 18;  --sat: 34%; --lit: 76%;">Crumb</button>
+    <button class="token" data-app="Ron Ledger"      style="--hue: 170; --sat: 24%; --lit: 70%;">Ron</button>
+    <button class="token" data-app="Pelican Logs"    style="--hue: 42;  --sat: 38%; --lit: 76%;">Logs</button>
+    <button class="token" data-app="Scene Studio"    style="--hue: 288; --sat: 22%; --lit: 78%;">Scene</button>
+    <button class="token" data-app="Parts Filter"    style="--hue: 205; --sat: 26%; --lit: 74%;">Parts</button>
+    <button class="token" data-app="Scripture Sieve" style="--hue: 96;  --sat: 26%; --lit: 74%;">Scripture</button>
 
-    <!-- Sparkles (very subtle) -->
-    <!-- ~lines 112-120 -->
+    <!-- SPARKLES FIELD -->
+    <!-- =================================== -->
     <div class="sparkles" aria-hidden="true"></div>
   </main>
 
   <!-- SIMPLE PORTAL MODAL -->
-  <!-- ~lines 123-157 -->
-  <dialog id="portal">
+  <!-- =================================== -->
+  <dialog id="portal" aria-labelledby="portalTitle">
     <div class="portal-card">
       <h2 id="portalTitle">Opening…</h2>
       <p>This is a gentle placeholder portal. In the real build, this would load your tool.</p>
@@ -66,5 +65,6 @@
   </dialog>
 
   <script src="swirlface.js"></script>
+  <noscript>This prototype needs JavaScript enabled.</noscript>
 </body>
 </html>
