@@ -134,3 +134,7 @@ button.secondary{background:rgba(231,223,209,.6)}
   .panel{ padding: 14px; }
   h2{ font-size: 1.35rem; }
 }
+/* Base type for Ron */
+html.ron body { 
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
