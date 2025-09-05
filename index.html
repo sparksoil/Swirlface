@@ -31,9 +31,13 @@
         <div>
           <h1 id="titleSwap">Money and Things</h1>
           <div id="quoteMain" class="muted"></div>
+          <!-- NEW: subline for Coffee/Lucy/Ron when needed -->
+          <div id="quoteSub" class="quote-sub muted" style="margin-top:2px;"></div>
         </div>
+
         <!-- Coffee face mug (shows only in Coffee Mode) -->
-<div class="coffee-face right-of-title expression-1" aria-hidden="true"></div>
+        <div class="coffee-face right-of-title expression-1" aria-hidden="true"></div>
+
         <div class="modes" role="group" aria-label="Felt mode">
           <label><input type="radio" name="felt" value="ron" checked> Ron</label>
           <label><input type="radio" name="felt" value="lucy"> Lucy</label>
@@ -214,18 +218,28 @@
       applyCoffeeOnMode(m);
       document.getElementById('coffeeMini').style.display = (m==='coffee') ? '' : 'none';
     });
+
     function titleUpdate(m){
       const t = document.getElementById('titleSwap');
       const r = document.getElementById('titleRight');
       t.textContent = m==='lucy' ? "Pebbles and Things" : (m==='coffee' ? "Beans and Receipts" : "Money and Things");
       r.textContent = m==='lucy' ? "The River’s Ledger"  : (m==='coffee' ? "The Café’s Till"     : "The Mountain’s Record");
     }
+
+    // UPDATED: hide both arts in Coffee mode
     function artSwap(m){
-      const ron = document.getElementById('ronArt');
-      const lucy= document.getElementById('lucyArt');
-      if(ron && lucy){
-        ron.style.display  = (m==='lucy') ? 'none' : '';
-        lucy.style.display = (m==='lucy') ? ''     : 'none';
+      const ron  = document.getElementById('ronArt');
+      const lucy = document.getElementById('lucyArt');
+      if(!ron || !lucy) return;
+      if(m === 'lucy'){
+        ron.style.display  = 'none';
+        lucy.style.display = '';
+      }else if(m === 'coffee'){
+        ron.style.display  = 'none';
+        lucy.style.display = 'none';
+      }else{
+        ron.style.display  = '';
+        lucy.style.display = 'none';
       }
     }
 
