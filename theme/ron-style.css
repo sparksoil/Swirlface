@@ -137,6 +137,13 @@ button.secondary{ background:rgba(231,223,209,.6) }
 
 /* Base type for Ron */
 html.ron body{
+  background:
+    linear-gradient(180deg, #3b2f25 0%, #2a231d 100%),
+    url("assets/Ron/Ron-woodgrain.webp");
+  background-size: auto, 480px;      /* tile the woodgrain softly */
+  background-repeat: no-repeat, repeat;
+  background-blend-mode: overlay, multiply;
+  color: #efe7dc;                    /* warm text */
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
