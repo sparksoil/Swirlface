@@ -8,7 +8,7 @@
   /* Lucy palette (independent of the background image) */
   --lucy-ink:        #1f2330;      /* main text */
   --lucy-muted:      #56607a;      /* secondary text */
-  --lucy-accent:     #6a7bd6;      /* links / pills */
+  --lucy-accent:     #C6C5D4;      /* links / pills */
   --lucy-panel-rgb:  255,255,255;  /* base panel as RGB */
   --lucy-panel-alpha: 0.22;        /* translucency strength */
   --lucy-border:     rgba(0,0,0,.08);
