@@ -16,7 +16,7 @@
 
 /* Background image behavior (iOS-safe) */
 html.lucy body{
-  background-color: #f3f5fa;           /* gentle fallback even if image fails */
+  background-color: #DCCBDA;           /* gentle fallback even if image fails */
   background-image: var(--bg-lucy);
   background-attachment: scroll;       /* iOS-safe */
   background-repeat: repeat-y;
