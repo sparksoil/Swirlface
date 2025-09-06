@@ -105,3 +105,75 @@ html.lucy details summary small{
 
 /* Safety: never show coffee mug outside Coffee mode */
 html:not(.coffee) .coffee-face{ display:none !important; }
+/* -------------------------------------------------
+   LUCY – readability + layout polish
+   ------------------------------------------------- */
+
+/* Your palette */
+:root{
+  --lucy-bg:       #C6C5D4; /* page wash */
+  --lucy-btn:      #334152; /* button fill */
+  --lucy-ink-soft: #FFEDD3; /* light ink (quote) */
+  --lucy-ink-cool: #C2D3E9; /* button text */
+}
+
+/* Use the lavender wash even if the image fails */
+html.lucy body{ background-color: var(--lucy-bg); }
+
+/* Move the title closer to the top, keep things tidy */
+html.lucy .top-art{ margin-bottom: 8px; }
+html.lucy #titleSwap{
+  margin-top: -6px;            /* pulls the H1 up a touch */
+  letter-spacing: .2px;
+}
+
+/* BIG, gentle, dreamy quote with a soft glow */
+html.lucy #quoteMain{
+  font-family: "Caveat", "Cormorant Garamond", Georgia, serif !important;
+  font-weight: 700;
+  font-size: clamp(22px, 4.2vw, 36px);
+  color: var(--lucy-ink-soft) !important;
+  text-shadow:
+    0 1px 2px rgba(17,24,39,.35),
+    0 0 1px rgba(17,24,39,.25);
+}
+html.lucy #quoteSub{
+  font-family: "Caveat", "Cormorant Garamond", Georgia, serif !important;
+  font-weight: 500;
+  font-size: clamp(16px, 3.2vw, 24px);
+  color: var(--lucy-ink-soft) !important;
+  text-shadow:
+    0 1px 2px rgba(17,24,39,.35),
+    0 0 1px rgba(17,24,39,.25);
+}
+
+/* Buttons match your swatch (#334152 with cool blue text) */
+html.lucy button.primary{
+  background: var(--lucy-btn) !important;
+  border-color: var(--lucy-btn) !important;
+  color: var(--lucy-ink-cool) !important;
+}
+html.lucy button.primary:active,
+html.lucy button.primary:hover{
+  filter: brightness(1.06);
+}
+
+html.lucy button.secondary{
+  background: transparent !important;
+  border-color: var(--lucy-btn) !important;
+  color: var(--lucy-btn) !important;
+}
+html.lucy button.secondary:active,
+html.lucy button.secondary:hover{
+  background: rgba(51,65,82,.08) !important;
+}
+
+/* Pills: subtle tint to keep the section cohesive */
+html.lucy .pill{
+  background: rgba(51,65,82,.08) !important;
+  border-color: rgba(51,65,82,.25) !important;
+  color: #283546 !important;
+}
+
+/* Inputs: bump placeholder contrast a notch */
+html.lucy ::placeholder{ color: rgba(31,35,48,.55); }
