@@ -1,35 +1,37 @@
-/* LUCY MODE — soft bokeh, translucent panels, iOS-safe scroll */
+/* LUCY MODE — slate-lavender palette, dreamy handwriting quote */
 
-/* Fallback image + Lucy palette tokens (works even if image fails) */
+/* Tokens (work even if the image fails) */
 :root{
-  /* Your file is assets/Lucy-bokeh.png (lowercase .png) */
+  /* Optional background image — you can keep or remove it later */
   --bg-lucy: url("../assets/Lucy-bokeh.png");
 
-  /* Lucy palette (independent of the background image) */
-  --lucy-ink:        #1f2330;      /* main text */
-  --lucy-muted:      #56607a;      /* secondary text */
-  --lucy-accent:     #C6C5D4;      /* links / pills */
-  --lucy-panel-rgb:  255,255,255;  /* base panel as RGB */
-  --lucy-panel-alpha: 0.22;        /* translucency strength */
-  --lucy-border:     rgba(0,0,0,.08);
+  /* Palette from your mock */
+  --lucy-bg:       #C6C5D4; /* page wash */
+  --lucy-ink:      #1f2330; /* main text */
+  --lucy-muted:    #56607a; /* secondary */
+  --lucy-cream:    #FFEDD3; /* Text 1 (quote) */
+  --lucy-ice:      #C2D3E9; /* Text 2 (on button) */
+  --lucy-btn:      #334152; /* button background */
+  --lucy-panel-rgb: 255,255,255;
+  --lucy-panel-alpha: 0.22;
+  --lucy-border:   rgba(0,0,0,.08);
 }
 
-/* Background image behavior (iOS-safe) */
+/* Background (solid color; image optional) */
 html.lucy body{
-  background-color: #DCCBDA;           /* gentle fallback even if image fails */
-  background-image: var(--bg-lucy);
-  background-attachment: scroll;       /* iOS-safe */
+  background-color: var(--lucy-bg);
+  /* comment next line if you don't want the bokeh at all */
+  /* background-image: var(--bg-lucy); */
+  background-attachment: scroll;
   background-repeat: repeat-y;
-  background-size: 1000px auto;
+  background-size: 900px auto;
   background-position: left 30% top 0;
 }
-
-/* Scale the background slightly on small screens */
-@media (max-width: 800px){
+@media (max-width:800px){
   html.lucy body{ background-size: 820px auto; }
 }
 
-/* Panels, cards, inputs, tables get a Lucy wash */
+/* Panels / form fields */
 html.lucy .panel,
 html.lucy .card,
 html.lucy table,
@@ -41,7 +43,59 @@ html.lucy textarea{
   border-color: var(--lucy-border) !important;
 }
 
-/* Legible subtitles and helper text in Lucy */
+/* Typography */
+html.lucy body,
+html.lucy .panel,
+html.lucy .card,
+html.lucy input,
+html.lucy select,
+html.lucy textarea,
+html.lucy table{
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif !important;
+}
+html.lucy h1, html.lucy h2, html.lucy h3{
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* Quote styling: bigger + handwritten + cream */
+html.lucy #quoteMain{
+  font-family: "Caveat", cursive !important;
+  font-size: clamp(1.2rem, 3.8vw, 2.1rem);
+  line-height: 1.15;
+  color: var(--lucy-cream) !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.08);
+}
+html.lucy #quoteSub{
+  color: var(--lucy-muted) !important;
+}
+
+/* Pills (Month, Logs, etc.) */
+html.lucy .pill{
+  border-color: var(--lucy-btn) !important;
+  color: var(--lucy-btn) !important;
+  background: rgba(255,255,255,0.35);
+}
+
+/* Buttons */
+html.lucy .primary,
+html.lucy button.primary{
+  background: var(--lucy-btn) !important;
+  color: var(--lucy-ice) !important;
+  border-color: transparent !important;
+}
+html.lucy .secondary,
+html.lucy button.secondary{
+  background: rgba(255,255,255,0.5) !important;
+  color: var(--lucy-btn) !important;
+  border-color: var(--lucy-btn) !important;
+}
+
+/* States */
+html.lucy .primary:hover{ filter: brightness(1.06); }
+html.lucy .secondary:hover{ background: rgba(255,255,255,0.65) !important; }
+
+/* Helper text */
 html.lucy .muted,
 html.lucy .quote-sub,
 html.lucy .table-wrap small,
@@ -49,34 +103,5 @@ html.lucy details summary small{
   color: var(--lucy-muted) !important;
 }
 
-/* Title + quote area tweaks */
-html.lucy #titleSwap{ color: var(--lucy-ink) !important; }
-html.lucy #quoteMain,
-html.lucy #quoteSub{ color: var(--lucy-muted) !important; }
-
-/* Pills / links tint */
-html.lucy .pill{
-  border-color: var(--lucy-accent) !important;
-  color: var(--lucy-accent) !important;
-}
-
-/* Never show the coffee mug outside Coffee mode (safety) */
+/* Safety: never show coffee mug outside Coffee mode */
 html:not(.coffee) .coffee-face{ display:none !important; }
-/* -------------------------------------------------
-   LUCY TYPE: soft serif for body + headings
-   ------------------------------------------------- */
-html.lucy body,
-html.lucy .panel,
-html.lucy .card,
-html.lucy input,
-html.lucy select,
-html.lucy textarea,
-html.lucy table { 
-  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif !important;
-}
-
-/* Headings a touch heavier so they don’t look wispy */
-html.lucy h1, html.lucy h2, html.lucy h3 { 
-  font-weight: 600;
-  letter-spacing: 0.2px;
-}
