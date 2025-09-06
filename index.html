@@ -20,15 +20,16 @@
     <div class="panel" role="region" aria-label="Ron Ledger">
 
       <!-- TOP art (case-smart images) -->
-      <div class="top-art" aria-hidden="true">
-        <img id="ronArt" class="art" alt="Ron board art"
-             data-folder="assets" data-name="ron-board" data-ext="png,PNG,jpg,JPG,webp,WEBP">
-        <img id="lucyArt" class="art" alt="Lucy cozy art" style="display:none"
-             data-folder="assets" data-name="Lucy-cozy-lilac" data-ext="png,PNG,jpg,JPG,webp,WEBP">
-        <div class="ron-quote-text">
-          <div id="ronQuoteMain"></div>
-          <div id="ronQuoteSub"></div>
-        </div>
+<div class="top-art" aria-hidden="true">
+  <img id="ronArt" class="art" alt="Ron board art"
+       data-folder="assets" data-name="ron-board" data-ext="png,PNG,jpg,JPG,webp,WEBP">
+  <img id="lucyArt" class="art" alt="Lucy bubble art" style="display:none"
+       data-folder="assets" data-name="Lucy-bubble" data-ext="png,PNG,jpg,JPG,webp,WEBP">
+  <div class="ron-quote-text">
+    <div id="ronQuoteMain"></div>
+    <div id="ronQuoteSub"></div>
+  </div>
+</div>
       </div>
 
       <!-- Title + modes -->
@@ -207,13 +208,13 @@
     import {wireCoffeeMini} from './ui/coffee-mini.js';
     import {applyCoffeeOnMode} from './ui/coffee-faces.js';
 
-    // Resolve top art (case-flex)
-    resolveImage(document.getElementById('ronArt'));
-    resolveImage(document.getElementById('lucyArt'));
+// Resolve top art (case-flex)
+resolveImage(document.getElementById('ronArt'));   // ron-board.*
+resolveImage(document.getElementById('lucyArt'));  // Lucy-bubble.*
 
-    // Resolve backgrounds for CSS vars (case EXACT)
-    resolveBgVar('--bg-lucy',   'assets/Lucy-bokeh.png');           // <-- lowercase .png
-    resolveBgVar('--bg-coffee', 'assets/coffee/coffee-paper.PNG');  // <-- uppercase .PNG
+// Resolve backgrounds for CSS vars (case EXACT)
+resolveBgVar('--bg-lucy',   'assets/Lucy-bokeh.png');     // <-- lowercase .png
+resolveBgVar('--bg-coffee','assets/coffee/coffee-paper.PNG'); // <-- uppercase .PNG
 
     // Mode init
     initModeRadio(document.querySelectorAll('input[name="felt"]'), (m)=>{
