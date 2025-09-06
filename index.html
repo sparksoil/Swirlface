@@ -5,48 +5,55 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Ron — Modular Ledger (Ron • Lucy • Coffee)</title>
 
-  <!-- FONTS (Lucy: soft serif; Coffee uses system monospace) -->
+  <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-  <!-- THEMES -->
-<link rel="stylesheet" href="theme/ron-style.css?v=5">
-<link rel="stylesheet" href="theme/lucy-mode.css?v=5">
-<link rel="stylesheet" href="theme/coffee-mode.css?v=5">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- THEMES (versioned for cache-busting) -->
+  <link rel="stylesheet" href="theme/ron-style.css?v=5">
+  <link rel="stylesheet" href="theme/lucy-mode.css?v=5">
+  <link rel="stylesheet" href="theme/coffee-mode.css?v=5">
 </head>
 <body>
   <div class="wrap">
     <div class="panel" role="region" aria-label="Ron Ledger">
 
-      <!-- TOP art (case-smart images) -->
-<div class="top-art" aria-hidden="true">
-  <img id="ronArt" class="art" alt="Ron board art"
-       data-folder="assets" data-name="ron-board" data-ext="png,PNG,jpg,JPG,webp,WEBP">
-  <img id="lucyArt" class="art" alt="Lucy bubble art" style="display:none"
-       data-folder="assets" data-name="Lucy-bubble" data-ext="png,PNG,jpg,JPG,webp,WEBP">
-  <div class="ron-quote-text">
-    <div id="ronQuoteMain"></div>
-    <div id="ronQuoteSub"></div>
-  </div>
-</div>
-      </div>
-
-      <!-- Title + modes -->
-      <div class="inline">
-        <div>
-          <h1 id="titleSwap">Money and Things</h1>
-          <div id="quoteMain" class="muted"></div>
-          <div id="quoteSub" class="quote-sub muted" style="margin-top:2px;"></div>
-        </div>
-
-        <!-- Coffee face mug (shows only in Coffee Mode) -->
-        <div class="coffee-face right-of-title expression-1" aria-hidden="true"></div>
+      <!-- HEADER: title first, modes at right -->
+      <div class="header-line">
+        <h1 id="titleSwap">Money and Things</h1>
 
         <div class="modes" role="group" aria-label="Felt mode">
           <label><input type="radio" name="felt" value="ron" checked> Ron</label>
           <label><input type="radio" name="felt" value="lucy"> Lucy</label>
           <label><input type="radio" name="felt" value="coffee"> Coffee</label>
+        </div>
+      </div>
+
+      <!-- Single quote line under title -->
+      <div id="quoteMain" class="muted quote-under-title"></div>
+      <!-- Keep subline hook available (used by Lucy/Coffee if desired) -->
+      <div id="quoteSub" class="quote-sub muted" style="margin-top:2px;"></div>
+
+      <!-- Character sprites on the header row’s right edge -->
+      <div class="header-right">
+        <!-- Ron face sprite (only visible in Ron mode via JS) -->
+        <div class="ron-face pose-1" aria-hidden="true" style="display:none"></div>
+
+        <!-- Coffee face mug (CSS ensures only in Coffee mode) -->
+        <div class="coffee-face right-of-title expression-1" aria-hidden="true"></div>
+      </div>
+
+      <!-- TOP art (case-smart images) -->
+      <div class="top-art" aria-hidden="true">
+        <img id="ronArt" class="art" alt="Ron board art"
+             data-folder="assets" data-name="ron-board" data-ext="png,PNG,jpg,JPG,webp,WEBP">
+        <img id="lucyArt" class="art" alt="Lucy bubble art" style="display:none"
+             data-folder="assets" data-name="Lucy-bubble" data-ext="png,PNG,jPG,JPG,webp,WEBP">
+        <!-- Old hero quote block kept but hidden by CSS in Ron; harmless for others -->
+        <div class="ron-quote-text">
+          <div id="ronQuoteMain"></div>
+          <div id="ronQuoteSub"></div>
         </div>
       </div>
 
@@ -134,6 +141,191 @@
             <div class="table-wrap" style="margin-top:6px;">
               <table aria-label="Logged entries">
                 <thead><tr>
+                  <th>Date / Range</th><th>Client</th><th>Category</th><th>Service</th><th>Platform</th><th>Method</th>
+                  <th class="right">Amount</th><th class="right">Set-Aside</th><th class="right">Net</th><th>Paid</th><th>Field Log</th>
+                </tr></thead>
+                <tbody id="rows"></tbody>
+                <tfoot><tr>
+                  <td colspan="6">Totals</td>
+                  <td class="right">$<span id="totalFoot">0.00</span></td>
+                  <td class="right">$<span id="totalReserveFoot">0.00</span></td>
+                  <td class="right">$<span id="totalNetFoot">0.00</span></td>
+                  <td colspan="2"></td>
+                </tr></tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- BACKUPS -->
+          <div class="card" style="margin-top:12px; padding:12px;">
+            <div class="inline" style="justify-content:space-between; align-items:center;">
+              <strong>Backups</strong>
+              <small class="muted">Your data lives in this browser. Export often.</small>
+            </div>
+            <div class="actions" style="margin-top:8px; flex-wrap:wrap;">
+              <button type="button" class="primary" id="exportCsvBtn">Export CSV</button>
+              <button type="button" class="secondary" id="exportJsonBtn">Export JSON</button>
+              <label class="inline" style="gap:6px;">
+                <input type="file" id="importJsonInput" accept="application/json" style="display:none">
+                <button type="button" class="secondary" id="importJsonBtn">Import JSON</button>
+                <span class="muted">Restores entries from a JSON file</span>
+              </label>
+            </div>
+            <p class="footer">📦 Tip: Keep backups off-device (Drive, iCloud). Exports do not include your settings; that’s okay.</p>
+          </div>
+        </div>
+
+        <div class="right">
+          <h2 id="titleRight">The Mountain’s Record</h2>
+          <div>Logs: <strong id="countAll">0</strong></div>
+          <div>Gross Income: <strong>$<span id="totalAll">0.00</span></strong></div>
+          <div>Expenses: <strong>$<span id="expAll">0.00</span></strong></div>
+          <div>Net After Expenses: <strong>$<span id="netAll">0.00</span></strong></div>
+          <div>Tax Set-Aside: <strong>$<span id="reserveAll">0.00</span></strong></div>
+
+          <!-- Coffee mini (shows only in coffee mode) -->
+          <div id="coffeeMini" class="card" style="display:none; margin-top:12px;">
+            <div class="inline"><strong>Reading Timer</strong><button id="start10" class="secondary">10 min</button></div>
+            <div class="row" style="margin-top:8px;">
+              <label>DNF / Juice Box
+                <input id="coffeeNote" placeholder="Too many italics. Emotionally allergic.">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="muted" style="margin-top:10px;">🦦 Nudge: Tides come four times a year — <strong>Apr 15 • Jun 15 • Sep 15 • Jan 15</strong></p>
+    </div>
+  </div>
+
+  <!-- Sparkle layer -->
+  <div class="sparkles" id="sparkles"></div>
+
+  <!-- MODULES -->
+  <script type="module">
+    import {resolveImage, resolveBgVar} from './ui/image-resolver.js';
+    import {current, initModeRadio} from './ui/modes.js';
+    import {showOnce} from './ui/quotes.js';
+    import * as store from './ui/storage.js';
+    import {wireForm} from './ui/ledger-form.js';
+    import {renderTable} from './ui/ledger-table.js';
+    import {renderSummaries} from './ui/summaries.js';
+    import {burst as sparklesBurst} from './ui/sparkles.js';
+    import {wireCoffeeMini} from './ui/coffee-mini.js';
+    import {applyCoffeeOnMode} from './ui/coffee-faces.js';
+    import { setRonPose } from './ui/Ron-face.js';   // <-- your capital R path
+
+    // Resolve top art (case-flex)
+    resolveImage(document.getElementById('ronArt'));   // ron-board.*
+    resolveImage(document.getElementById('lucyArt'));  // Lucy-bubble.*
+
+    // Resolve backgrounds for CSS vars (case EXACT)
+    resolveBgVar('--bg-lucy',   'assets/Lucy-bokeh.png');           // lowercase .png
+    resolveBgVar('--bg-coffee','assets/coffee/coffee-paper.PNG');   // uppercase .PNG
+
+    // Mode init
+    initModeRadio(document.querySelectorAll('input[name="felt"]'), (m)=>{
+      titleUpdate(m);
+      artSwap(m);
+      showOnce(m);
+      applyCoffeeOnMode(m);
+      document.getElementById('coffeeMini').style.display = (m==='coffee') ? '' : 'none';
+
+      // Keep <html> mode classes in sync for CSS themes
+      document.documentElement.classList.toggle('ron',    m === 'ron');
+      document.documentElement.classList.toggle('lucy',   m === 'lucy');
+      document.documentElement.classList.toggle('coffee', m === 'coffee');
+
+      // Show/hide Ron sprite + pick a default pose
+      const ronFace = document.querySelector('.ron-face');
+      if (ronFace) {
+        ronFace.style.display = (m === 'ron') ? '' : 'none';
+        if (m === 'ron') setRonPose(1);
+      }
+    });
+
+    function titleUpdate(m){
+      const t = document.getElementById('titleSwap');
+      const r = document.getElementById('titleRight');
+      t.textContent = m==='lucy' ? "Pebbles and Things" : (m==='coffee' ? "Receipts. Or whatever..." : "Money and Things");
+      r.textContent = m==='lucy' ? "The River’s Ledger"  : (m==='coffee' ? "The Café’s Till"     : "The Mountain’s Record");
+    }
+
+    // Hide both arts in Coffee
+    function artSwap(m){
+      const ron  = document.getElementById('ronArt');
+      const lucy = document.getElementById('lucyArt');
+      if(!ron || !lucy) return;
+      if(m==='lucy'){ ron.style.display='none'; lucy.style.display=''; }
+      else if(m==='coffee'){ ron.style.display='none'; lucy.style.display='none'; }
+      else { ron.style.display=''; lucy.style.display='none'; }
+    }
+
+    // Settings
+    const reservePctInput = document.getElementById('reservePct');
+    const saveSettingsBtn = document.getElementById('saveSettings');
+    reservePctInput.value = store.loadSettings().reservePct;
+    saveSettingsBtn.addEventListener('click', ()=>{
+      const v = Number(reservePctInput.value);
+      const pct = isNaN(v)||v<0 ? 0 : Math.min(100,v);
+      const s = store.loadSettings(); s.reservePct = pct; store.saveSettings(s);
+      paint();
+    });
+
+    // Form wiring
+    const form = document.getElementById('entryForm');
+    const clearBtn = document.getElementById('clearBtn');
+    clearBtn.addEventListener('click', ()=> form.reset());
+
+    wireForm(form, {
+      onSubmit(entry, meta){
+        const entries = store.loadEntries();
+        if(meta.multiday.mode==='summary'){
+          entries.push(entry);
+        }else if(meta.multiday.mode==='expand'){
+          meta.multiday.expanded.forEach(e => entries.push(e));
+        }else{
+          entries.push(entry);
+        }
+        store.saveEntries(entries);
+
+        // Sparkles
+        const btn = document.getElementById('logBtn');
+        const r = btn.getBoundingClientRect();
+        const y = r.top + r.height/2 + window.scrollY;
+        sparklesBurst(r.left + r.width/2, y, current());
+
+        const saved = document.getElementById('savedMsg');
+        saved.style.display='block'; setTimeout(()=> saved.style.display='none', 1200);
+        form.reset();
+        form.date.value = new Date().toISOString().slice(0,10);
+        document.getElementById('multiFields').style.display='none';
+        document.getElementById('multiChoice').style.display='none';
+        document.getElementById('multiToggle').checked=false;
+
+        paint();
+      }
+    });
+
+    // Coffee mini
+    wireCoffeeMini(document.getElementById('coffeeMini'));
+
+    // Initial paint
+    function paint(){
+      showOnce(current());
+      const entries = store.loadEntries();
+      const reservePct = store.loadSettings().reservePct;
+      const totals = renderTable(document.getElementById('rows'), entries, reservePct);
+      renderSummaries(entries, reservePct, totals);
+    }
+    paint();
+  </script>
+
+  <!-- BACKUP MODULE -->
+  <script src="ui/backup.js" defer></script>
+</body>
+</html>
                   <th>Date / Range</th><th>Client</th><th>Category</th><th>Service</th><th>Platform</th><th>Method</th>
                   <th class="right">Amount</th><th class="right">Set-Aside</th><th class="right">Net</th><th>Paid</th><th>Field Log</th>
                 </tr></thead>
