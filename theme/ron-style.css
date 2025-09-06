@@ -14,7 +14,7 @@ body{
   background-image: var(--bg-ron);
   background-position:center top; background-size:cover;
   background-repeat:no-repeat; background-attachment:fixed;
-  background-color:#635B3A;
+  background-color:#5B4F40;
 }
 
 .wrap{max-width:980px; margin:24px auto; padding:0 16px}
