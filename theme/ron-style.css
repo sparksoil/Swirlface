@@ -138,3 +138,83 @@ button.secondary{background:rgba(231,223,209,.6)}
 html.ron body { 
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
+/* ------------------------------
+   RON REFRESH — warm wood + cream
+   ------------------------------ */
+
+/* Background: rich wood with a soft vignette */
+html.ron body{
+  background:
+    radial-gradient(1200px 500px at 50% -200px, rgba(255,255,255,0.05), transparent 70%),
+    linear-gradient(#463a31, #332a23);
+  color: #f5efe6;
+}
+
+/* Panels, cards, form chrome: higher contrast & legible */
+html.ron .panel,
+html.ron .card,
+html.ron table,
+html.ron input,
+html.ron select,
+html.ron textarea{
+  background: rgba(255,245,230,0.10) !important;  /* gentle cream wash */
+  border-color: rgba(255,238,210,0.16) !important;
+  color: #f5efe6 !important;
+}
+
+/* Inputs: clearer fields + readable placeholders */
+html.ron input,
+html.ron select,
+html.ron textarea{
+  background: rgba(255,255,255,0.13) !important;
+  outline: none;
+}
+html.ron input::placeholder,
+html.ron textarea::placeholder{ color: rgba(245,239,230,0.65); }
+
+/* Titles & helper text */
+html.ron #titleSwap{ color:#fff7e5 !important; }
+html.ron .muted,
+html.ron .quote-sub{ color:#d2c6b6 !important; }
+
+/* Quote over top art: subtle lift so it reads on any art */
+html.ron .ron-quote-text{ text-shadow: 0 1px 1px rgba(0,0,0,.45); }
+
+/* Divider lines */
+html.ron .quietline{ border-color: rgba(255,245,230,0.12); }
+
+/* Buttons */
+html.ron .primary{
+  background:#2f5747 !important;   /* pine green */
+  color:#fff7e5 !important;
+  border-color: transparent !important;
+  box-shadow:
+    0 1px 0 rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+html.ron .primary:active{ transform: translateY(1px); }
+
+html.ron .secondary{
+  background: rgba(255,245,230,0.18) !important;
+  color:#fff7e5 !important;
+  border-color: rgba(255,238,210,0.28) !important;
+}
+
+/* Mode pills area: tidy */
+html.ron .modes label{
+  background: rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,238,210,0.20);
+  color:#f5efe6;
+  padding: 6px 10px;
+  border-radius: 12px;
+}
+
+/* Table headers/footers pop a bit more */
+html.ron table thead th,
+html.ron table tfoot td{ color:#fff7e5; }
+
+/* Mobile tweaks */
+@media (max-width: 720px){
+  html.ron #titleSwap{ font-size: 1.75rem; line-height: 1.2; }
+  html.ron .panel{ padding-top: 14px; }
+}
