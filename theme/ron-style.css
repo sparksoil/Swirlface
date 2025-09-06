@@ -29,7 +29,7 @@ body{
 .inline{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:space-between }
 
 .panel,.card,table{ background: rgba(var(--panel-rgb),0.45); }
-.panel,.card{ border:1px solid var(--line); border-radius:14px; padding:16px; overflow:hidden; }
+.panel,.card{ border:1px solid var(--line); border-radius:14px; padding:16px; /* no overflow hidden */ }
 table{ width:100%; border-collapse:collapse }
 th,td{ padding:8px 10px; border-bottom:1px solid var(--line); text-align:left; font-size:.95rem }
 tfoot td{ font-weight:600; border-top:2px solid var(--line) }
@@ -81,7 +81,8 @@ button.secondary{ background:rgba(231,223,209,.6) }
   mask-image: linear-gradient(to right, transparent 0, black var(--fade),
     black calc(100% - var(--fade)), transparent 100%);
 }
-.table-wrap table{ min-width:720px; }
+.table-wrap table{ min-width:720px; display:block; }
+.table-wrap thead, .table-wrap tbody, .table-wrap tfoot{ display:table; width:100%; table-layout:fixed; }
 .table-wrap th, .table-wrap td{ white-space:nowrap; }
 
 @media (max-width:480px){
@@ -111,7 +112,7 @@ html.ron body{
   color:#efe7dc;
   background:
     linear-gradient(180deg,#3b2f25 0%, #2a231d 100%),
-    url("assets/Ron/Ron-woodgrain.webp");   /* your tile: capital R path */
+    url("assets/Ron/Ron-woodgrain.webp"); /* capital R folder */
   background-size:auto, 480px;
   background-repeat:no-repeat, repeat;
   background-blend-mode:overlay, multiply;
@@ -186,6 +187,3 @@ html.ron .quietline{ background: rgba(255,245,230,.12); }
 .ron-face.pose-1{ background-position:  0% 0%; }  /* arms folded   */
 .ron-face.pose-2{ background-position: 50% 0%; }  /* with mug       */
 .ron-face.pose-3{ background-position:100% 0%; }  /* whittling      */
-
-/* If the legacy ronArt <img> remains in DOM, never show it in Ron mode */
-html.ron #ronArt{ display:none !important; }
