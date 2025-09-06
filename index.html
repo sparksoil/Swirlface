@@ -12,9 +12,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;600&family=Patrick+Hand&display=swap" rel="stylesheet">
 
   <!-- THEMES (versioned for cache-busting) -->
-  <link rel="stylesheet" href="theme/ron-style.css?v=6">
-  <link rel="stylesheet" href="theme/lucy-mode.css?v=6">
-  <link rel="stylesheet" href="theme/coffee-mode.css?v=6">
+  <link rel="stylesheet" href="theme/ron-style.css?v=7">
+  <link rel="stylesheet" href="theme/lucy-mode.css?v=7">
+  <link rel="stylesheet" href="theme/coffee-mode.css?v=7">
 </head>
 <body>
   <div class="wrap">
@@ -31,20 +31,24 @@
         </div>
       </div>
 
-      <!-- Single quote line under title (one source of truth) -->
+      <!-- Single quote line under title -->
       <div id="quoteMain" class="muted quote-under-title"></div>
       <div id="quoteSub" class="quote-sub muted" style="margin-top:2px;"></div>
 
-      <!-- TOP art: Ron uses sprite; Lucy keeps image -->
-      <div class="top-art" aria-hidden="true">
+      <!-- Character area (sprite + coffee mug) -->
+      <div class="header-right" aria-hidden="true" style="display:flex;gap:12px;align-items:flex-start;">
+        <!-- Ron face sprite (shown in Ron mode) -->
         <div id="ronFace" class="ron-face pose-1" style="display:none"></div>
+        <!-- Coffee mug face (CSS controls visibility in Coffee mode) -->
+        <div class="coffee-face right-of-title expression-1"></div>
+      </div>
+
+      <!-- TOP art (only Lucy uses an <img>) -->
+      <div class="top-art" aria-hidden="true">
         <img id="lucyArt" class="art" alt="Lucy bubble art" style="display:none"
              data-folder="assets" data-name="Lucy-bubble" data-ext="png,PNG,jpg,JPG,webp,WEBP">
-        <!-- Old hero quote block (hidden by CSS in Ron; safe for other modes) -->
-        <div class="ron-quote-text">
-          <div id="ronQuoteMain"></div>
-          <div id="ronQuoteSub"></div>
-        </div>
+        <!-- legacy quote block kept for other modes; hidden in Ron via CSS -->
+        <div class="ron-quote-text"><div id="ronQuoteMain"></div><div id="ronQuoteSub"></div></div>
       </div>
 
       <hr class="quietline">
@@ -173,7 +177,7 @@
           <div>Net After Expenses: <strong>$<span id="netAll">0.00</span></strong></div>
           <div>Tax Set-Aside: <strong>$<span id="reserveAll">0.00</span></strong></div>
 
-          <!-- Coffee mini (shows only in coffee mode) -->
+          <!-- Coffee mini (only in coffee mode) -->
           <div id="coffeeMini" class="card" style="display:none; margin-top:12px;">
             <div class="inline"><strong>Reading Timer</strong><button id="start10" class="secondary">10 min</button></div>
             <div class="row" style="margin-top:8px;">
@@ -204,14 +208,14 @@
     import {burst as sparklesBurst} from './ui/sparkles.js';
     import {wireCoffeeMini} from './ui/coffee-mini.js';
     import {applyCoffeeOnMode} from './ui/coffee-faces.js';
-    import {setRonPose} from './ui/Ron-face.js';  // capital R path
+    import {setRonPose, randomPose} from './ui/Ron-face.js';  // capital R
 
-    // Only Lucy has an image to resolve here
-    resolveImage(document.getElementById('lucyArt'));   // Lucy-bubble.*
+    // Only Lucy has an <img> art now (Ron uses sprite)
+    resolveImage(document.getElementById('lucyArt'));
 
-    // CSS var backgrounds
-    resolveBgVar('--bg-lucy',    'assets/Lucy-bokeh.png');            // lowercase .png
-    resolveBgVar('--bg-coffee',  'assets/coffee/coffee-paper.PNG');   // uppercase .PNG
+    // CSS var backgrounds (case exact)
+    resolveBgVar('--bg-lucy',   'assets/Lucy-bokeh.png');
+    resolveBgVar('--bg-coffee','assets/coffee/coffee-paper.PNG');
 
     // Mode init
     initModeRadio(document.querySelectorAll('input[name="felt"]'), (m)=>{
@@ -226,30 +230,30 @@
       document.documentElement.classList.toggle('lucy',   m === 'lucy');
       document.documentElement.classList.toggle('coffee', m === 'coffee');
 
-      // Sprite visibility + default pose
+      // Sprite visibility + default/random pose
       const ronFace = document.getElementById('ronFace');
       if (ronFace) {
         ronFace.style.display = (m === 'ron') ? '' : 'none';
-        if (m === 'ron') setRonPose(1);
+        if (m === 'ron') setRonPose(1); // swap to randomPose() if you want a surprise
       }
     });
 
     function titleUpdate(m){
       const t = document.getElementById('titleSwap');
       const r = document.getElementById('titleRight');
-      t.textContent = m==='lucy' ? "Pebbles and Things"
-                  : (m==='coffee' ? "Beans and Receipts"
-                                  : "Money and Things");
-      r.textContent = m==='lucy' ? "The River’s Ledger"
-                  : (m==='coffee' ? "The Café’s Till"
-                                  : "The Mountain’s Record");
+      t.textContent = (m==='lucy')   ? 'Pebbles and Things'
+                   : (m==='coffee') ? 'Beans and Receipts'
+                                     : 'Money and Things';
+      r.textContent = (m==='lucy')   ? 'The River’s Ledger'
+                   : (m==='coffee') ? 'The Café’s Till'
+                                     : 'The Mountain’s Record';
     }
 
-    // Swap art per mode (Ron uses sprite, so only Lucy image toggles)
+    // Only Lucy image toggles; Ron uses sprite
     function artSwap(m){
       const lucy = document.getElementById('lucyArt');
       if (!lucy) return;
-      lucy.style.display = (m === 'lucy') ? '' : 'none';
+      lucy.style.display = (m==='lucy') ? '' : 'none';
     }
 
     // Settings
@@ -271,11 +275,11 @@
     wireForm(form, {
       onSubmit(entry, meta){
         const entries = store.loadEntries();
-        if(meta.multiday.mode==='summary'){
+        if (meta.multiday.mode==='summary'){
           entries.push(entry);
-        }else if(meta.multiday.mode==='expand'){
+        } else if (meta.multiday.mode==='expand'){
           meta.multiday.expanded.forEach(e => entries.push(e));
-        }else{
+        } else {
           entries.push(entry);
         }
         store.saveEntries(entries);
