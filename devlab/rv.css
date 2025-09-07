@@ -1,0 +1,118 @@
+:root{
+  --ink:#1f2328;
+  --muted:#5f6670;
+  --paper:#f6efe3;
+  --veil:#f3efe8cc;    /* soft parchment wash */
+  --edge:#d7d3c8;
+  --accent:#3b7f3b;    /* green sprout */
+  --accent-2:#7b5ca4;  /* lilac whisper */
+  --bg:#faf8f4;
+  --chip:#eef0f4;
+  --danger:#8b2b2b;
+  --radius:12px;
+  --shadow:0 6px 24px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.06);
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --ink:#f5f5f5; --muted:#dcdcdc; --paper:#2b2a28; --veil:#2b2a28cc;
+    --edge:#41403d; --bg:#1f1f1f; --chip:#2a2e34; --danger:#ff9393;
+  }
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--ink); background:var(--bg);
+  font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial, sans-serif;
+}
+
+/* Poster header */
+.poster{
+  padding:22px 18px 8px; text-align:center;
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg) 70%);
+}
+.poster h1{ margin:0 0 6px; font-size: clamp(18px, 3.5vw, 28px);}
+.poster .subtitle{ margin:0; color:var(--muted)}
+
+/* Layout */
+.wrap{
+  max-width: 980px; margin: 12px auto 40px; padding: 0 14px;
+  display:grid; grid-template-columns: 1fr 1fr; gap:18px;
+}
+@media (max-width: 880px){
+  .wrap{ grid-template-columns: 1fr; }
+}
+
+/* Panels */
+.entry-panel, .list-panel{
+  background: var(--veil);
+  border:1px solid var(--edge);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding:14px;
+}
+
+/* Fields */
+.field{ display:flex; flex-direction:column; gap:6px; margin-bottom:10px; }
+.label{ font-weight:600; font-size:13px; color:var(--muted) }
+input[type="text"], textarea{
+  width:100%; border:1px solid var(--edge); border-radius:10px; padding:10px 12px;
+  background:#fff; color:var(--ink); outline:none;
+}
+@media (prefers-color-scheme: dark){
+  input[type="text"], textarea{ background:#1d1d1d; }
+}
+input[type="text"]::placeholder, textarea::placeholder{ color:#9aa1aa; }
+
+/* Buttons */
+button, .import{
+  appearance:none; border:1px solid var(--edge); background:#fff; color:var(--ink);
+  padding:10px 14px; border-radius:999px; cursor:pointer; font-weight:600;
+}
+.primary{ background:var(--accent); color:#fff; border-color:transparent; }
+.ghost{ background:transparent; }
+.import{ display:inline-flex; align-items:center; gap:8px; }
+.import input{ display:none; }
+.danger{ background:transparent; color:var(--danger); border-color:var(--danger); }
+.actions{ display:flex; gap:10px; flex-wrap:wrap; margin:6px 0 8px; }
+.micro.safety{ color:var(--muted); font-size:12px; margin:0; }
+
+/* List */
+.list-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+h2{ margin:6px 0 10px; font-size:16px; }
+.filters{ display:flex; gap:8px; }
+.chip{ background:var(--chip); border-color:transparent; padding:8px 12px; }
+.chip.is-active{ outline:2px solid var(--accent-2); }
+.entries{ list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.entry{
+  border:1px solid var(--edge); border-radius:12px; background:#fff; padding:10px 12px;
+}
+.entry .row1{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.entry .who{ font-weight:700; }
+.entry .age{ font-size:12px; color:var(--muted); }
+.entry .note{ margin:6px 0 0; white-space:pre-wrap; }
+
+/* Age colors (Section D later will expand; we tint the left bar now) */
+.entry::before{
+  content:""; display:block; width:6px; height:100%; border-radius:6px 0 0 6px;
+  position:absolute; left:0; top:0;
+}
+
+/* We’ll apply classes from JS: .age-fresh, .age-yellow, .age-amber, .age-blue */
+.entry.age-fresh{ position:relative; }
+.entry.age-fresh::before{ background:#3c8a3c; }
+.entry.age-yellow::before{ background:#d2a93a; }
+.entry.age-amber::before{ background:#c97a3a; }
+.entry.age-blue::before{ background:#6d7b8d; }
+
+/* Footer */
+.footer{
+  max-width:980px; margin:16px auto 60px; padding:0 14px; display:flex; align-items:center; justify-content:space-between;
+}
+.footer small{ color:var(--muted); }
+
+/* Motion sensitivity */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
