@@ -234,7 +234,7 @@
       const ronFace = document.getElementById('ronFace');
       if (ronFace) {
         ronFace.style.display = (m === 'ron') ? '' : 'none';
-        if (m === 'ron') setRonPose(1); // swap to randomPose() if you want a surprise
+        if (m === 'ron') randomPose(1); // swap to randomPose() if you want a surprise
       }
     });
 
@@ -242,7 +242,7 @@
       const t = document.getElementById('titleSwap');
       const r = document.getElementById('titleRight');
       t.textContent = (m==='lucy')   ? 'Pebbles and Things'
-                   : (m==='coffee') ? 'Beans and Receipts'
+                   : (m==='coffee') ? 'Receipts or whatever.'
                                      : 'Money and Things';
       r.textContent = (m==='lucy')   ? 'The River’s Ledger'
                    : (m==='coffee') ? 'The Café’s Till'
