@@ -1,4 +1,4 @@
-/* RV Helper — Section E1 (Cards View) */
+/* RV Helper — Section E2 (Cards + Garden Map + seasonal tints) */
 
 (function(){
   const KEY='rvhelper.v1.entries';
@@ -28,6 +28,9 @@
   const cardsGrid=qs('#cardsGrid');
   const btnViewList=qs('#btnViewList'), btnViewCards=qs('#btnViewCards'), btnViewMap=qs('#btnViewMap');
 
+  const mapArea=qs('#mapArea');
+  const mapCanvas=qs('#mapCanvas');
+
   const detailBox=qs('#personDetail'), detailName=qs('#detailName'), detailEntries=qs('#detailEntries');
   const detailStage=qs('#detailStage'), detailLastTouch=qs('#detailLastTouch');
   const closeDetail=qs('#closeDetail');
@@ -35,7 +38,13 @@
 
   let currentFilter='all';
   let activePersonId=null;
-  let currentView='list'; // 'list' | 'cards'
+  let currentView='list'; // 'list' | 'cards' | 'map'
+
+  // ---- Garden Map state ----
+  let mapRAF = null;
+  let lastPositions = [];   // [{id,x,y,r}]
+  const R_NODE = 24;        // visual radius of each node
+  const TWO_PI = Math.PI*2;
 
   // Boot
   renderList(); renderCircles(); renderCards();
@@ -60,23 +69,27 @@
   btnCareOnly?.addEventListener('click',()=>applyGrowth('care', true));
 
   // View switch
-  btnViewList?.addEventListener('click',()=>{ setView('list'); });
-  btnViewCards?.addEventListener('click',()=>{ setView('cards'); });
+  btnViewList?.addEventListener('click',()=> setView('list'));
+  btnViewCards?.addEventListener('click',()=> setView('cards'));
+  btnViewMap?.addEventListener('click',()=> setView('map'));
+
+  // Map click → open person
+  mapCanvas?.addEventListener('click', onMapClick);
+  window.addEventListener('resize', ()=>{ if(currentView==='map') sizeCanvas(); });
 
   function setView(v){
     currentView=v;
-    [btnViewList, btnViewCards].forEach(b=>b?.classList.remove('is-active'));
-    (v==='list'?btnViewList:btnViewCards)?.classList.add('is-active');
+    [btnViewList,btnViewCards,btnViewMap].forEach(b=>b?.classList.remove('is-active'));
+    if(v==='list'){btnViewList?.classList.add('is-active');}
+    if(v==='cards'){btnViewCards?.classList.add('is-active');}
+    if(v==='map'){btnViewMap?.classList.add('is-active');}
     syncView();
   }
   function syncView(){
-    if(currentView==='list'){
-      listPanel?.classList.remove('hidden');
-      cardsGrid?.classList.add('hidden');
-    }else{
-      listPanel?.classList.add('hidden');
-      cardsGrid?.classList.remove('hidden');
-    }
+    listPanel?.classList.toggle('hidden',currentView!=='list');
+    cardsGrid?.classList.toggle('hidden',currentView!=='cards');
+    mapArea?.classList.toggle('hidden',currentView!=='map');
+    if(currentView==='map'){ startMap(); } else { stopMap(); }
   }
 
   // --- Actions ---
@@ -166,7 +179,9 @@
         const now=Date.now();
         people.forEach(p=>{ if(typeof p.stage!=='number') p.stage=0; if(typeof p.last_touch!=='number') p.last_touch=now; });
         save(KEY,entries); save(KEY_PEOPLE,people);
-        renderList(); renderCircles(); renderCards(); alert('Import complete.');
+        renderList(); renderCircles(); renderCards();
+        if(currentView==='map') startMap();
+        alert('Import complete.');
       }catch(err){ alert('Import failed: '+err.message); }
     };
     reader.readAsText(f);
@@ -178,7 +193,7 @@
       entries=[]; people=[];
       save(KEY,entries); save(KEY_PEOPLE,people);
       renderList(); renderCircles(); renderCards();
-      detailBox.classList.add('hidden');
+      stopMap(); detailBox.classList.add('hidden');
     }
   }
 
@@ -273,6 +288,73 @@
     detailBox.classList.remove('hidden');
   }
 
+  // --- Garden Map (E2) ---
+  function startMap(){
+    sizeCanvas();
+    stopMap(); // avoid double RAF
+    mapRAF = requestAnimationFrame(renderMap);
+  }
+  function stopMap(){
+    if(mapRAF){ cancelAnimationFrame(mapRAF); mapRAF=null; }
+  }
+  function sizeCanvas(){
+    if(!mapCanvas) return;
+    // match CSS size
+    const w = mapCanvas.clientWidth, h = mapCanvas.clientHeight;
+    if(mapCanvas.width !== w || mapCanvas.height !== h){
+      mapCanvas.width = w; mapCanvas.height = h;
+    }
+  }
+  function renderMap(){
+    if(!mapCanvas) return;
+    sizeCanvas();
+    const ctx=mapCanvas.getContext('2d');
+    const W=mapCanvas.width, H=mapCanvas.height;
+    ctx.clearRect(0,0,W,H);
+
+    const now=Date.now();
+    const cx=W/2, cy=H/2;
+    const radius=Math.max(80, Math.min(W,H)/2 - 40);
+    const count = people.length || 1;
+    const drift = now/12000; // gentle drift
+
+    lastPositions = [];
+
+    // draw links (optional soft lines)
+    // ctx.strokeStyle='rgba(0,0,0,0.06)';
+    // ctx.lineWidth=1;
+
+    people.forEach((p,i)=>{
+      const angle = (i/count)*TWO_PI + drift;
+      const x = cx + radius*Math.cos(angle);
+      const y = cy + radius*Math.sin(angle);
+
+      // node circle
+      ctx.beginPath();
+      ctx.arc(x,y,R_NODE,0,TWO_PI);
+      ctx.fillStyle = ['#3c8a3c','#d6a33a','#c3743a','#6b7a8c'][ageBucket(now-(p.last_touch||now))];
+      ctx.fill();
+
+      // initial letter
+      ctx.fillStyle='#fff';
+      ctx.font='bold 14px ui-sans-serif, system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText((p.name||'?').charAt(0), x, y);
+
+      lastPositions.push({ id:p.id, x, y, r:R_NODE });
+    });
+
+    mapRAF = requestAnimationFrame(renderMap);
+  }
+  function onMapClick(ev){
+    if(!lastPositions.length) return;
+    const rect = mapCanvas.getBoundingClientRect();
+    const mx = ev.clientX - rect.left;
+    const my = ev.clientY - rect.top;
+    const hit = lastPositions.find(n => ((mx-n.x)**2 + (my-n.y)**2) <= (n.r*n.r));
+    if(hit) openDetail(hit.id);
+  }
+
   // --- Helpers ---
   function qs(s,el=document){return el.querySelector(s);}
   function qsa(s,el=document){return[...el.querySelectorAll(s)];}
@@ -330,18 +412,18 @@
     return `${pick.verse} — ${pick.thought}`;
   }
 
- // Minimal seed sprite inline via <use>
-function seedSvg(stageNum){
-  const s = clampStage(stageNum||0);
-  const id = Math.round(s); // 0..6
+  // Minimal seed sprite inline via <use>
+  function seedSvg(stageNum){
+    const s = clampStage(stageNum||0);
+    const id = Math.round(s); // 0..6
 
-  // toggle between leafy sprites and debug-numbered sprites
-  const SPRITE_FILE = "seed-sprites.svg";          // leafy
-  // const SPRITE_FILE = "seed-sprites-debug.svg"; // numbered debug
+    // toggle between leafy sprites and debug-numbered sprites
+    const SPRITE_FILE = "seed-sprites.svg";          // leafy
+    // const SPRITE_FILE = "seed-sprites-debug.svg"; // numbered debug
 
-  return `<svg viewBox="0 0 24 24" aria-hidden="true"><use href="./${SPRITE_FILE}#seed-${id}"></use></svg>`;
-}
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><use href="./${SPRITE_FILE}#seed-${id}"></use></svg>`;
+  }
+
+  // Boot flag for HTML warning
+  window.__RV_BOOTED = true;
 })();
-
-// Boot flag for HTML warning
-window.__RV_BOOTED = true;
