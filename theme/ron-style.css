@@ -19,7 +19,7 @@
 }
 
 *{ box-sizing:border-box }
-html,body{ height:100%; max-width:100%; overflow-x:hidden; } /* iOS gutter guard */
+html,body{ height:100%; max-width:100%; overflow-x:wrap; } /* iOS gutter guard */
 body{
   margin:0; color:var(--ink); font-family:var(--font); line-height:1.45;
   background-color:#5B4F40; /* fallback; each mode overrides */
@@ -112,7 +112,7 @@ html.ron body{
   color:#efe7dc;
   background:
     linear-gradient(180deg,#3b2f25 0%, #2a231d 100%),
-    url("assets/Ron/Ron-woodgrain.webp"); /* capital R folder */
+    url("...assets/Ron/Ron-woodgrain.webp"); /* capital R folder */
   background-size:auto, 480px;
   background-repeat:no-repeat, repeat;
   background-blend-mode:overlay, multiply;
