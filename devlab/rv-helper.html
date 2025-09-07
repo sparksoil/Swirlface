@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RV Helper — MVP Logbook (Section A)</title>
+  <link rel="stylesheet" href="./rv.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <!-- QUOTE ROTATOR SLOT (later) -->
+  <header class="poster">
+    <h1>🌱 RV Helper — Swirly Logbook (MVP)</h1>
+    <p class="subtitle">Spoon-safe notes first, structure later.</p>
+  </header>
+
+  <!-- CONTROLS -->
+  <!-- SIMPLE FORM -->
+  <main class="wrap">
+    <section class="entry-panel">
+      <label class="field">
+        <span class="label">Person (optional)</span>
+        <input id="personInput" type="text" placeholder="e.g., Sarah H.">
+      </label>
+
+      <label class="field">
+        <span class="label">Notes</span>
+        <textarea id="noteInput" rows="6" placeholder="Drop crumbs here…"></textarea>
+      </label>
+
+      <div class="actions">
+        <button id="saveBtn" class="primary">Save Entry</button>
+        <button id="sprinkleBtn" class="ghost">Sprinkle ✨</button>
+        <button id="exportBtn" class="ghost">Export (.rvpack.json)</button>
+        <label class="import ghost">
+          Import
+          <input id="importFile" type="file" accept=".json,.rvpack.json">
+        </label>
+      </div>
+
+      <p class="micro safety">Local-first save is automatic. You can also export/import anytime.</p>
+    </section>
+
+    <!-- LIST -->
+    <section class="list-panel">
+      <div class="list-head">
+        <h2>Latest entries</h2>
+        <div class="filters">
+          <button data-filter="all" class="chip is-active">All</button>
+          <button data-filter="needs" class="chip">Needs water</button>
+          <button data-filter="person" class="chip">By person…</button>
+        </div>
+      </div>
+      <ul id="entriesList" class="entries"></ul>
+    </section>
+  </main>
+
+  <!-- FOOT -->
+  <footer class="footer">
+    <button id="devClearBtn" class="danger" title="Dev Lab only">Clear Dev Lab Data</button>
+    <small>Section A / MVP per plan (Textarea + Save + Sprinkle + List + Export/Import). Reduced motion respected.</small>
+  </footer>
+
+  <script src="./verses.js"></script>
+  <script src="./rv.js"></script>
+</body>
+</html>
