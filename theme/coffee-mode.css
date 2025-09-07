@@ -22,9 +22,9 @@ html.coffee body{
 /* Subtitle & typewriter vibe (legible) */
 html.coffee #quoteMain,
 html.coffee #quoteSub {
-  color: #e9e2d8;
+  color: #2E3849;
   font-family: "Courier New", Courier, monospace; /* typewriter */
-  font-size: 0.95em;
+  font-size: 1.95em;
   letter-spacing: 0.02em;
 }
 
