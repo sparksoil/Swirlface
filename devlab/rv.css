@@ -68,7 +68,7 @@ button,.import{ appearance:none; border:1px solid var(--edge); background:#fff; 
 .entry .age{ font-size:12px; color:var(--muted); }
 .entry .note{ margin:6px 0 0; white-space:pre-wrap; }
 
-/* Seasonal tints */
+/* Seasonal tints (list bar) */
 .entry.age-fresh::before{ background:#3c8a3c; }
 .entry.age-summer::before{ background:#d6a33a; }
 .entry.age-fall::before{ background:#c3743a; }
@@ -86,8 +86,38 @@ button,.import{ appearance:none; border:1px solid var(--edge); background:#fff; 
 }
 .circle:hover{ transform:scale(1.08) rotate(2deg); background:var(--accent); }
 
+/* Seasonal circle tints */
+.circle.age-fresh{ background:#3c8a3c; }
+.circle.age-summer{ background:#d6a33a; }
+.circle.age-fall{ background:#c3743a; }
+.circle.age-winter{ background:#6b7a8c; }
+
+/* Gentle glimmer for Fall/Winter */
+@keyframes glimmerPulse{
+  0%{ box-shadow:0 0 0 rgba(255,255,255,0); }
+  50%{ box-shadow:0 0 18px rgba(255,255,255,0.5); }
+  100%{ box-shadow:0 0 0 rgba(255,255,255,0); }
+}
+.circle.age-fall,
+.circle.age-winter{
+  animation: glimmerPulse 4s ease-in-out infinite;
+}
+
 /* Person Detail Panel */
 .person-detail{ position:fixed; inset:0; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; }
 .person-detail.hidden{ display:none; }
-.panel-content{ background:#fff; color:var(--ink); padding:20px; border-radius:12px; max-width:500px; width:90%; }
+.panel-content{ background:#fff; color:var(--ink); padding:20px; border-radius:12px; max-width:560px; width:92%; }
+.close-x{ float:right; font-size:18px; }
+.soft{ border:none; border-top:1px solid var(--edge); margin:12px 0; }
 #detailEntries{ max-height:300px; overflow-y:auto; margin-top:10px; }
+
+/* Stage & Growth Controls */
+.stage-row{ display:flex; gap:10px; align-items:center; margin:6px 0 10px; }
+.stage-badge{
+  display:inline-block; padding:6px 10px; border-radius:999px;
+  background:var(--chip); color:var(--ink); border:1px solid var(--edge); font-weight:700;
+}
+.last-touch{ font-size:12px; color:var(--muted); }
+.grow-controls{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:6px; }
+.care-pair{ display:inline-flex; gap:6px; align-items:center; font-size:14px; color:var(--muted); }
+.muted{ color:var(--muted); font-size:12px; }
