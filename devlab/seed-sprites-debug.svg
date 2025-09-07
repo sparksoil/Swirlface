@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <!-- Debug sprites: circles with numbers 0–6 -->
+  <symbol id="seed-0" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+    <text x="12" y="16" font-size="12" text-anchor="middle" fill="currentColor">0</text>
+  </symbol>
+  <symbol id="seed-1" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+    <text x="12" y="16" font-size="12" text-anchor="middle" fill="currentColor">1</text>
+  </symbol>
+  <symbol id="seed-2" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+    <text x="12" y="16" font-size="12" text-anchor="middle" fill="currentColor">2</text>
+  </symbol>
+  <symbol id="seed-3" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+    <text x="12" y="16" font-size="12" text-anchor="middle" fill="currentColor">3</text>
+  </symbol>
+  <symbol id="seed-4" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+    <text x="12" y="16" font-size="12" text-anchor="middle" fill="currentColor">4</text>
+  </symbol>
+  <symbol id="seed-5" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+    <text x="12" y="16" font-size="12" text-anchor="middle" fill="currentColor">5</text>
+  </symbol>
+  <symbol id="seed-6" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+    <text x="12" y="16" font-size="12" text-anchor="middle" fill="currentColor">6</text>
+  </symbol>
+</svg>
