@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>RV Helper — MVP Logbook (Section A)</title>
+  <title>RV Helper — Section B (Person Circles)</title>
   <link rel="stylesheet" href="./rv.css">
 </head>
 <body>
   <!-- HEADER -->
   <header class="poster">
-    <h1>🌱 RV Helper — Swirly Logbook (MVP)</h1>
-    <p class="subtitle">Spoon-safe notes first, structure later.</p>
+    <h1>🌱 RV Helper — Swirly Logbook</h1>
+    <p class="subtitle">Section B: people become circles 🌸</p>
   </header>
 
-  <!-- CONTROLS -->
   <main class="wrap">
+    <!-- ENTRY PANEL -->
     <section class="entry-panel">
       <label class="field">
         <span class="label">Person (optional)</span>
@@ -35,11 +35,10 @@
           <input id="importFile" type="file" accept=".json,.rvpack.json">
         </label>
       </div>
-
-      <p class="micro safety">Local-first save is automatic. You can also export/import anytime.</p>
+      <p class="micro safety">Local-first save is automatic. Export/import keeps your garden safe.</p>
     </section>
 
-    <!-- LIST -->
+    <!-- LIST PANEL -->
     <section class="list-panel">
       <div class="list-head">
         <h2>Latest entries</h2>
@@ -53,10 +52,25 @@
     </section>
   </main>
 
+  <!-- PERSON CIRCLES -->
+  <section class="people-zone">
+    <h2>People as Circles</h2>
+    <div id="peopleCircles" class="circles"></div>
+  </section>
+
+  <!-- PERSON DETAIL PANEL -->
+  <div id="personDetail" class="person-detail hidden">
+    <div class="panel-content">
+      <button id="closeDetail" class="ghost">× Close</button>
+      <h3 id="detailName">Name</h3>
+      <div id="detailEntries"></div>
+    </div>
+  </div>
+
   <!-- FOOT -->
   <footer class="footer">
-    <button id="devClearBtn" class="danger" title="Dev Lab only">Clear Dev Lab Data</button>
-    <small>Section A / MVP per plan. Entries saved locally, export/import ready.</small>
+    <button id="devClearBtn" class="danger">Clear Dev Lab Data</button>
+    <small>Section B now active — person circles drifting.</small>
   </footer>
 
   <script src="./verses.js"></script>
