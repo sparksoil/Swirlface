@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>RV Helper — Section B (Person Circles)</title>
+  <title>RV Helper — Section C (Growth & Care)</title>
   <link rel="stylesheet" href="./rv.css">
 </head>
 <body>
   <!-- HEADER -->
   <header class="poster">
     <h1>🌱 RV Helper — Swirly Logbook</h1>
-    <p class="subtitle">Section B: people become circles 🌸</p>
+    <p class="subtitle">Section C: Growth & Care (+0.5 care, +1 visit)</p>
   </header>
 
   <main class="wrap">
@@ -59,10 +59,32 @@
   </section>
 
   <!-- PERSON DETAIL PANEL -->
-  <div id="personDetail" class="person-detail hidden">
+  <div id="personDetail" class="person-detail hidden" aria-modal="true" role="dialog">
     <div class="panel-content">
-      <button id="closeDetail" class="ghost">× Close</button>
+      <button id="closeDetail" class="ghost close-x" aria-label="Close">×</button>
       <h3 id="detailName">Name</h3>
+
+      <!-- STAGE BADGE + LAST TOUCH -->
+      <div class="stage-row">
+        <span id="detailStage" class="stage-badge">Stage 0</span>
+        <span id="detailLastTouch" class="last-touch">—</span>
+      </div>
+
+      <!-- GROWTH & CARE CONTROLS -->
+      <div class="grow-controls">
+        <button id="btnVisit" class="primary">Visit (+1)</button>
+        <label class="care-pair">
+          <input id="chkCare" type="checkbox">
+          <span>Care (left note / text / call)</span>
+        </label>
+        <button id="btnAttempt" class="ghost">Attempt (NAH)</button>
+        <button id="btnCareOnly" class="ghost">Care only (+0.5)</button>
+      </div>
+
+      <div class="micro muted">Growth: Visit +1. Attempt + Care +0.5. Care-only +0.5. Caps at Stage 6.</div>
+
+      <hr class="soft">
+
       <div id="detailEntries"></div>
     </div>
   </div>
@@ -70,7 +92,7 @@
   <!-- FOOT -->
   <footer class="footer">
     <button id="devClearBtn" class="danger">Clear Dev Lab Data</button>
-    <small>Section B now active — person circles drifting.</small>
+    <small>Section C active — growth & care now tracked.</small>
   </footer>
 
   <script src="./verses.js"></script>
