@@ -330,12 +330,17 @@
     return `${pick.verse} — ${pick.thought}`;
   }
 
-  // Minimal seed sprite inline via <use> (requires seed-sprites.svg file)
-  function seedSvg(stageNum){
-    const s = clampStage(stageNum||0);
-    const id = Math.round(s); // 0..6
-    return `<svg viewBox="0 0 24 24" aria-hidden="true"><use href="./seed-sprites.svg#seed-${id}"></use></svg>`;
-  }
+ // Minimal seed sprite inline via <use>
+function seedSvg(stageNum){
+  const s = clampStage(stageNum||0);
+  const id = Math.round(s); // 0..6
+
+  // toggle between leafy sprites and debug-numbered sprites
+  const SPRITE_FILE = "seed-sprites.svg";          // leafy
+  // const SPRITE_FILE = "seed-sprites-debug.svg"; // numbered debug
+
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><use href="./${SPRITE_FILE}#seed-${id}"></use></svg>`;
+}
 })();
 
 // Boot flag for HTML warning
