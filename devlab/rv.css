@@ -130,7 +130,8 @@ h2{ margin:6px 0 10px; font-size:16px; }
 .circles{ display:flex; flex-wrap:wrap; gap:12px; margin-top:10px; }
 .circle{
   width:80px; height:80px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+  position:relative;
   background:var(--accent-2); color:#fff; font-weight:600;
   cursor:pointer;
   box-shadow:var(--shadow);
@@ -141,6 +142,20 @@ h2{ margin:6px 0 10px; font-size:16px; }
 .circle.age-summer{ background:#d6a33a; }
 .circle.age-fall{ background:#c3743a; }
 .circle.age-winter{ background:#6b7a8c; }
+
+/* Seed icon inside circles */
+.circle .seed-icon{
+  width:38px; height:38px; border-radius:50%;
+  background:var(--chip);
+  border:1px solid var(--edge);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.circle .seed-icon svg{ width:26px; height:26px; display:block; }
+.circle .circle-label{
+  position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+  font-size:12px; font-weight:800; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.35);
+}
 
 /* Cards View (E1) */
 .hidden{ display:none !important; }
@@ -165,6 +180,19 @@ h2{ margin:6px 0 10px; font-size:16px; }
   display:flex; align-items:center; justify-content:center; overflow:hidden;
 }
 .stage-icon svg{ width:28px; height:28px; display:block; }
+
+/* Gentle breathing for icons (respects reduced motion) */
+@media (prefers-reduced-motion: no-preference){
+  .stage-icon.pulse,
+  .circle .seed-icon.pulse{
+    animation: seedPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes seedPulse{
+    0%,100%{ transform:scale(1); filter:drop-shadow(0 0 0 rgba(255,255,255,0)); }
+    50%{ transform:scale(1.04); filter:drop-shadow(0 0 6px rgba(255,255,255,.25)); }
+  }
+}
+
 .card .name{ font-weight:800; }
 .badges{ display:flex; gap:8px; align-items:center; }
 .badge{
