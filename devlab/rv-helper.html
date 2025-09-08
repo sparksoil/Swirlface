@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>RV Helper — Section E2 (Garden Map)</title>
-  <link rel="stylesheet" href="./rv.css">
+  <link rel="stylesheet" href="./rv.css?v=rv-8">
 </head>
 <body>
   <header class="poster">
@@ -13,6 +13,7 @@
   </header>
 
   <main class="wrap">
+    <!-- ENTRY PANEL -->
     <section class="entry-panel">
       <label class="field">
         <span class="label">Person (optional)</span>
@@ -36,6 +37,7 @@
       <p class="micro safety">Local-first save is automatic. Export/import keeps your garden safe.</p>
     </section>
 
+    <!-- LIST PANEL -->
     <section class="list-panel" id="listPanel">
       <div class="list-head">
         <h2>Latest entries</h2>
@@ -49,7 +51,7 @@
     </section>
   </main>
 
-  <!-- People surfaces -->
+  <!-- PEOPLE SURFACES -->
   <section class="people-zone">
     <div class="view-switch">
       <span class="label">View:</span>
@@ -71,14 +73,77 @@
     </div>
   </section>
 
+  <!-- PERSON DETAIL MODAL -->
   <div id="personDetail" class="person-detail hidden" aria-modal="true" role="dialog">
     <div class="panel-content">
       <button id="closeDetail" class="ghost close-x" aria-label="Close">×</button>
       <h3 id="detailName">Name</h3>
+
       <div class="stage-row">
         <span id="detailStage" class="stage-badge">Stage 0</span>
         <span id="detailLastTouch" class="last-touch">—</span>
       </div>
+
+      <!-- PERCEPTION CLUSTER -->
+      <div id="perceptionCluster" class="percept">
+        <div class="percept-grid">
+          <button class="per-bubble" data-target="perc_everyday" title="Everyday details">
+            <span class="per-ico">🐾</span><span class="per-label">Everyday</span>
+          </button>
+          <button class="per-bubble" data-target="perc_spiritual" title="Spiritual thread">
+            <span class="per-ico">📖</span><span class="per-label">Spiritual</span>
+          </button>
+          <button class="per-bubble" data-target="perc_vibe" title="Atmosphere / vibe">
+            <span class="per-ico">🪟</span><span class="per-label">Vibe</span>
+          </button>
+          <button class="per-bubble" data-target="perc_next" title="Next step">
+            <span class="per-ico">🎯</span><span class="per-label">Next</span>
+          </button>
+          <button class="per-bubble" data-target="perc_quick" title="Quick note">
+            <span class="per-ico">📝</span><span class="per-label">Quick</span>
+          </button>
+        </div>
+
+        <div class="per-edit" data-field="perc_everyday">
+          <label class="field">
+            <span class="label">Everyday details</span>
+            <textarea id="perc_everyday" rows="2" placeholder="Dog Tim / yellow house / teen into TikTok…"></textarea>
+          </label>
+        </div>
+
+        <div class="per-edit" data-field="perc_spiritual">
+          <label class="field">
+            <span class="label">Spiritual thread</span>
+            <textarea id="perc_spiritual" rows="2" placeholder="Shared Psalm 34:18 / asked about forgiveness…"></textarea>
+          </label>
+          <div class="actions">
+            <button id="perSpiritualSprinkle" class="ghost">Insert ✨ from pool</button>
+          </div>
+        </div>
+
+        <div class="per-edit" data-field="perc_vibe">
+          <label class="field">
+            <span class="label">Atmosphere / vibe</span>
+            <textarea id="perc_vibe" rows="2" placeholder="Warm but distracted by kids / didn’t open door fully…"></textarea>
+          </label>
+        </div>
+
+        <div class="per-edit" data-field="perc_next">
+          <label class="field">
+            <span class="label">Next step thought</span>
+            <input id="perc_next" type="text" placeholder="Bring Jonah / drop Psalm 37 / ask about mom…">
+          </label>
+        </div>
+
+        <div class="per-edit" data-field="perc_quick">
+          <label class="field">
+            <span class="label">Quick note</span>
+            <textarea id="perc_quick" rows="2" placeholder="Anything else small + concrete…"></textarea>
+          </label>
+        </div>
+      </div>
+      <!-- /PERCEPTION CLUSTER -->
+
       <div class="grow-controls">
         <button id="btnVisit" class="primary">Visit (+1)</button>
         <label class="care-pair">
@@ -88,6 +153,17 @@
         <button id="btnAttempt" class="ghost">Attempt (NAH)</button>
         <button id="btnCareOnly" class="ghost">Care only (+0.5)</button>
       </div>
+
+      <!-- action-level details for this Visit/Attempt/Care -->
+      <label class="field action-note">
+        <span class="label">Visit details (optional)</span>
+        <textarea id="actionNote" rows="4" placeholder="What happened, scripture shared, next step…"></textarea>
+      </label>
+      <div class="actions">
+        <button id="detailSprinkle" class="ghost">Sprinkle ✨</button>
+        <span class="micro muted">This text saves with the Visit/Attempt/Care you press.</span>
+      </div>
+
       <hr class="soft">
       <div id="detailEntries"></div>
     </div>
@@ -99,16 +175,13 @@
   </footer>
 
   <!-- JS (cache-bust helps iOS) -->
-<script src="./verses.js?v=rv-7"></script>
-<script src="./rv.js?v=rv-7"></script>
+  <script src="./verses.js?v=rv-8"></script>
+  <script src="./rv.js?v=rv-8"></script>
 
   <!-- Safe boot warning (shows first JS error if any) -->
   <script>
     window.__RV_ERROR = null;
-    window.addEventListener('error', function(e){
-      window.__RV_ERROR = e.message;
-    });
-
+    window.addEventListener('error', function(e){ window.__RV_ERROR = e.message; });
     setTimeout(function(){
       if(!window.__RV_BOOTED){
         var warn = document.createElement('div');
