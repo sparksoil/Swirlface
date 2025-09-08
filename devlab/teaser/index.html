@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RV Helper — A Memory Garden for Ministry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts & Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="wrap">
+
+    <!-- HEADER -->
+    <header>
+      <h1>🌱 RV Helper</h1>
+      <p class="tagline">A memory garden for ministry.</p>
+    </header>
+
+    <!-- HEADLINE -->
+    <section class="hero">
+      <h2>What if your return visit notes grew like seeds instead of spreadsheets?</h2>
+      <p class="sub">Built for sacred noticing, not performance. Just glimmers, scriptures, crumbs, and care.</p>
+    </section>
+
+    <!-- SPRINKLE DEMO -->
+    <section class="sprinkle-demo">
+      <button id="sprinkleBtn">✨ Sprinkle Me</button>
+      <div id="sprinkleResult">Click the button for a gentle scripture nudge…</div>
+    </section>
+
+    <!-- FEATURE BUBBLES -->
+    <section class="features">
+      <h3>✨ Gentle Highlights</h3>
+      <ul class="bubble-grid">
+        <li>🪴 Garden Map Mode</li>
+        <li>🪄 Sprinkle Button</li>
+        <li>👣 Shoeday Mode</li>
+        <li>🎨 Mood-Based Themes</li>
+        <li>🔍 Smart Search</li>
+        <li>📝 Crumb Catch Logs</li>
+      </ul>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>Built with love by Brookie 🌱 · Powered by Glimmers & Jehovah’s care</p>
+    </footer>
+
+  </div>
+
+  <script>
+    const verses = [
+      "Jehovah is near to the brokenhearted. – Psalm 34:18",
+      "Do not be afraid, for I am with you. – Isaiah 41:10",
+      "Throw your burden on Jehovah, and he will sustain you. – Psalm 55:22",
+      "He will not forget your work and the love you showed. – Hebrews 6:10",
+      "Happy are the peacemakers. – Matthew 5:9",
+      "Keep your eyes on the things unseen. – 2 Corinthians 4:18"
+    ];
+
+    document.getElementById("sprinkleBtn").addEventListener("click", () => {
+      const random = verses[Math.floor(Math.random() * verses.length)];
+      document.getElementById("sprinkleResult").textContent = "🌿 " + random;
+    });
+  </script>
+
+</body>
+</html>
