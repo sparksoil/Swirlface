@@ -1,6 +1,27 @@
 /* RV Helper — Safe Boot Harness + Section E2 (Cards + Garden Map + seasonal tints) */
 (function(){
   try {
+    // ---------- SPRITE BANK (iOS-safe inline fallback) ----------
+    let __SPRITES_INLINED = false;
+    async function ensureSpritesInlined(){
+      if (__SPRITES_INLINED) return;
+      try{
+        const res = await fetch("./seed-sprites.svg?v=rv-7", { cache:"no-store" });
+        const svgText = await res.text();
+        const holder = document.createElement("div");
+        holder.id = "__RV_SPRITES_BANK__";
+        holder.style.display = "none";
+        holder.innerHTML = svgText; // contains <svg> with <symbol id="seed-0..6">
+        document.body.prepend(holder);
+        __SPRITES_INLINED = true;
+      }catch(err){
+        console.warn("Sprite inline failed:", err);
+      }
+    }
+    // fire-and-forget (script is at end of <body>, so body exists)
+    ensureSpritesInlined();
+
+    // ---------- KEYS / LOAD ----------
     const KEY='rvhelper.v1.entries';
     const KEY_PEOPLE='rvhelper.v1.people';
 
@@ -18,12 +39,12 @@
     });
     if(migrated) save(KEY_PEOPLE,people);
 
-    // DOM
+    // ---------- DOM ----------
     const personInput=qs('#personInput'), noteInput=qs('#noteInput');
     const saveBtn=qs('#saveBtn'), sprinkleBtn=qs('#sprinkleBtn'), exportBtn=qs('#exportBtn');
     const importFile=qs('#importFile'), entriesList=qs('#entriesList'), devClearBtn=qs('#devClearBtn');
 
-    // SCOPE filter chips to the list panel only (avoid grabbing view chips)
+    // SCOPE list filters to the list panel (avoid hitting the View chips)
     const filterChips=qsa('#listPanel .chip');
     const circlesBox=qs('#peopleCircles');
 
@@ -53,7 +74,7 @@
     renderList(); renderCircles(); renderCards();
     syncView();
 
-    // Events
+    // ---------- EVENTS ----------
     saveBtn?.addEventListener('click',onSave);
     sprinkleBtn?.addEventListener('click',onSprinkle);
     exportBtn?.addEventListener('click',onExport);
@@ -97,7 +118,7 @@
       if(currentView==='map'){ startMap(); } else { stopMap(); }
     }
 
-    // --- Actions ---
+    // ---------- ACTIONS ----------
     function onSave(){
       const person=personInput.value.trim();
       const note=noteInput.value.trim();
@@ -202,7 +223,7 @@
       }
     }
 
-    // --- Renderers ---
+    // ---------- RENDERERS ----------
     function renderList(){
       const now=Date.now();
       let list=entries.slice();
@@ -293,7 +314,7 @@
       detailBox.classList.remove('hidden');
     }
 
-    // --- Garden Map (E2) ---
+    // ---------- GARDEN MAP (E2) ----------
     function startMap(){
       sizeCanvas();
       stopMap(); // avoid double RAF
@@ -356,7 +377,7 @@
       if(hit) openDetail(hit.id);
     }
 
-    // --- Helpers ---
+    // ---------- HELPERS ----------
     function qs(s,el=document){return el.querySelector(s);}
     function qsa(s,el=document){return[...el.querySelectorAll(s)];}
     function nid(p){return p+Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4);}
@@ -413,29 +434,23 @@
       return `${pick.verse} — ${pick.thought}`;
     }
 
-    // Minimal seed sprite inline via <use>
+    // Minimal seed sprite via <use> — prefers inline bank, falls back to external + cache-bust
     function seedSvg(stageNum){
-      const s = clampStage(stageNum||0);
-      const id = Math.round(s); // 0..6
-
-      // toggle between leafy sprites and debug-numbered sprites
-      const SPRITE_FILE = "seed-sprites.svg";          // leafy
-      // const SPRITE_FILE = "seed-sprites-debug.svg"; // numbered debug
-
-      // include both href and xlink:href for iOS Safari harmony
+      const id = Math.round(clampStage(stageNum||0)); // 0..6
+      const bank = document.getElementById('__RV_SPRITES_BANK__');
+      const href = bank ? `#seed-${id}` : `./seed-sprites.svg?v=rv-7#seed-${id}`;
       return `<svg viewBox="0 0 24 24" aria-hidden="true">
-        <use href="./${SPRITE_FILE}#seed-${id}" xlink:href="./${SPRITE_FILE}#seed-${id}"></use>
+        <use href="${href}" xlink:href="${href}"></use>
       </svg>`;
     }
 
-    // --- string helpers we were missing ---
+    // string helpers
     function escapeHtml(s){
       return String(s)
         .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
         .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
     function linkify(s){
-      // simple URL -> link
       return s.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
     }
 
