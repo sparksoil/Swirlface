@@ -247,11 +247,20 @@
         `<li class="entry"><div class="note">No entries yet. Drop a crumb and press <b>Save Entry</b>.</div></li>`;
     }
 
+    // === REPLACED: circles now show sprite + letter ===
     function renderCircles(){
       const now = Date.now();
       circlesBox.innerHTML = people.map(p=>{
         const age = now - (p.last_touch||now);
-        return `<div class="circle ${ageClassName(age)}" data-id="${p.id}" title="${escapeHtml(p.name)}">${escapeHtml(p.name[0]||'?')}</div>`;
+        const stage = clampStage(p.stage||0);
+        const classes = ageClassName(age);
+        const letter = (p.name||'?').charAt(0);
+        return `
+          <div class="circle ${classes}" data-id="${p.id}" title="${escapeHtml(p.name)}">
+            <div class="seed-icon pulse" aria-hidden="true">${seedSvg(stage)}</div>
+            <span class="circle-label">${escapeHtml(letter)}</span>
+          </div>
+        `;
       }).join('');
       qsa('.circle',circlesBox).forEach(c=>c.addEventListener('click',()=>openDetail(c.dataset.id)));
     }
@@ -269,7 +278,7 @@
         return `
           <article class="card">
             <div class="row-top">
-              <div class="stage-icon" aria-hidden="true">${seedSvg(stage)}</div>
+              <div class="stage-icon pulse" aria-hidden="true">${seedSvg(stage)}</div>
               <div>
                 <div class="name">${escapeHtml(p.name)}</div>
                 <div class="badges">
@@ -346,22 +355,52 @@
 
       lastPositions = [];
 
+      // --- Circle positions & glow render ---
       people.forEach((p,i)=>{
         const angle = (i/count)*TWO_PI + drift;
         const x = cx + radius*Math.cos(angle);
         const y = cy + radius*Math.sin(angle);
 
-        // node circle
-        ctx.beginPath();
-        ctx.arc(x,y,R_NODE,0,TWO_PI);
-        ctx.fillStyle = ['#3c8a3c','#d6a33a','#c3743a','#6b7a8c'][ageBucket(now-(p.last_touch||now))];
-        ctx.fill();
+        // Pulse for gentle breathing
+        const t = performance.now() / 1000;
+        const pulse = 0.6 + 0.4 * Math.sin(t * 1.2 + (p.id ? p.id.length * 0.37 : 0));
 
-        // initial letter
+        // Color from seasonal age
+        const fill = ['#3c8a3c','#d6a33a','#c3743a','#6b7a8c'][ageBucket(now-(p.last_touch||now))];
+
+        // Outer glow
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y, R_NODE + 8, 0, TWO_PI);
+        ctx.fillStyle = `rgba(255,255,255,${0.10 * pulse})`;
+        ctx.fill();
+        ctx.restore();
+
+        // Core node
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y, R_NODE, 0, TWO_PI);
+        ctx.fillStyle = fill;
+        ctx.shadowColor = 'rgba(255,255,255,0.35)';
+        ctx.shadowBlur = 8 * pulse;
+        ctx.fill();
+        ctx.restore();
+
+        // Tiny highlight
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x - R_NODE * 0.30, y - R_NODE * 0.30, R_NODE * 0.35, 0, TWO_PI);
+        ctx.fillStyle = 'rgba(255,255,255,0.18)';
+        ctx.fill();
+        ctx.restore();
+
+        // Initial letter (on top)
+        ctx.save();
         ctx.fillStyle='#fff';
         ctx.font='bold 14px ui-sans-serif, system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial';
         ctx.textAlign='center'; ctx.textBaseline='middle';
         ctx.fillText((p.name||'?').charAt(0), x, y);
+        ctx.restore();
 
         lastPositions.push({ id:p.id, x, y, r:R_NODE });
       });
