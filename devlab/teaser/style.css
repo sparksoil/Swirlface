@@ -1,0 +1,101 @@
+:root {
+  --bg: #fcf8f3;
+  --card: #ffffff;
+  --ink: #2f2f2f;
+  --glow: #b7e4c7;
+  --round: 16px;
+  --font: 'Inter', sans-serif;
+  --hand: 'Patrick Hand', cursive;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+header h1 {
+  font-family: var(--hand);
+  font-size: 2.5rem;
+  margin-bottom: 0.2rem;
+}
+
+header .tagline {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.hero h2 {
+  font-size: 1.6rem;
+  margin-top: 0;
+  color: #333;
+}
+
+.hero .sub {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.sprinkle-demo {
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: var(--round);
+  box-shadow: 0 0 0.5rem rgba(183, 228, 199, 0.6);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+#sprinkleBtn {
+  background: var(--glow);
+  border: none;
+  border-radius: var(--round);
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  font-family: var(--hand);
+  cursor: pointer;
+}
+
+#sprinkleResult {
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.features h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.bubble-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.bubble-grid li {
+  background: var(--card);
+  border-radius: var(--round);
+  padding: 0.6rem 1rem;
+  box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+}
+
+footer {
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  color: #777;
+  text-align: center;
+}
