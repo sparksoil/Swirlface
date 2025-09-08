@@ -98,17 +98,28 @@
     <small>Section E2 active — Garden Map view is live.</small>
   </footer>
 
+  <!-- JS (cache-bust helps iOS) -->
   <script src="./verses.js?v=rv-3"></script>
   <script src="./rv.js?v=rv-3"></script>
+
+  <!-- Safe boot warning (shows first JS error if any) -->
   <script>
+    window.__RV_ERROR = null;
+    window.addEventListener('error', function(e){
+      window.__RV_ERROR = e.message;
+    });
+
     setTimeout(function(){
       if(!window.__RV_BOOTED){
-        var warn=document.createElement('div');
-        warn.style.cssText='position:fixed;left:0;right:0;bottom:0;padding:10px 14px;background:#8b2b2b;color:#fff;font-weight:700;z-index:9999';
-        warn.textContent='RV Helper: scripts did not load.';
+        var warn = document.createElement('div');
+        warn.style.cssText = 'position:fixed;left:0;right:0;bottom:0;padding:10px 14px;background:#8b2b2b;color:#fff;font-weight:700;z-index:9999';
+        var msg = 'RV Helper: scripts did not load.';
+        if (window.__RV_ERROR) msg += ' (' + window.__RV_ERROR + ')';
+        warn.textContent = msg + ' Tap to retry.';
+        warn.onclick = function(){ location.reload(true); };
         document.body.appendChild(warn);
       }
-    },400);
+    }, 400);
   </script>
 </body>
 </html>
