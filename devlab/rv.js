@@ -22,7 +22,10 @@
     const personInput=qs('#personInput'), noteInput=qs('#noteInput');
     const saveBtn=qs('#saveBtn'), sprinkleBtn=qs('#sprinkleBtn'), exportBtn=qs('#exportBtn');
     const importFile=qs('#importFile'), entriesList=qs('#entriesList'), devClearBtn=qs('#devClearBtn');
-    const filterChips=qsa('.chip'), circlesBox=qs('#peopleCircles');
+
+    // SCOPE filter chips to the list panel only (avoid grabbing view chips)
+    const filterChips=qsa('#listPanel .chip');
+    const circlesBox=qs('#peopleCircles');
 
     const listPanel=qs('#listPanel');
     const cardsGrid=qs('#cardsGrid');
@@ -56,11 +59,13 @@
     exportBtn?.addEventListener('click',onExport);
     importFile?.addEventListener('change',onImport);
     devClearBtn?.addEventListener('click',onDevClear);
+
     closeDetail?.addEventListener('click',()=>detailBox.classList.add('hidden'));
+
     filterChips.forEach(chip=>chip.addEventListener('click',()=>{
       filterChips.forEach(c=>c.classList.remove('is-active'));
       chip.classList.add('is-active');
-      currentFilter=chip.dataset.filter;
+      currentFilter=chip.dataset.filter || 'all';
       renderList();
     }));
 
@@ -320,10 +325,6 @@
 
       lastPositions = [];
 
-      // draw links (optional soft lines)
-      // ctx.strokeStyle='rgba(0,0,0,0.06)';
-      // ctx.lineWidth=1;
-
       people.forEach((p,i)=>{
         const angle = (i/count)*TWO_PI + drift;
         const x = cx + radius*Math.cos(angle);
@@ -421,7 +422,21 @@
       const SPRITE_FILE = "seed-sprites.svg";          // leafy
       // const SPRITE_FILE = "seed-sprites-debug.svg"; // numbered debug
 
-      return `<svg viewBox="0 0 24 24" aria-hidden="true"><use href="./${SPRITE_FILE}#seed-${id}"></use></svg>`;
+      // include both href and xlink:href for iOS Safari harmony
+      return `<svg viewBox="0 0 24 24" aria-hidden="true">
+        <use href="./${SPRITE_FILE}#seed-${id}" xlink:href="./${SPRITE_FILE}#seed-${id}"></use>
+      </svg>`;
+    }
+
+    // --- string helpers we were missing ---
+    function escapeHtml(s){
+      return String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+    function linkify(s){
+      // simple URL -> link
+      return s.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
     }
 
     // Boot flag for HTML warning
