@@ -17,7 +17,6 @@ body {
   display: block;
 }
 
-/* ✨ Seed Styles */
 .seed {
   position: absolute;
   width: 22px;
@@ -25,10 +24,7 @@ body {
   border-radius: 50%;
   opacity: 0.75;
   animation: pulse 2.5s infinite ease-in-out;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.3),
-              0 0 10px currentColor,
-              0 0 18px currentColor;
-  mix-blend-mode: screen;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
 }
 
 @keyframes pulse {
@@ -42,7 +38,6 @@ body {
   }
 }
 
-/* 🌿 Headline Modal */
 .headline {
   position: absolute;
   bottom: 8%;
@@ -65,27 +60,4 @@ body {
   margin-top: 0.4em;
   font-size: 1em;
   color: #666;
-}
-
-.buttons {
-  margin-top: 1em;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-button {
-  background: #67a981;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 10px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-button:hover {
-  background: #7fb58b;
 }
