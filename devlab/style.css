@@ -1,0 +1,118 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #fffaf0;
+  font-family: 'ui-sans-serif', system-ui;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
+.globe {
+  width: 100%;
+  display: block;
+}
+
+.seed {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  opacity: 0.75;
+  animation: pulse 2.5s infinite ease-in-out;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+}
+
+.headline {
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  right: 5%;
+  transform: translateY(45%);
+  background: rgba(255,255,255,0.75);
+  padding: 1em;
+  border-radius: 12px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.headline h1 {
+  margin: 0;
+  font-size: 1.8em;
+  color: #444;
+}
+
+.headline p {
+  margin-top: 0.4em;
+  font-size: 1em;
+  color: #666;
+}
+
+.lowered {
+  top: auto;
+  bottom: 5%;
+  transform: translateY(20%);
+}
+
+/* Optional: button style if needed */
+.buttons {
+  margin-top: 1em;
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+}
+
+button {
+  padding: 0.6em 1.2em;
+  border: none;
+  border-radius: 12px;
+  font-size: 1em;
+  cursor: pointer;
+  background: #f4f4ff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background: #e0f0ff;
+}
+
+
+/* 💫 NEW: Updated headline position + animation */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0%);
+  }
+}
+
+.headline {
+  top: 78%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, 0%);
+  max-width: 90%;
+  animation: fadeInUp 1.2s ease-out forwards;
+}
