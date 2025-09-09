@@ -4,48 +4,195 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Garden Map Mode</title>
-  <link rel="stylesheet" href="style.css"/>
+  <style>
+    :root {
+      --bg: #fdf9f1;
+      --box: #ffffffcc;
+      --text: #222;
+      --soft: #444;
+      --accent: #99c998;
+      --font: 'Segoe UI', sans-serif;
+      --seed-pink: #f8c7de;
+      --seed-yellow: #f9f2a0;
+      --seed-blue: #c5ecf8;
+      --seed-purple: #dbc9f3;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    .hero {
+      background: url('https://raw.githubusercontent.com/sparksoil/World/main/assets/globe-gold.jpg') center/cover no-repeat;
+      height: 60vh;
+      position: relative;
+    }
+
+    .seed-dot {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .dot1 { background: var(--seed-pink); top: 30%; left: 20%; animation-delay: 0s; }
+    .dot2 { background: var(--seed-yellow); top: 40%; left: 60%; animation-delay: 2s; }
+    .dot3 { background: var(--seed-blue); top: 50%; left: 30%; animation-delay: 4s; }
+    .dot4 { background: var(--seed-purple); top: 35%; left: 75%; animation-delay: 3s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .content {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: var(--bg);
+    }
+
+    .card {
+      background: var(--box);
+      display: inline-block;
+      padding: 1.5rem 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px #0000001a;
+      max-width: 600px;
+      margin-top: -80px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin: 0 0 0.5rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: var(--soft);
+      margin: 0 0 1rem;
+    }
+
+    .button-row {
+      margin-top: 1.25rem;
+    }
+
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7rem 1.4rem;
+      margin: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #81b881;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #00000066;
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 400px;
+      box-shadow: 0 12px 24px #00000033;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      font-size: 1.4rem;
+    }
+
+    .modal-content textarea {
+      width: 100%;
+      min-height: 80px;
+      margin-top: 1rem;
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+    }
+
+    .modal-content .actions {
+      margin-top: 1rem;
+      text-align: right;
+    }
+
+    .modal-content .actions button {
+      background: var(--accent);
+    }
+
+    .close-btn {
+      background: transparent;
+      color: #999;
+      font-size: 1.2rem;
+      border: none;
+      float: right;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #333;
+    }
+  </style>
 </head>
 <body>
-  <div class="hero">
-    <img src="globe1.PNG" alt="Garden Earth" class="bg-image" />
 
-    <div class="intro-card">
-      <h1>🌿 Garden Map Mode</h1>
-      <p>Where every seed you plant becomes part<br />of a living map of care.</p>
-      <div class="buttons">
-        <button onclick="enterMap()">🌍 Enter the Map</button>
-        <button onclick="openModal()">🌱 Drop a Crumb</button>
+  <div class="hero">
+    <div class="seed-dot dot1"></div>
+    <div class="seed-dot dot2"></div>
+    <div class="seed-dot dot3"></div>
+    <div class="seed-dot dot4"></div>
+  </div>
+
+  <div class="content">
+    <div class="card">
+      <h1>🌱 Garden Map Mode</h1>
+      <p>Where every seed you plant becomes part of a living map of care.</p>
+      <div class="button-row">
+        <button onclick="alert('Entering Map...')">Enter the Map</button>
+        <button onclick="openModal()">Drop a Crumb</button>
       </div>
     </div>
+  </div>
 
-    <div id="crumbModal" class="modal hidden">
-      <div class="modal-content">
-        <h2>🌱 Drop a Crumb</h2>
-        <textarea placeholder="Saw Laura on 2nd Street with her dog. She said she’d be home around 3."></textarea>
-        <div class="tag-grid">
-          <p>🏡 Linked Seed: <strong>Laura</strong></p>
-          <p>📍 Location: <strong>2nd Street</strong></p>
-          <p>⏰ Time: <strong>~3:00 PM</strong></p>
-          <p>🐶 Cue: <strong>Has a dog</strong></p>
-        </div>
-        <div class="modal-buttons">
-          <button class="add">Add Crumb</button>
-          <button onclick="closeModal()">Cancel</button>
-        </div>
+  <div class="modal" id="crumbModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">✖</button>
+      <h2>🪴 Drop a Crumb</h2>
+      <textarea placeholder="Saw Laura on 2nd Street with her dog. She said she’d be home this afternoon around 3."></textarea>
+      <div class="actions">
+        <button onclick="alert('Crumb dropped!')">Add Crumb</button>
       </div>
     </div>
   </div>
 
   <script>
     function openModal() {
-      document.getElementById("crumbModal").classList.remove("hidden");
+      document.getElementById('crumbModal').style.display = 'flex';
     }
     function closeModal() {
-      document.getElementById("crumbModal").classList.add("hidden");
-    }
-    function enterMap() {
-      alert("Entering the map (future redirect here)");
+      document.getElementById('crumbModal').style.display = 'none';
     }
   </script>
 </body>
