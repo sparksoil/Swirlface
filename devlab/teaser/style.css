@@ -1,120 +1,91 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #fdfaf2;
-  color: #333;
+  padding: 0;
+  background: #fffaf0;
+  font-family: 'ui-sans-serif', system-ui;
 }
 
-.hero {
+.container {
   position: relative;
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  max-width: 800px;
+  margin: auto;
 }
 
-.bg-image {
+.globe {
   width: 100%;
-  height: auto;
+  display: block;
+}
+
+/* ✨ Seed Styles */
+.seed {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  opacity: 0.75;
+  animation: pulse 2.5s infinite ease-in-out;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.3),
+              0 0 10px currentColor,
+              0 0 18px currentColor;
+  mix-blend-mode: screen;
 }
 
-.intro-card {
-  position: relative;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.8);
-  margin: 5% auto 0;
-  padding: 1.5rem 2rem;
-  border-radius: 18px;
-  max-width: 320px;
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+}
+
+/* 🌿 Headline Modal */
+.headline {
+  position: absolute;
+  bottom: 8%;
+  left: 5%;
+  right: 5%;
+  background: rgba(255,255,255,0.75);
+  padding: 1em;
+  border-radius: 12px;
   text-align: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  backdrop-filter: blur(6px);
 }
 
-.intro-card h1 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+.headline h1 {
+  margin: 0;
+  font-size: 1.8em;
+  color: #444;
+}
+
+.headline p {
+  margin-top: 0.4em;
+  font-size: 1em;
+  color: #666;
 }
 
 .buttons {
-  margin-top: 1.2rem;
+  margin-top: 1em;
   display: flex;
-  gap: 1rem;
   justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 button {
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  background: #67a981;
+  color: white;
   border: none;
-  border-radius: 8px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: 0.2s ease;
-  background-color: #fffae2;
-  color: #333;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  transition: background 0.2s ease;
 }
 
 button:hover {
-  background-color: #f1eacc;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(248,245,238,0.85);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-}
-
-.modal.hidden {
-  display: none;
-}
-
-.modal-content {
-  background: #fffef9;
-  padding: 2rem;
-  border-radius: 16px;
-  max-width: 360px;
-  width: 90%;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-}
-
-.modal-content h2 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-}
-
-textarea {
-  width: 100%;
-  height: 80px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 0.75rem;
-  font-size: 0.95rem;
-  resize: none;
-  margin-bottom: 1rem;
-}
-
-.tag-grid p {
-  font-size: 0.9rem;
-  margin: 0.3rem 0;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
-
-.modal-buttons .add {
-  background-color: #d4f5d4;
-  color: #114411;
+  background: #7fb58b;
 }
