@@ -38,37 +38,37 @@
       position: relative;
     }
 
-    /* ───── Floating Seeds ───── */
+    /* ───── Floating Dreamy Seeds ───── */
     .seed {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  opacity: 0.9;
-  animation: dreamyPulse 2.8s ease-in-out infinite;
-  box-shadow:
-    0 0 4px rgba(255, 255, 255, 0.3),
-    0 0 8px currentColor,
-    0 0 16px currentColor;
-  mix-blend-mode: screen; /* optional for glow blending */
-}
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      opacity: 0.9;
+      animation: dreamyPulse 2.8s ease-in-out infinite;
+      box-shadow:
+        0 0 4px rgba(255, 255, 255, 0.3),
+        0 0 8px currentColor,
+        0 0 16px currentColor;
+      mix-blend-mode: screen;
+    }
 
-@keyframes dreamyPulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow:
-      0 0 6px rgba(255, 255, 255, 0.25),
-      0 0 10px currentColor,
-      0 0 18px currentColor;
-  }
-  50% {
-    transform: scale(1.4);
-    box-shadow:
-      0 0 12px rgba(255, 255, 255, 0.4),
-      0 0 18px currentColor,
-      0 0 28px currentColor;
-  }
-}
+    @keyframes dreamyPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow:
+          0 0 6px rgba(255, 255, 255, 0.25),
+          0 0 10px currentColor,
+          0 0 18px currentColor;
+      }
+      50% {
+        transform: scale(1.4);
+        box-shadow:
+          0 0 12px rgba(255, 255, 255, 0.4),
+          0 0 18px currentColor,
+          0 0 28px currentColor;
+      }
+    }
 
     /* ───── Modal Box ───── */
     .modal {
@@ -121,10 +121,11 @@
 
 <body>
   <div class="globe-container">
-    <div class="seed"></div>
-    <div class="seed"></div>
-    <div class="seed"></div>
-    <div class="seed"></div>
+    <!-- Glowy Seeds (use gentle placement for balance) -->
+    <div class="seed" style="top: 28%; left: 22%; background: var(--glow-pink);"></div>
+    <div class="seed" style="top: 18%; left: 50%; background: var(--glow-yellow);"></div>
+    <div class="seed" style="top: 40%; left: 65%; background: var(--glow-lavender);"></div>
+    <div class="seed" style="top: 50%; left: 35%; background: var(--glow-mint);"></div>
   </div>
 
   <div class="modal">
