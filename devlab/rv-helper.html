@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>RV Helper — Section E2 (Garden Map)</title>
   <link rel="stylesheet" href="./rv.css?v=rv-8">
+  <style>
+  #mapArea {
+    background-image: url('map1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+    min-height: 320px; /* adjust if needed for visibility */
+    position: relative;
+    overflow: hidden;
+  }
+
+  #mapCanvas {
+    background: transparent; /* allow image to show through */
+    z-index: 2;
+    position: relative;
+  }
+</style>
 </head>
 <body>
   <header class="poster">
