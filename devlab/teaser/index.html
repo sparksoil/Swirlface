@@ -3,138 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Garden Map Mode</title>
-
-  <style>
-    :root {
-      --accent: #67a981;
-      --glass: rgba(255, 255, 255, 0.6);
-      --ink: #222;
-      --bg: #fcf7ed;
-
-      /* Glowy Seed Colors */
-      --glow-pink: #ffb3d9;
-      --glow-yellow: #ffe9a7;
-      --glow-lavender: #d8c9ff;
-      --glow-mint: #baf8e2;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background: var(--bg);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--ink);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* ───── Globe Image Container ───── */
-    .globe-container {
-      width: 100%;
-      height: 65vh;
-      background: url("globe1.PNG") center/contain no-repeat;
-      position: relative;
-    }
-
-    /* ───── Floating Dreamy Seeds ───── */
-    .seed {
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      opacity: 0.9;
-      animation: dreamyPulse 2.8s ease-in-out infinite;
-      box-shadow:
-        0 0 4px rgba(255, 255, 255, 0.3),
-        0 0 8px currentColor,
-        0 0 16px currentColor;
-      mix-blend-mode: screen;
-    }
-
-    @keyframes dreamyPulse {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow:
-          0 0 6px rgba(255, 255, 255, 0.25),
-          0 0 10px currentColor,
-          0 0 18px currentColor;
-      }
-      50% {
-        transform: scale(1.4);
-        box-shadow:
-          0 0 12px rgba(255, 255, 255, 0.4),
-          0 0 18px currentColor,
-          0 0 28px currentColor;
-      }
-    }
-
-    /* ───── Modal Box ───── */
-    .modal {
-      margin-top: -40px;
-      background: var(--glass);
-      border-radius: 16px;
-      padding: 24px;
-      width: 90%;
-      max-width: 420px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(8px);
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 1.6rem;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 1rem;
-      color: #333;
-      margin-top: 0;
-    }
-
-    .buttons {
-      margin-top: 18px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    button:hover {
-      background: #7fb58b;
-    }
-  </style>
+  <title>Garden Map Mode – Teaser</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div class="globe-container">
-    <!-- Glowy Seeds (use gentle placement for balance) -->
-    <div class="seed" style="top: 28%; left: 22%; background: var(--glow-pink);"></div>
-    <div class="seed" style="top: 18%; left: 50%; background: var(--glow-yellow);"></div>
-    <div class="seed" style="top: 40%; left: 65%; background: var(--glow-lavender);"></div>
-    <div class="seed" style="top: 50%; left: 35%; background: var(--glow-mint);"></div>
-  </div>
 
-  <div class="modal">
-    <h1>🌿 Garden Map Mode</h1>
-    <p>Where every seed you plant becomes part<br>of a living map of care.</p>
-    <div class="buttons">
-      <button onclick="alert('Map opens 🌍')">🗺 Enter the Map</button>
-      <button onclick="alert('Crumb dropper opens 📝')">🌱 Drop a Crumb</button>
+  <div class="container">
+    <img src="globe1.PNG" alt="Garden Map Earth" class="globe" />
+    
+    <!-- 🌱 Seed Circles -->
+    <div class="seed" style="top: 35%; left: 38%; background: #FEC7D7;"></div> <!-- soft pink -->
+    <div class="seed" style="top: 45%; left: 55%; background: #FFECA8;"></div> <!-- soft yellow -->
+    <div class="seed" style="top: 60%; left: 42%; background: #D1F4B4;"></div> <!-- pale green -->
+    <div class="seed" style="top: 48%; left: 62%; background: #BEEAF2;"></div> <!-- gentle blue -->
+    <div class="seed" style="top: 52%; left: 48%; background: #E8D6F8;"></div> <!-- lav purple -->
+
+    <!-- ✨ Modal / Headline Box -->
+    <div class="headline">
+      <h1>🌱 Garden Map Mode</h1>
+      <p>Where every seed you plant becomes part of a living map of care.</p>
+      <div class="buttons">
+        <button onclick="alert('Map opens 🌍')">🗺 Enter the Map</button>
+        <button onclick="alert('Crumb dropper opens 📝')">🌱 Drop a Crumb</button>
+      </div>
     </div>
   </div>
+
 </body>
 </html>
