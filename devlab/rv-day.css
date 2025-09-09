@@ -95,3 +95,82 @@ button.ghost {
     transform: translateY(0);
   }
 }
+/* ---- ENTRY LIST STYLE UPGRADE ---- */
+
+/* Padding and spacing for whole panel */
+#listPanel {
+  padding: 16px;
+  background: #fefdfc; /* soft warm white */
+}
+
+/* Each entry block */
+.entry {
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: inset 0 -1px #eae7e2;
+  transition: background 0.3s, box-shadow 0.3s;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Age-based soft tints */
+.entry.age-fresh   { background: #f6fff6; }
+.entry.age-summer  { background: #fffbe6; }
+.entry.age-fall    { background: #fff3eb; }
+.entry.age-winter  { background: #f0f4f9; }
+
+/* Hover effect */
+.entry:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+/* Row 1: Name + type + time */
+.entry .row1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+/* Name + badge */
+.entry .who {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Badge styling for type */
+.entry em {
+  font-style: normal;
+  background: #e7e7e7;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 12px;
+  color: #555;
+  line-height: 1;
+}
+
+/* Age timestamp */
+.entry .age {
+  font-size: 12px;
+  color: #999;
+}
+
+/* Note text */
+.entry .note {
+  font-size: 13px;
+  white-space: pre-wrap;
+  color: #444;
+}
+
+/* Optional seed icon (you’ll need to render this in JS or HTML) */
+.entry .seed-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  vertical-align: middle;
+  display: inline-block;
+}
