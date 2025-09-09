@@ -50,7 +50,6 @@ body {
   text-align: center;
   backdrop-filter: blur(6px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-
 }
 
 .headline h1 {
@@ -64,6 +63,7 @@ body {
   font-size: 1em;
   color: #666;
 }
+
 .lowered {
   top: auto;
   bottom: 5%;
@@ -91,4 +91,28 @@ button {
 
 button:hover {
   background: #e0f0ff;
+}
+
+
+/* 💫 NEW: Updated headline position + animation */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0%);
+  }
+}
+
+.headline {
+  top: 78%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, 0%);
+  max-width: 90%;
+  animation: fadeInUp 1.2s ease-out forwards;
 }
