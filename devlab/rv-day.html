@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Today's Ministry Day</title>
+  <link rel="stylesheet" href="palette.css" />
+  <link rel="stylesheet" href="base.css" />
+  <link rel="stylesheet" href="rv-day.css" />
+</head>
+<body>
+  <main class="day-screen">
+    <header>
+      <h1>🌿 Today’s Ministry Day</h1>
+      <p id="todayDate"></p>
+    </header>
+
+    <section class="fields">
+      <label>
+        <span>Where are you beginning?</span>
+        <input id="locationInput" type="text" placeholder="e.g., 2nd Street, Riverside" />
+      </label>
+
+      <label>
+        <span>This Week’s Spiritual Gem</span>
+        <textarea id="gemInput" rows="2">1 • Jehovah is always the majority.</textarea>
+      </label>
+
+      <div id="sprinklePreview" class="sprinkle-box muted">
+        ✨ Sprinkle Preview will show here
+      </div>
+    </section>
+
+    <section class="actions">
+      <button id="readyBtn" class="primary">I’m Ready</button>
+      <button id="mapBtn">Open Map</button>
+      <button id="laterBtn" class="ghost">Just log later</button>
+    </section>
+  </main>
+
+  <script src="store.js"></script>
+  <script src="verses.js"></script>
+  <script src="rv-day.js"></script>
+</body>
+</html>
