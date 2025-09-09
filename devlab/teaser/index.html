@@ -4,28 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Garden Map Mode</title>
+
   <style>
     :root {
-      --ink: #1d1d1d;
-      --accent: #91c499;
-      --bg: #fdf8ee;
-      --glass: rgba(255, 255, 255, 0.8);
-      --glow-yellow: #f8de7e;
-      --glow-pink: #ff9dd8;
-      --glow-lavender: #c6b5ff;
-      --glow-mint: #aef1e0;
+      --accent: #67a981;
+      --glass: rgba(255, 255, 255, 0.6);
+      --ink: #222;
+      --bg: #fcf7ed;
+
+      /* Glowy Seed Colors */
+      --glow-pink: #ffb3d9;
+      --glow-yellow: #ffe9a7;
+      --glow-lavender: #d8c9ff;
+      --glow-mint: #baf8e2;
     }
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
+      padding: 0;
       background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
       display: flex;
       flex-direction: column;
       align-items: center;
-      overflow-x: hidden;
     }
 
+    /* ───── Globe Image Container ───── */
     .globe-container {
       width: 100%;
       height: 65vh;
@@ -33,29 +38,45 @@
       position: relative;
     }
 
-    /* Floating Seeds */
+    /* ───── Floating Seeds ───── */
     .seed {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       position: absolute;
-      opacity: 0.8;
-      animation: float 14s linear infinite;
+      opacity: 0.85;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+      animation: float 10s ease-in-out infinite, glowPulse 2.5s ease-in-out infinite;
     }
 
-    .seed:nth-child(1) { background: var(--glow-pink); top: 30%; left: 20%; animation-delay: 0s; }
-    .seed:nth-child(2) { background: var(--glow-lavender); top: 40%; left: 70%; animation-delay: 4s; }
-    .seed:nth-child(3) { background: var(--glow-yellow); top: 15%; left: 50%; animation-delay: 2s; }
-    .seed:nth-child(4) { background: var(--glow-mint); top: 50%; left: 30%; animation-delay: 6s; }
+    .seed:nth-child(1) { background: var(--glow-pink); top: 30%; left: 20%; animation-delay: 0s, 0s; }
+    .seed:nth-child(2) { background: var(--glow-lavender); top: 40%; left: 70%; animation-delay: 4s, 0.5s; }
+    .seed:nth-child(3) { background: var(--glow-yellow); top: 15%; left: 50%; animation-delay: 2s, 1s; }
+    .seed:nth-child(4) { background: var(--glow-mint); top: 50%; left: 30%; animation-delay: 6s, 1.5s; }
 
     @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-12px); }
-      100% { transform: translateY(0px); }
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
     }
 
+    @keyframes glowPulse {
+      0%, 100% {
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.2),
+                    0 0 18px currentColor,
+                    0 0 28px currentColor;
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 16px rgba(255, 255, 255, 0.4),
+                    0 0 28px currentColor,
+                    0 0 42px currentColor;
+        transform: scale(1.15);
+      }
+    }
+
+    /* ───── Modal Box ───── */
     .modal {
-      margin-top: -20px;
+      margin-top: -40px;
       background: var(--glass);
       border-radius: 16px;
       padding: 24px;
@@ -67,7 +88,7 @@
     }
 
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       margin-bottom: 10px;
     }
 
@@ -82,6 +103,7 @@
       display: flex;
       justify-content: center;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
     button {
@@ -100,9 +122,8 @@
     }
   </style>
 </head>
-<body>
 
-  <!-- Globe Area -->
+<body>
   <div class="globe-container">
     <div class="seed"></div>
     <div class="seed"></div>
@@ -110,15 +131,13 @@
     <div class="seed"></div>
   </div>
 
-  <!-- Modal -->
   <div class="modal">
     <h1>🌿 Garden Map Mode</h1>
-    <p>Where every seed you plant becomes part of a living map of care.</p>
+    <p>Where every seed you plant becomes part<br>of a living map of care.</p>
     <div class="buttons">
-      <button>Drop a Crumb</button>
-      <button>Enter the Map</button>
+      <button onclick="alert('Map opens 🌍')">🗺 Enter the Map</button>
+      <button onclick="alert('Crumb dropper opens 📝')">🌱 Drop a Crumb</button>
     </div>
   </div>
-
 </body>
 </html>
