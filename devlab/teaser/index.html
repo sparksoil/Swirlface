@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Garden Map Mode – Teaser</title>
+  <title>Garden Map Mode</title>
   <style>
     :root {
       --ink: #1d1d1d;
       --accent: #91c499;
-      --soft-border: rgba(0, 0, 0, 0.1);
       --bg: #fdf8ee;
-      --glass: rgba(255, 255, 255, 0.72);
+      --glass: rgba(255, 255, 255, 0.8);
       --glow-yellow: #f8de7e;
       --glow-pink: #ff9dd8;
       --glow-lavender: #c6b5ff;
@@ -20,59 +19,76 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: url('https://sparksoil.github.io/Swirlface/devlab/teaser/globe-bright.PNG') center/cover no-repeat fixed;
-      background-color: var(--bg);
-      min-height: 100vh;
+      background: var(--bg);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      overflow-x: hidden;
+    }
+
+    .globe-container {
+      width: 100%;
+      height: 65vh;
+      background: url("globe1.PNG") center/contain no-repeat;
+      position: relative;
+    }
+
+    /* Floating Seeds */
+    .seed {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      position: absolute;
+      opacity: 0.8;
+      animation: float 14s linear infinite;
+    }
+
+    .seed:nth-child(1) { background: var(--glow-pink); top: 30%; left: 20%; animation-delay: 0s; }
+    .seed:nth-child(2) { background: var(--glow-lavender); top: 40%; left: 70%; animation-delay: 4s; }
+    .seed:nth-child(3) { background: var(--glow-yellow); top: 15%; left: 50%; animation-delay: 2s; }
+    .seed:nth-child(4) { background: var(--glow-mint); top: 50%; left: 30%; animation-delay: 6s; }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
     }
 
     .modal {
+      margin-top: -20px;
       background: var(--glass);
       border-radius: 16px;
       padding: 24px;
-      max-width: 420px;
       width: 90%;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 420px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(8px);
-      border: 1px solid var(--soft-border);
       text-align: center;
-      z-index: 2;
-      position: relative;
     }
 
     h1 {
       font-size: 1.5rem;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
-    textarea {
-      width: 100%;
-      height: 80px;
-      border-radius: 10px;
-      border: 1px solid var(--soft-border);
-      padding: 10px;
+    p {
       font-size: 1rem;
-      resize: none;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+      color: #333;
+      margin-top: 0;
     }
 
     .buttons {
-      margin-top: 16px;
+      margin-top: 18px;
       display: flex;
-      justify-content: space-between;
-      gap: 10px;
+      justify-content: center;
+      gap: 12px;
     }
 
     button {
-      flex: 1;
-      padding: 10px 16px;
       background: var(--accent);
       color: white;
       border: none;
+      padding: 10px 18px;
       border-radius: 10px;
       font-size: 1rem;
       cursor: pointer;
@@ -82,53 +98,27 @@
     button:hover {
       background: #7fb58b;
     }
-
-    /* Floating Seed Dots */
-    .seed {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      position: absolute;
-      opacity: 0.7;
-      animation: float 12s linear infinite;
-      z-index: 0;
-    }
-
-    .seed:nth-child(1) { background: var(--glow-pink); top: 5%; left: 20%; animation-delay: 0s; }
-    .seed:nth-child(2) { background: var(--glow-lavender); top: 80%; left: 10%; animation-delay: 3s; }
-    .seed:nth-child(3) { background: var(--glow-mint); top: 30%; left: 70%; animation-delay: 6s; }
-    .seed:nth-child(4) { background: var(--glow-yellow); top: 60%; left: 85%; animation-delay: 2s; }
-    .seed:nth-child(5) { background: var(--glow-pink); top: 10%; left: 50%; animation-delay: 5s; }
-
-    @keyframes float {
-      0% {
-        transform: translateY(0) scale(1);
-      }
-      50% {
-        transform: translateY(-30px) scale(1.1);
-      }
-      100% {
-        transform: translateY(0) scale(1);
-      }
-    }
   </style>
 </head>
 <body>
-  <!-- Floating pastel dots -->
-  <div class="seed"></div>
-  <div class="seed"></div>
-  <div class="seed"></div>
-  <div class="seed"></div>
-  <div class="seed"></div>
 
-  <!-- Main modal -->
+  <!-- Globe Area -->
+  <div class="globe-container">
+    <div class="seed"></div>
+    <div class="seed"></div>
+    <div class="seed"></div>
+    <div class="seed"></div>
+  </div>
+
+  <!-- Modal -->
   <div class="modal">
-    <h1>🌱 Drop a Crumb or Enter the Map</h1>
-    <textarea placeholder="e.g., Saw Laura on 2nd Street — she’ll be home around 3."></textarea>
+    <h1>🌿 Garden Map Mode</h1>
+    <p>Where every seed you plant becomes part of a living map of care.</p>
     <div class="buttons">
-      <button>Drop Crumb</button>
+      <button>Drop a Crumb</button>
       <button>Enter the Map</button>
     </div>
   </div>
+
 </body>
 </html>
