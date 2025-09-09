@@ -9,34 +9,38 @@
   <link rel="stylesheet" href="rv-day.css" />
 </head>
 <body>
-  <main class="day-screen">
-    <header>
-      <h1>🌿 Today’s Ministry Day</h1>
-      <p id="todayDate"></p>
-    </header>
+<!-- 🌫 Foggy Top Banner -->
+<div class="top-banner"></div>
 
-    <section class="fields">
-      <label>
-        <span>Where are you beginning?</span>
-        <input id="locationInput" type="text" placeholder="e.g., 2nd Street, Riverside" />
-      </label>
+<!-- 🌱 Floating Card Layout -->
+<main class="day-card day-screen">
+  <header>
+    <h1>🌿 Today’s Ministry Day</h1>
+    <p id="todayDate"></p>
+  </header>
 
-      <label>
-        <span>This Week’s Spiritual Gem</span>
-        <textarea id="gemInput" rows="2">1 + Jehovah is always the majority.</textarea>
-      </label>
+  <section class="fields">
+    <label>
+      <span>Where are you beginning?</span>
+      <input id="locationInput" type="text" placeholder="e.g., 2nd Street, Riverside" />
+    </label>
 
-      <div id="sprinklePreview" class="sprinkle-box muted">
-        ✨ Sprinkle Preview will show here
-      </div>
-    </section>
+    <label>
+      <span>This Week’s Spiritual Gem</span>
+      <textarea id="gemInput" rows="2">1 + Jehovah is always the majority.</textarea>
+    </label>
 
-    <section class="actions">
-      <button id="readyBtn" class="primary">I’m Ready</button>
-      <button id="mapBtn">Open Map</button>
-      <button id="laterBtn" class="ghost">Just log later</button>
-    </section>
-  </main>
+    <div id="sprinklePreview" class="sprinkle-box muted">
+      ✨ Sprinkle Preview will show here
+    </div>
+  </section>
+
+  <section class="actions">
+    <button id="readyBtn" class="primary">I’m Ready</button>
+    <button id="mapBtn">Open Map</button>
+    <button id="laterBtn" class="ghost">Just log later</button>
+  </section>
+</main>
 
   <script src="store.js"></script>
   <script src="verses.js"></script>
