@@ -3,197 +3,132 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Garden Map Mode</title>
+  <title>Garden Map Mode – Teaser</title>
   <style>
     :root {
-      --bg: #fdf9f1;
-      --box: #ffffffcc;
-      --text: #222;
-      --soft: #444;
-      --accent: #99c998;
-      --font: 'Segoe UI', sans-serif;
-      --seed-pink: #f8c7de;
-      --seed-yellow: #f9f2a0;
-      --seed-blue: #c5ecf8;
-      --seed-purple: #dbc9f3;
+      --ink: #1d1d1d;
+      --accent: #91c499;
+      --soft-border: rgba(0, 0, 0, 0.1);
+      --bg: #fdf8ee;
+      --glass: rgba(255, 255, 255, 0.72);
+      --glow-yellow: #f8de7e;
+      --glow-pink: #ff9dd8;
+      --glow-lavender: #c6b5ff;
+      --glow-mint: #aef1e0;
     }
 
     body {
       margin: 0;
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-
-    .hero {
-      background: url('https://raw.githubusercontent.com/sparksoil/World/main/assets/globe-gold.jpg') center/cover no-repeat;
-      height: 60vh;
-      position: relative;
-    }
-
-    .seed-dot {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .dot1 { background: var(--seed-pink); top: 30%; left: 20%; animation-delay: 0s; }
-    .dot2 { background: var(--seed-yellow); top: 40%; left: 60%; animation-delay: 2s; }
-    .dot3 { background: var(--seed-blue); top: 50%; left: 30%; animation-delay: 4s; }
-    .dot4 { background: var(--seed-purple); top: 35%; left: 75%; animation-delay: 3s; }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .content {
-      text-align: center;
-      padding: 2rem 1rem;
-      background: var(--bg);
-    }
-
-    .card {
-      background: var(--box);
-      display: inline-block;
-      padding: 1.5rem 2rem;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px #0000001a;
-      max-width: 600px;
-      margin-top: -80px;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin: 0 0 0.5rem;
-    }
-
-    p {
-      font-size: 1.1rem;
-      color: var(--soft);
-      margin: 0 0 1rem;
-    }
-
-    .button-row {
-      margin-top: 1.25rem;
-    }
-
-    button {
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 0.7rem 1.4rem;
-      margin: 0.5rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background: #81b881;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://sparksoil.github.io/Swirlface/devlab/teaser/garden-globe.png') center/cover no-repeat fixed;
+      background-color: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
     .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #00000066;
-      backdrop-filter: blur(4px);
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
+      background: var(--glass);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--soft-border);
+      text-align: center;
+      z-index: 2;
+      position: relative;
     }
 
-    .modal-content {
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      max-width: 400px;
-      box-shadow: 0 12px 24px #00000033;
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
     }
 
-    .modal-content h2 {
-      margin-top: 0;
-      font-size: 1.4rem;
-    }
-
-    .modal-content textarea {
+    textarea {
       width: 100%;
-      min-height: 80px;
-      margin-top: 1rem;
-      border-radius: 8px;
-      padding: 0.75rem;
+      height: 80px;
+      border-radius: 10px;
+      border: 1px solid var(--soft-border);
+      padding: 10px;
       font-size: 1rem;
-      border: 1px solid #ccc;
+      resize: none;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
     }
 
-    .modal-content .actions {
-      margin-top: 1rem;
-      text-align: right;
+    .buttons {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
     }
 
-    .modal-content .actions button {
+    button {
+      flex: 1;
+      padding: 10px 16px;
       background: var(--accent);
-    }
-
-    .close-btn {
-      background: transparent;
-      color: #999;
-      font-size: 1.2rem;
+      color: white;
       border: none;
-      float: right;
+      border-radius: 10px;
+      font-size: 1rem;
       cursor: pointer;
+      transition: background 0.2s ease;
     }
 
-    .close-btn:hover {
-      color: #333;
+    button:hover {
+      background: #7fb58b;
+    }
+
+    /* Floating Seed Dots */
+    .seed {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      position: absolute;
+      opacity: 0.7;
+      animation: float 12s linear infinite;
+      z-index: 0;
+    }
+
+    .seed:nth-child(1) { background: var(--glow-pink); top: 5%; left: 20%; animation-delay: 0s; }
+    .seed:nth-child(2) { background: var(--glow-lavender); top: 80%; left: 10%; animation-delay: 3s; }
+    .seed:nth-child(3) { background: var(--glow-mint); top: 30%; left: 70%; animation-delay: 6s; }
+    .seed:nth-child(4) { background: var(--glow-yellow); top: 60%; left: 85%; animation-delay: 2s; }
+    .seed:nth-child(5) { background: var(--glow-pink); top: 10%; left: 50%; animation-delay: 5s; }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-30px) scale(1.1);
+      }
+      100% {
+        transform: translateY(0) scale(1);
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Floating pastel dots -->
+  <div class="seed"></div>
+  <div class="seed"></div>
+  <div class="seed"></div>
+  <div class="seed"></div>
+  <div class="seed"></div>
 
-  <div class="hero">
-    <div class="seed-dot dot1"></div>
-    <div class="seed-dot dot2"></div>
-    <div class="seed-dot dot3"></div>
-    <div class="seed-dot dot4"></div>
-  </div>
-
-  <div class="content">
-    <div class="card">
-      <h1>🌱 Garden Map Mode</h1>
-      <p>Where every seed you plant becomes part of a living map of care.</p>
-      <div class="button-row">
-        <button onclick="alert('Entering Map...')">Enter the Map</button>
-        <button onclick="openModal()">Drop a Crumb</button>
-      </div>
+  <!-- Main modal -->
+  <div class="modal">
+    <h1>🌱 Drop a Crumb or Enter the Map</h1>
+    <textarea placeholder="e.g., Saw Laura on 2nd Street — she’ll be home around 3."></textarea>
+    <div class="buttons">
+      <button>Drop Crumb</button>
+      <button>Enter the Map</button>
     </div>
   </div>
-
-  <div class="modal" id="crumbModal">
-    <div class="modal-content">
-      <button class="close-btn" onclick="closeModal()">✖</button>
-      <h2>🪴 Drop a Crumb</h2>
-      <textarea placeholder="Saw Laura on 2nd Street with her dog. She said she’d be home this afternoon around 3."></textarea>
-      <div class="actions">
-        <button onclick="alert('Crumb dropped!')">Add Crumb</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function openModal() {
-      document.getElementById('crumbModal').style.display = 'flex';
-    }
-    function closeModal() {
-      document.getElementById('crumbModal').style.display = 'none';
-    }
-  </script>
 </body>
 </html>
