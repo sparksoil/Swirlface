@@ -1,47 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Today's Ministry Day</title>
-  <link rel="stylesheet" href="palette.css" />
-  <link rel="stylesheet" href="base.css" />
-  <link rel="stylesheet" href="rv-day.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Today’s Ministry Day — RV Helper</title>
+
+  <!-- Shared palettes + base + page styles -->
+  <link rel="stylesheet" href="palette.css"/>
+  <link rel="stylesheet" href="base.css"/>
+  <link rel="stylesheet" href="rv-day.css"/>
 </head>
 <body class="day-bg">
 
-  <!-- 🌱 Floating Card -->
-  <main class="day-card">
+  <!-- 🔭 Foggy banner (matches the globe page feel) -->
+  <div class="top-banner" aria-hidden="true"></div>
+
+  <!-- 🌿 Glass card (floats above banner) -->
+  <main class="day-card day-screen" role="main">
     <header class="day-header">
-      <h1>🌿 Today’s Ministry Day</h1>
-      <p id="todayDate"></p>
+      <h1>Today’s Ministry Day</h1>
+      <p id="todayDate">—</p>
     </header>
 
-    <section class="fields">
-      <label>
+    <!-- Consistent vertical stack = no overlapping -->
+    <section class="stack" aria-label="Ministry Day Inputs">
+      <label for="locationInput">
         <span>Where are you beginning?</span>
-        <input id="locationInput" type="text" placeholder="e.g., 2nd Street, Riverside" />
+        <input id="locationInput" type="text" placeholder="e.g., 2nd Street, Riverside"/>
       </label>
 
-      <label>
-        <span>This Week’s Spiritual Gem</span>
-        <textarea id="gemInput" rows="2">1 + Jehovah is always the majority.</textarea>
-      </label>
+      <!-- Mini card for the week’s gem -->
+      <div class="mini-card" aria-live="polite">
+        <strong>This Week’s Spiritual Gem</strong>
+        <p style="margin:.4rem 0 0;">
+          <textarea id="gemInput" rows="2" style="width:100%; border:none; background:transparent; resize:vertical;">
+1 + Jehovah is always the majority.
+          </textarea>
+        </p>
+      </div>
 
-      <div id="sprinklePreview" class="sprinkle-box muted">
+      <!-- Scripture sprinkle preview -->
+      <div id="sprinklePreview" class="sprinkle-box" aria-live="polite">
         ✨ Sprinkle Preview will show here
       </div>
-    </section>
 
-    <section class="actions">
-      <button id="readyBtn" class="primary">I’m Ready</button>
-      <button id="mapBtn">Open Map</button>
-      <button id="laterBtn" class="ghost">Just log later</button>
+      <!-- Actions (tile buttons like Home) -->
+      <div class="actions" aria-label="Actions">
+        <a id="readyBtn" class="btn-tile" href="#ready">
+          <div class="icon">🌀</div>
+          <div class="label">I’m Ready</div>
+        </a>
+        <a id="mapBtn" class="btn-tile rose" href="#map">
+          <div class="icon">🗺️</div>
+          <div class="label">Open Map</div>
+        </a>
+      </div>
+
+      <button id="laterBtn" class="ghost" type="button" style="margin-top:.35rem;">Just log later</button>
     </section>
   </main>
 
+  <!-- Scripts (keep your original order so existing logic still works) -->
   <script src="store.js"></script>
   <script src="verses.js"></script>
   <script src="rv-day.js"></script>
+
+  <!-- Tiny helpers: date + map fallback (safe if your JS already does this) -->
+  <script>
+    // 1) Human-friendly date (e.g., Tuesday, September 9, 2025)
+    (function(){
+      const el = document.getElementById('todayDate');
+      if (!el) return;
+      try{
+        el.textContent = new Intl.DateTimeFormat(undefined, {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        }).format(new Date());
+      }catch(e){ el.textContent = ''; }
+    })();
+
+    // 2) Map open helper (only runs if your rv-day.js didn't intercept)
+    (function(){
+      const mapLink = document.getElementById('mapBtn');
+      const loc = document.getElementById('locationInput');
+      if (!mapLink) return;
+      mapLink.addEventListener('click', function(ev){
+        // allow your rv-day.js to cancel if it handles it
+        if (ev.defaultPrevented) return;
+        ev.preventDefault();
+        const q = (loc && loc.value.trim()) ? encodeURIComponent(loc.value.trim()) : 'Kingdom Hall near me';
+        // iOS + Android friendly maps URL
+        const url = `https://maps.apple.com/?q=${q}`;
+        window.location.href = url;
+      });
+    })();
+  </script>
 </body>
 </html>
