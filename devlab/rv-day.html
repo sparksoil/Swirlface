@@ -7,42 +7,38 @@
   <link rel="stylesheet" href="palette.css" />
   <link rel="stylesheet" href="base.css" />
   <link rel="stylesheet" href="rv-day.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&display=swap" rel="stylesheet">
 </head>
-<body>
-<!-- 🌫 Foggy Top Banner -->
-<div class="top-banner"></div>
+<body class="day-bg">
 
-<!-- 🌱 Floating Card Layout -->
-<main class="day-card day-screen">
-  <header class="day-header">
-    <img src="foggy-day.PNG" alt="Foggy mailbox" class="banner-img" />
-    <h1>🌿 Today’s Ministry Day</h1>
-    <p id="todayDate"></p>
-  </header>
+  <!-- 🌱 Floating Card -->
+  <main class="day-card">
+    <header class="day-header">
+      <h1>🌿 Today’s Ministry Day</h1>
+      <p id="todayDate"></p>
+    </header>
 
-  <section class="fields">
-    <label>
-      <span>Where are you beginning?</span>
-      <input id="locationInput" type="text" placeholder="e.g., 2nd Street, Riverside" />
-    </label>
+    <section class="fields">
+      <label>
+        <span>Where are you beginning?</span>
+        <input id="locationInput" type="text" placeholder="e.g., 2nd Street, Riverside" />
+      </label>
 
-    <label>
-      <span>This Week’s Spiritual Gem</span>
-      <textarea id="gemInput" rows="2">1 + Jehovah is always the majority.</textarea>
-    </label>
+      <label>
+        <span>This Week’s Spiritual Gem</span>
+        <textarea id="gemInput" rows="2">1 + Jehovah is always the majority.</textarea>
+      </label>
 
-    <div id="sprinklePreview" class="sprinkle-box muted">
-      ✨ Sprinkle Preview will show here
-    </div>
-  </section>
+      <div id="sprinklePreview" class="sprinkle-box muted">
+        ✨ Sprinkle Preview will show here
+      </div>
+    </section>
 
-  <section class="actions">
-    <button id="readyBtn" class="primary">🌱 I’m Ready</button>
-    <button id="mapBtn">🗺️ Open Map</button>
-    <button id="laterBtn" class="ghost">💭 Just log later</button>
-  </section>
-</main>
+    <section class="actions">
+      <button id="readyBtn" class="primary">I’m Ready</button>
+      <button id="mapBtn">Open Map</button>
+      <button id="laterBtn" class="ghost">Just log later</button>
+    </section>
+  </main>
 
   <script src="store.js"></script>
   <script src="verses.js"></script>
