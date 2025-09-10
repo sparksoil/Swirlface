@@ -94,3 +94,82 @@ input, textarea {
 }
 button.primary { background: var(--accent); color: #fff; }
 button.ghost   { border: 1px dashed #ccc; background: transparent; color: #666; }
+/* 1) Let the page breathe (scroll room at bottom) */
+.day-screen { padding-bottom: 120px; }
+
+/* 2) Make the banner taller, single source of truth for the image */
+.top-banner {
+  background: url("foggy-day.PNG") center/cover no-repeat;
+  width: 100%;
+  height: 54vh;               /* was 200px; uses more of the art */
+  min-height: 320px;          /* keeps presence on small phones */
+  border-radius: 0 0 18px 18px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  overflow: hidden;           /* clips the gradient overlay */
+}
+
+/* 3) Subtle parchment fade at the bottom of the image */
+.top-banner::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0) 55%,
+    rgba(252,247,237,0.75) 82%,
+    rgba(252,247,237,1) 100%
+  );
+  pointer-events: none;
+}
+
+/* 4) Floaty glass card like your landing modal */
+.day-card {
+  background: rgba(255,255,255,0.72);   /* glass */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);  /* iOS */
+  margin: -72px auto 2rem;              /* lifts off the image edge */
+  padding: 1.8rem 1.2rem;
+  max-width: 460px;                     /* narrower = calmer */
+  border-radius: 20px;
+  box-shadow:
+    0 20px 30px rgba(0,0,0,0.06),
+    0 3px 8px rgba(0,0,0,0.04);
+  animation: floatUp 450ms ease-out both;
+  line-height: 1.55;
+}
+
+/* 5) Title rhythm (pairs well with your Cormorant) */
+.day-card header h1 {
+  font-size: 1.9rem;
+  margin: 0 0 0.35rem;
+  letter-spacing: 0.2px;
+}
+.day-card header p { color: var(--muted); }
+
+/* 6) Inputs: soft, journal-y */
+.fields input,
+.fields textarea {
+  background: rgba(255,255,255,0.9);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* 7) Buttons: match landing pills */
+.actions { margin-top: 1.4rem; gap: 0.9rem; }
+.actions button {
+  border-radius: 16px;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transition: transform .15s ease, opacity .15s ease;
+}
+.actions button:hover { transform: translateY(-1px); opacity: .96; }
+.actions .primary { background: var(--accent); color: #fff; }
+.actions .ghost { background: rgba(255,255,255,0.6); border: 1px dashed #cfcfcf; color: #666; }
+
+/* 8) Sprinkle note box: lighter paper card */
+.sprinkle-box {
+  background: rgba(255,255,255,0.85);
+  border-left: 4px solid #e6e2d8;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
+  border-radius: 12px;
+}
