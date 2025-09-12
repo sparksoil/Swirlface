@@ -1,0 +1,10 @@
+{
+  "sections": [
+    { "match": "Story Bits", "dir": "stories/accidentally-real" },
+    { "match": "Tech Notes", "dir": "dev-notes/rv-helper" },
+    { "match": "Health Log", "dir": "pelican-logs/health" }
+  ],
+  "speakers": ["Otter","Lucy","Pelican","Ron","Glimmer","Coffee","Mint"],
+  "filenameSlugMax": 70,
+  "defaultSection": { "title": "Story Bits – Kitty & Otter", "dir": "stories/accidentally-real" }
+}
