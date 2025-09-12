@@ -1,0 +1,45 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a//dev/null b/.github/workflows/pelican.yml
+index 0000000000000000000000000000000000000000..7d05fc8d122e83ee26f2bfa9fdef6dc73d9a7081 100644
+--- a//dev/null
++++ b/.github/workflows/pelican.yml
+@@ -0,0 +1,36 @@
++name: Pelican Splitter
++on:
++  push:
++    paths:
++      - "raw-drops/**.txt"
++      - "raw-drops/**.md"
++
++permissions:
++  contents: write
++
++jobs:
++  split:
++    runs-on: ubuntu-latest
++    steps:
++      - name: Checkout
++        uses: actions/checkout@v4
++
++      - name: Setup Node
++        uses: actions/setup-node@v4
++        with:
++          node-version: "20"
++
++      - name: Run Pelican tag/split
++        run: |
++          for f in raw-drops/*.{txt,md}; do
++            [ -e "$f" ] || continue
++            node scripts/tag_and_split.mjs "$f"
++          done
++
++      - name: Commit outputs
++        run: |
++          git config user.name "github-actions[bot]"
++          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
++          git add stories dev-notes pelican-logs .pelican/INDEX.md || true
++          git commit -m "Pelican: split on push $GITHUB_SHA" || echo "No changes to commit"
++          git push
+ 
+EOF
+)
