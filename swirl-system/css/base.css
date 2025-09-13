@@ -1,0 +1,44 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+
+#crumb-list {
+  list-style: none;
+  padding: 0;
+}
+
+#crumb-list li {
+  background: #fff;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+#crumb-list img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 5px;
+}

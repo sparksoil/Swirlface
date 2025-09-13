@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SwirlSystem</title>
+  <link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+  <h1>SwirlSystem</h1>
+  <form id="crumb-form">
+    <label for="photo">Photo</label>
+    <input type="file" id="photo" accept="image/*">
+
+    <label for="caption">Caption</label>
+    <textarea id="caption"></textarea>
+
+    <label for="pillar">Pillar</label>
+    <select id="pillar">
+      <option value="divine">👑 Divine Education</option>
+      <option value="family">🏡 Family &amp; Home</option>
+      <option value="self">🌱 Self + Parts</option>
+      <option value="rrr">📚 RRR</option>
+      <option value="work">💵 Employment &amp; Future</option>
+    </select>
+
+    <label for="part">Part (optional)</label>
+    <input type="text" id="part">
+
+    <button type="submit">Drop Crumb</button>
+  </form>
+
+  <ul id="crumb-list"></ul>
+
+  <script type="module" src="js/crumb-entry.js"></script>
+</body>
+</html>
