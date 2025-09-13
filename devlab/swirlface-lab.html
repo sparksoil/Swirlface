@@ -3,119 +3,68 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>RV Helper — Section E1 (Cards View)</title>
-  <link rel="stylesheet" href="./rv.css">
+  <title>Swirlface — Dev Lab (Floating Circles)</title>
+  <link rel="stylesheet" href="swirlface.css">
 </head>
-<body>
-  <!-- HEADER -->
-  <header class="poster">
-    <h1>🌱 RV Helper — Swirly Logbook</h1>
-    <p class="subtitle">Section E1: Cards View (List ↔ Cards toggle)</p>
+<body class="mode-lucy">
+  <!-- MODE TOGGLES -->
+  <!-- ~lines 12-28 -->
+  <header class="lab-toolbar" aria-label="Dev Lab Controls">
+    <div class="brand">
+      <span class="swirl-dot" aria-hidden="true"></span>
+      <strong>Swirlface Dev Lab</strong>
+    </div>
+    <nav class="modes">
+      <button id="btnLucy" class="pill active" aria-pressed="true">Lucy</button>
+      <button id="btnAvlock" class="pill">Avlock</button>
+    </nav>
   </header>
 
-  <main class="wrap">
-    <!-- ENTRY PANEL -->
-    <section class="entry-panel">
-      <label class="field">
-        <span class="label">Person (optional)</span>
-        <input id="personInput" type="text" placeholder="e.g., Sarah H.">
-      </label>
+  <!-- POND + SWIRL CENTER -->
+  <!-- ~lines 30-65 -->
+  <main id="pond">
+    <div class="swirl" aria-hidden="true">
+      <!-- minimalist spiral using SVG so we avoid images -->
+      <svg viewBox="0 0 200 200" class="swirl-svg">
+        <path d="M100,100
+                 m-5,0
+                 a5,5 0 1,0 10,0
+                 m-15,0
+                 a15,15 0 1,0 30,0
+                 m-30,0
+                 a30,30 0 1,0 60,0
+                 m-45,0
+                 a45,45 0 1,0 90,0
+                 m-60,0
+                 a60,60 0 1,0 120,0"
+              fill="none" stroke="currentColor" stroke-width="1.75" opacity="0.8"/>
+      </svg>
+    </div>
 
-      <label class="field">
-        <span class="label">Notes</span>
-        <textarea id="noteInput" rows="6" placeholder="Drop crumbs here…"></textarea>
-      </label>
+    <!-- FLOATING TOKENS (start soft; they become doors on click) -->
+    <!-- ~lines 68-110 -->
+    <button class="token" data-app="Crumb Catcher" style="--hue: 18;  --sat: 34%; --lit: 76%;">Crumb</button>
+    <button class="token" data-app="Ron Ledger"     style="--hue: 170; --sat: 24%; --lit: 70%;">Ron</button>
+    <button class="token" data-app="Pelican Logs"   style="--hue: 42;  --sat: 38%; --lit: 76%;">Logs</button>
+    <button class="token" data-app="Scene Studio"   style="--hue: 288; --sat: 22%; --lit: 78%;">Scene</button>
+    <button class="token" data-app="Parts Filter"   style="--hue: 205; --sat: 26%; --lit: 74%;">Parts</button>
+    <button class="token" data-app="Scripture Sieve"style="--hue: 96;  --sat: 26%; --lit: 74%;">Scripture</button>
 
-      <div class="actions">
-        <button id="saveBtn" class="primary">Save Entry</button>
-        <button id="sprinkleBtn" class="ghost">Sprinkle ✨</button>
-        <button id="exportBtn" class="ghost">Export (.rvpack.json)</button>
-        <label class="import ghost">
-          Import
-          <input id="importFile" type="file" accept=".json,.rvpack.json">
-        </label>
-      </div>
-      <p class="micro safety">Local-first save is automatic. Export/import keeps your garden safe.</p>
-    </section>
-
-    <!-- LIST PANEL -->
-    <section class="list-panel" id="listPanel">
-      <div class="list-head">
-        <h2>Latest entries</h2>
-        <div class="filters">
-          <button data-filter="all" class="chip is-active">View all seeds</button>
-          <button data-filter="needs" class="chip">Needs water</button>
-          <button data-filter="person" class="chip">By person…</button>
-        </div>
-      </div>
-      <ul id="entriesList" class="entries"></ul>
-    </section>
+    <!-- Sparkles (very subtle) -->
+    <!-- ~lines 112-120 -->
+    <div class="sparkles" aria-hidden="true"></div>
   </main>
 
-  <!-- VIEW SWITCHER + PEOPLE SURFACES -->
-  <section class="people-zone">
-    <div class="view-switch">
-      <span class="label">View:</span>
-      <button id="btnViewList" class="chip is-active">List</button>
-      <button id="btnViewCards" class="chip">Cards</button>
-      <button id="btnViewMap" class="chip" disabled title="Coming in E2">Map (soon)</button>
+  <!-- SIMPLE PORTAL MODAL -->
+  <!-- ~lines 123-157 -->
+  <dialog id="portal">
+    <div class="portal-card">
+      <h2 id="portalTitle">Opening…</h2>
+      <p>This is a gentle placeholder portal. In the real build, this would load your tool.</p>
+      <button id="closePortal" class="pill">Close</button>
     </div>
+  </dialog>
 
-    <!-- CIRCLES (carry over from B/C/D so nothing breaks) -->
-    <h2>People as Circles</h2>
-    <div id="peopleCircles" class="circles"></div>
-
-    <!-- CARDS VIEW (new in E1) -->
-    <div id="cardsGrid" class="cards-grid hidden" aria-live="polite"></div>
-  </section>
-
-  <!-- PERSON DETAIL PANEL -->
-  <div id="personDetail" class="person-detail hidden" aria-modal="true" role="dialog">
-    <div class="panel-content">
-      <button id="closeDetail" class="ghost close-x" aria-label="Close">×</button>
-      <h3 id="detailName">Name</h3>
-
-      <div class="stage-row">
-        <span id="detailStage" class="stage-badge">Stage 0</span>
-        <span id="detailLastTouch" class="last-touch">—</span>
-      </div>
-
-      <div class="grow-controls">
-        <button id="btnVisit" class="primary">Visit (+1)</button>
-        <label class="care-pair">
-          <input id="chkCare" type="checkbox">
-          <span>Care (left note / text / call)</span>
-        </label>
-        <button id="btnAttempt" class="ghost">Attempt (NAH)</button>
-        <button id="btnCareOnly" class="ghost">Care only (+0.5)</button>
-      </div>
-
-      <div class="micro muted">Growth: Visit +1. Attempt + Care +0.5. Care-only +0.5. Caps at Stage 6.</div>
-      <hr class="soft">
-      <div id="detailEntries"></div>
-    </div>
-  </div>
-
-  <!-- FOOT -->
-  <footer class="footer">
-    <button id="devClearBtn" class="danger">Clear Dev Lab Data</button>
-    <small>Section E1 active — List ↔ Cards switch is live.</small>
-  </footer>
-
-  <!-- JS (cache-bust helps iOS) -->
-  <script src="./verses.js?v=rv-2"></script>
-  <script src="./rv.js?v=rv-2"></script>
-
-  <!-- Boot warning if JS fails -->
-  <script>
-    setTimeout(function(){
-      if(!window.__RV_BOOTED){
-        var warn = document.createElement('div');
-        warn.style.cssText = 'position:fixed;left:0;right:0;bottom:0;padding:10px 14px;background:#8b2b2b;color:#fff;font-weight:700;z-index:9999';
-        warn.textContent = 'RV Helper: scripts did not load. Check file names/paths or refresh cache.';
-        document.body.appendChild(warn);
-      }
-    }, 400);
-  </script>
+  <script src="swirlface.js"></script>
 </body>
 </html>
