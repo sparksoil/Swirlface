@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Weekly Glow · Jonah</title>
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/weekly.css">
+  <link rel="stylesheet" href="./css/blooms.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <a class="btn btn-ghost" href="./index.html">← Home</a>
+      <h1>Weekly Glow</h1>
+      <div class="head-actions">
+        <button id="prevWeek" class="btn btn-ghost" type="button">◀︎ Prev</button>
+        <button id="thisWeek" class="btn btn-ghost" type="button">This Week</button>
+        <button id="nextWeek" class="btn btn-ghost" type="button">Next ▶︎</button>
+      </div>
+    </header>
+
+    <section class="week-range card" aria-live="polite">
+      <h2 id="weekLabel">Week</h2>
+      <p class="hint">ISO week (Mon–Sun). Change in <code>blooms.js</code> if you prefer Sun–Sat.</p>
+    </section>
+
+    <!-- PILLAR COUNTS -->
+    <section class="pillars card">
+      <h2>By Pillar</h2>
+      <div id="pillarBars" class="bars"></div>
+    </section>
+
+    <!-- TAG BLOOMS -->
+    <section class="blooms card">
+      <h2>Blooms (Top Tags)</h2>
+      <div id="bloomGrid" class="bloom-grid" aria-live="polite"></div>
+      <p class="hint">Size = how often the tag appeared in crumbs this week.</p>
+    </section>
+
+    <!-- EXPORT -->
+    <section class="export card">
+      <h2>Export</h2>
+      <div class="export-actions">
+        <button id="btnJson" class="btn" type="button">Download JSON</button>
+        <button id="btnCsv"  class="btn" type="button">Download CSV</button>
+      </div>
+      <p class="hint">Exports are read-only snapshots. Your saved crumbs don’t change.</p>
+    </section>
+  </main>
+
+  <script type="module" src="./js/storage.js"></script>
+  <script type="module" src="./js/blooms.js"></script>
+  <script type="module" src="./js/export.js"></script>
+  <script type="module">
+    import { weekWindow, summarizeWeek, renderPillarBars, renderBlooms, gotoWeek, isoLabel } from './js/blooms.js';
+    import { downloadJson, downloadCsv } from './js/export.js';
+
+    // State: weekOffset = 0 -> this week; -1 prev; +1 next, etc.
+    let weekOffset = 0;
+
+    const weekLabel = document.getElementById('weekLabel');
+    const bars = document.getElementById('pillarBars');
+    const bloomGrid = document.getElementById('bloomGrid');
+    const prevBtn = document.getElementById('prevWeek');
+    const nextBtn = document.getElementById('nextWeek');
+    const thisBtn = document.getElementById('thisWeek');
+    const btnJson = document.getElementById('btnJson');
+    const btnCsv  = document.getElementById('btnCsv');
+
+    function render(){
+      const { start, end } = weekWindow(weekOffset);
+      const summary = summarizeWeek(start, end);
+      weekLabel.textContent = `Week: ${isoLabel(start)} – ${isoLabel(end)}`;
+      renderPillarBars(bars, summary.pillars);
+      renderBlooms(bloomGrid, summary.tags);
+      // export handlers depend on current summary
+      btnJson.onclick = ()=> downloadJson(summary, start, end);
+      btnCsv.onclick  = ()=> downloadCsv(summary, start, end);
+    }
+
+    prevBtn.onclick = ()=>{ weekOffset -= 1; render(); };
+    nextBtn.onclick = ()=>{ weekOffset += 1; render(); };
+    thisBtn.onclick = ()=>{ weekOffset  = 0; render(); };
+
+    // initial
+    render();
+  </script>
+</body>
+</html>
