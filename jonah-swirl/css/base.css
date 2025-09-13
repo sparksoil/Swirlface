@@ -8,6 +8,13 @@
   --accent2: #FF9DD8;   /* Lucy pink sparkle */
   --accent3: #F0BC06;   /* golden encouragement */
 
+  /* Seasonal age bars */
+  --season-fresh:  #3c8a3c;
+  --season-spring: var(--accent1);
+  --season-summer: #d6a33a;
+  --season-fall:   #c3743a;
+  --season-winter: #6b7a8c;
+
   --shadow: rgba(0,0,0,0.12);
   --radius: 18px;
 
@@ -51,3 +58,18 @@ body{
   position:absolute!important; width:1px; height:1px; margin:-1px;
   overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
 }
+
+/* Seasonal age bar for crumbs */
+.crumb-age{ position:relative; }
+.crumb-age::before{
+  content:'';
+  position:absolute;
+  left:0; top:0;
+  width:6px; height:100%;
+  border-radius:6px 0 0 6px;
+}
+.crumb-age.age-fresh::before{ background:var(--season-fresh); }
+.crumb-age.age-spring::before{ background:var(--season-spring); }
+.crumb-age.age-summer::before{ background:var(--season-summer); }
+.crumb-age.age-fall::before{ background:var(--season-fall); }
+.crumb-age.age-winter::before{ background:var(--season-winter); }

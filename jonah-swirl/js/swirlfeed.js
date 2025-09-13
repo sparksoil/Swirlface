@@ -2,6 +2,7 @@
 // Uses listCrumbs() from storage.js
 
 import { listCrumbs } from './storage.js';
+import { seasonClass } from './season.js';
 
 const feedRoot = document.getElementById('feedRoot');
 const chipRow  = document.querySelector('.chips');
@@ -65,8 +66,8 @@ function groupByDay(rows){
 function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m])); }
 
 function makeItem(c){
-  const div = document.createElement('div');
-  div.className = 'item';
+  const div = document.createElement('div');
+  div.className = 'item crumb-age ' + seasonClass(c.tsISO);
   div.innerHTML = `
     <div class="txt">${emojiFor(c.pillar)} ${escapeHtml(c.text)}</div>
     <div class="pill">${PILL_LABEL[c.pillar]||''}</div>
@@ -107,14 +108,18 @@ function render(){
 
 // chip interactions
 chipRow.addEventListener('click', (e)=>{
-  const btn = e.target.closest('.chip');
-  if(!btn) return;
-  const pill = btn.dataset.pill;
-  if(!pill) return;
-  currentPill = pill;
-  // update active
-  chipRow.querySelectorAll('.chip').forEach(c=> c.classList.toggle('is-active', c===btn));
-  render();
+  const btn = e.target.closest('.chip');
+  if(!btn) return;
+  const pill = btn.dataset.pill;
+  if(!pill) return;
+  currentPill = pill;
+  // update active + aria-selected
+  chipRow.querySelectorAll('.chip').forEach(c=>{
+    const active = c === btn;
+    c.classList.toggle('is-active', active);
+    c.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  render();
 });
 
 // search interactions (debounced)
