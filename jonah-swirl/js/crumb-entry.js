@@ -1,5 +1,6 @@
 import { preselectPillarFromHash, saveCrumb, todayCrumbs } from './storage.js';
 import { compressFileToDataUrl } from './photos.js';
+import { seasonClass } from './season.js';
 
 (function(){
   const form = document.getElementById('crumbForm');
@@ -47,6 +48,7 @@ import { compressFileToDataUrl } from './photos.js';
 
   function addToTodayList(c){
     const li = document.createElement('li');
+    li.className = 'crumb-age ' + seasonClass(c.tsISO);
     li.innerHTML = renderCrumbRow(c);
     todayUl.prepend(li);
   }

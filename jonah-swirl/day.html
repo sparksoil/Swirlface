@@ -69,6 +69,7 @@
   <script type="module">
     import { todayCrumbs } from './js/storage.js';
     import { renderCommentsFor, mountCommentForm, handleDelete } from './js/comments.js';
+    import { seasonClass } from './js/season.js';
 
     const list = document.getElementById('todayUl');
     const parentBtn = document.getElementById('parentBtn');
@@ -81,6 +82,7 @@
     function makeRow(c){
       const li = document.createElement('li');
       li.dataset.id = c.id;
+      li.className = 'crumb-age ' + seasonClass(c.tsISO);
 
       // Row content
       const emoji = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' }[c.pillar] || '•';
