@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jonah’s Swirl School · Home</title>
+  <link rel="preload" href="./css/base.css" as="style">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/landing.css">
+</head>
+<body class="landing" data-step="1">
+  <!-- KID-FRIENDLY LANDING: drifting spirals that become doors -->
+  <header class="sr-only" aria-live="polite">
+    Jonah’s Swirl School. Choose a pillar to begin.
+  </header>
+
+  <main id="swirl-stage" aria-label="Swirl pillars">
+    <!-- Big tap areas, simple words -->
+    <button class="door" data-pillar="divine" data-label="👑 Divine" aria-label="Open Divine" data-idx="0">
+      <svg class="spiral" viewBox="0 0 220 220" aria-hidden="true"><path class="spiral-path" /></svg>
+      <span class="door-label" aria-hidden="true">👑</span>
+      <section class="door-card" role="dialog" aria-modal="false" aria-label="Divine">
+        <h2>👑 Divine</h2>
+        <p>Verse, prayer, meetings, service.</p>
+        <a href="./day.html#divine" class="btn btn-big">Drop a Crumb</a>
+      </section>
+    </button>
+
+    <button class="door" data-pillar="family" data-label="🏠 Home" aria-label="Open Home" data-idx="1">
+      <svg class="spiral" viewBox="0 0 220 220" aria-hidden="true"><path class="spiral-path" /></svg>
+      <span class="door-label" aria-hidden="true">🏠</span>
+      <section class="door-card" role="dialog" aria-modal="false" aria-label="Home">
+        <h2>🏠 Home</h2>
+        <p>Cooking, pets, chores, kindness.</p>
+        <a href="./day.html#family" class="btn btn-big">Drop a Crumb</a>
+      </section>
+    </button>
+
+    <button class="door" data-pillar="self" data-label="🌱 Self" aria-label="Open Self" data-idx="2">
+      <svg class="spiral" viewBox="0 0 220 220" aria-hidden="true"><path class="spiral-path" /></svg>
+      <span class="door-label" aria-hidden="true">🌱</span>
+      <section class="door-card" role="dialog" aria-modal="false" aria-label="Self">
+        <h2>🌱 Self</h2>
+        <p>Feelings, drawings, movement.</p>
+        <a href="./day.html#self" class="btn btn-big">Drop a Crumb</a>
+      </section>
+    </button>
+
+    <button class="door" data-pillar="rrr" data-label="📚 Skills" aria-label="Open Skills" data-idx="3">
+      <svg class="spiral" viewBox="0 0 220 220" aria-hidden="true"><path class="spiral-path" /></svg>
+      <span class="door-label" aria-hidden="true">📚</span>
+      <section class="door-card" role="dialog" aria-modal="false" aria-label="Skills">
+        <h2>📚 Skills</h2>
+        <p>Reading, writing, math, tech.</p>
+        <a href="./day.html#rrr" class="btn btn-big">Drop a Crumb</a>
+      </section>
+    </button>
+
+    <button class="door" data-pillar="work" data-label="💵 Work" aria-label="Open Work" data-idx="4">
+      <svg class="spiral" viewBox="0 0 220 220" aria-hidden="true"><path class="spiral-path" /></svg>
+      <span class="door-label" aria-hidden="true">💵</span>
+      <section class="door-card" role="dialog" aria-modal="false" aria-label="Work">
+        <h2>💵 Work</h2>
+        <p>Pet jobs, Toilet Time, builds.</p>
+        <a href="./day.html#work" class="btn btn-big">Drop a Crumb</a>
+      </section>
+    </button>
+  </main>
+
+  <footer class="landing-footer">
+    <div class="footer-row">
+      <label class="shoeday">
+        <input type="checkbox" id="shoedayToggle" />
+        <span>🪶 Shoeday (1 crumb is enough)</span>
+      </label>
+      <button id="versePeek" class="btn btn-ghost" aria-label="Show today’s verse">✨ Verse</button>
+    </div>
+  </footer>
+
+  <script src="./js/landing.js" defer></script>
+</body>
+</html>
