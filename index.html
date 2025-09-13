@@ -130,6 +130,7 @@
             <span class="pill">Net After Exp: $<span id="netMonth">0.00</span></span>
             <span class="pill">Tax Set-Aside: $<span id="reserveMonth">0.00</span></span>
           </div>
+          <button class="secondary" type="button" id="invoiceBtn" style="margin-top:10px;">Make Invoice</button>
           <div class="card watermark" style="margin-top:10px;">
             <div class="inline"><strong>Ledger</strong><small class="muted">The mountain remembers.</small></div>
             <div class="table-wrap" style="margin-top:6px;">
@@ -195,6 +196,9 @@
 
   <!-- Sparkle layer -->
   <div class="sparkles" id="sparkles"></div>
+
+  <!-- Invoice helper -->
+  <script src="ui/invoice.js"></script>
 
   <!-- MODULES -->
   <script type="module">
@@ -271,6 +275,16 @@
     const form     = document.getElementById('entryForm');
     const clearBtn = document.getElementById('clearBtn');
     clearBtn.addEventListener('click', ()=> form.reset());
+
+    const invoiceBtn = document.getElementById('invoiceBtn');
+    invoiceBtn.addEventListener('click', ()=>{
+      const client = prompt('Invoice for which client?');
+      if(!client) return;
+      const entries = store.loadEntries();
+      const list = entries.filter(e => (e.client||'').toLowerCase() === client.toLowerCase());
+      if(!list.length){ alert('No entries for that client.'); return; }
+      window.makeInvoice(list, client);
+    });
 
     wireForm(form, {
       onSubmit(entry, meta){
