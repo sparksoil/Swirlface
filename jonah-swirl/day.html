@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Drop a Crumb · Jonah</title>
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/day.css">
+</head>
+<body>
+  <!-- DAY VIEW / ENTRY -->
+  <!-- QUOTE ROTATOR / VERSE PREVIEW (future) -->
+
+  <main class="day-wrap">
+    <header class="day-head">
+      <a class="btn btn-ghost" href="./index.html">← Home</a>
+      <h1>Drop a Crumb</h1>
+    </header>
+
+    <form id="crumbForm" class="card">
+      <label class="row">
+        <span class="lab">Pillar</span>
+        <select id="pillar" name="pillar" required>
+          <option value="divine">👑 Divine</option>
+          <option value="family">🏠 Home</option>
+          <option value="self">🌱 Self</option>
+          <option value="rrr">📚 Skills</option>
+          <option value="work">💵 Work</option>
+        </select>
+      </label>
+
+      <label class="row">
+        <span class="lab">What happened?</span>
+        <textarea id="text" name="text" rows="3" maxlength="280" placeholder="one line is enough 💛" required></textarea>
+      </label>
+
+      <label class="row">
+        <span class="lab">Tags (optional)</span>
+        <input id="tags" name="tags" placeholder="comma, separated" />
+      </label>
+
+      <!-- Future: photo path / compression; parts[]; skills[] -->
+      <button class="btn" type="submit">Save Crumb</button>
+    </form>
+
+    <section id="todayList" class="card">
+      <h2>Today</h2>
+      <ul id="todayUl" aria-live="polite"></ul>
+    </section>
+  </main>
+
+  <script type="module" src="./js/storage.js"></script>
+  <script type="module" src="./js/crumb-entry.js"></script>
+</body>
+</html>

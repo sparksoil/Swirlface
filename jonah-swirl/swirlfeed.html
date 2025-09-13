@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Swirlfeed · Jonah</title>
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/swirlfeed.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <a class="btn btn-ghost" href="./index.html">← Home</a>
+      <h1>Swirlfeed</h1>
+    </header>
+
+    <!-- FILTER BAR -->
+    <section class="filters" aria-label="Filter crumbs">
+      <div class="chips" role="tablist">
+        <button class="chip is-active" data-pill="all" role="tab" aria-selected="true">All</button>
+        <button class="chip" data-pill="divine" role="tab" aria-selected="false">👑 Divine</button>
+        <button class="chip" data-pill="family" role="tab" aria-selected="false">🏠 Home</button>
+        <button class="chip" data-pill="self"   role="tab" aria-selected="false">🌱 Self</button>
+        <button class="chip" data-pill="rrr"    role="tab" aria-selected="false">📚 Skills</button>
+        <button class="chip" data-pill="work"   role="tab" aria-selected="false">💵 Work</button>
+      </div>
+      <div class="search">
+        <label class="sr-only" for="q">Search</label>
+        <input id="q" type="search" placeholder="search crumbs…" />
+      </div>
+    </section>
+
+    <!-- FEED LIST -->
+    <section class="feed" aria-live="polite">
+      <div id="feedRoot"></div>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script type="module" src="./js/storage.js"></script>
+  <script type="module" src="./js/swirlfeed.js"></script>
+</body>
+</html>
