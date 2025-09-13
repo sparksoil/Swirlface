@@ -17,96 +17,113 @@
       <h1>Drop a Crumb</h1>
     </header>
 
-    <form id="crumbForm" class="card">
-      <label class="row">
-        <span class="lab">Pillar</span>
-        <select id="pillar" name="pillar" required>
-          <option value="divine">👑 Divine</option>
-          <option value="family">🏠 Home</option>
-          <option value="self">🌱 Self</option>
-          <option value="rrr">📚 Skills</option>
-          <option value="work">💵 Work</option>
-        </select>
-      </label>
+    <form id="crumbForm" class="card">
+      <label class="row">
+        <span class="lab">Pillar</span>
+        <select id="pillar" name="pillar" required>
+          <option value="divine">👑 Divine</option>
+          <option value="family">🏠 Home</option>
+          <option value="self">🌱 Self</option>
+          <option value="rrr">📚 Skills</option>
+          <option value="work">💵 Work</option>
+        </select>
+      </label>
 
-      <label class="row">
-        <span class="lab">What happened?</span>
-        <textarea id="text" name="text" rows="3" maxlength="280" placeholder="one line is enough 💛" required></textarea>
-      </label>
+      <label class="row">
+        <span class="lab">What happened?</span>
+        <textarea id="text" name="text" rows="3" maxlength="280" placeholder="one line is enough 💛" required></textarea>
+      </label>
 
-      <label class="row">
-        <span class="lab">Tags (optional)</span>
-        <input id="tags" name="tags" placeholder="comma, separated" />
-      </label>
+      <label class="row">
+        <span class="lab">Photo</span>
+        <input id="photo" type="file" accept="image/*" capture="environment">
+      </label>
 
-      <!-- Future: photo path / compression; parts[]; skills[] -->
-      <button class="btn" type="submit">Save Crumb</button>
-    </form>
+      <label class="row">
+        <span class="lab">Tags</span>
+        <input id="tags" name="tags" placeholder="comma, separated" />
+      </label>
 
-    <section id="todayList" class="card">
-      <div class="row" style="grid-template-columns: 1fr auto;">
-        <h2 style="margin:0;">Today</h2>
-        <button id="parentBtn" class="btn btn-ghost" type="button">Parent Controls</button>
-      </div>
-      <ul id="todayUl" aria-live="polite"></ul>
-    </section>
+      <button class="btn" type="submit">Save Crumb</button>
+    </form>
+
+    <section id="todayList" class="card">
+      <div class="row" style="grid-template-columns: 1fr auto auto;">
+        <h2 style="margin:0;">Today</h2>
+        <button id="openSettings" class="btn btn-ghost" type="button">⚙︎ Settings</button>
+        <button id="parentBtn" class="btn btn-ghost" type="button">Parent Controls</button>
+      </div>
+      <ul id="todayUl" aria-live="polite"></ul>
+    </section>
   </main>
 
-  <script type="module" src="./js/storage.js"></script>
-  <script type="module" src="./js/crumb-entry.js"></script>
-  <script type="module" src="./js/pin.js"></script>
-  <script type="module">
-    import { todayCrumbs } from './js/storage.js';
-    import { renderCommentsFor, mountCommentForm, handleDelete } from './js/comments.js';
+  <script type="module" src="./js/storage.js"></script>
+  <script type="module" src="./js/crumb-entry.js"></script>
+  <script type="module" src="./js/pin.js"></script>
+  <script type="module" src="./js/photos.js"></script>
+  <script type="module">
+    import { initSync } from './js/sync.js';
+    // Start listening to storage events for optional sync.
+    initSync();
+  </script>
+  <script type="module">
+    import { todayCrumbs } from './js/storage.js';
+    import { renderCommentsFor, mountCommentForm, handleDelete } from './js/comments.js';
 
-    const list = document.getElementById('todayUl');
-    const parentBtn = document.getElementById('parentBtn');
+    const list = document.getElementById('todayUl');
+    const parentBtn = document.getElementById('parentBtn');
 
-    // Parent controls: set/change PIN
+    // Parent controls: set/change PIN
     parentBtn.addEventListener('click', ()=>{
-      window.pinPrompt?.({ mode:'set', onOk(){ /* no-op; modal reports success */ } });
-    });
+      window.pinPrompt?.({ mode:'set', onOk(){ /* no-op; modal reports success */ } });
+    });
 
-    function makeRow(c){
-      const li = document.createElement('li');
-      li.dataset.id = c.id;
+    function makeRow(c){
+      const li = document.createElement('li');
+      li.dataset.id = c.id;
 
-      // Row content
-      const emoji = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' }[c.pillar] || '•';
-      li.innerHTML = `
-      <div class="c-top">
-        <div class="c-text">${emoji} ${escapeHtml(c.text)}</div>
-        <div class="c-actions">
-          <button class="btn btn-ghost c-del" type="button" title="Delete">Delete</button>
-        </div>
-      </div>
-      <div class="c-comments-wrap">
-        <ul class="c-comments"></ul>
-        <form class="c-add"><input placeholder="Add a comment…" maxlength="160"></form>
-      </div>
-      `;
+      // Row content
+      const emoji = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' }[c.pillar] || '•';
+      li.innerHTML = `
+      <div class="c-top">
+        <div class="c-text">${emoji} ${escapeHtml(c.text)}</div>
+        <div class="c-actions">
+          <button class="btn btn-ghost c-del" type="button" title="Delete">Delete</button>
+        </div>
+      </div>
+      <div class="c-comments-wrap">
+        <ul class="c-comments"></ul>
+        <form class="c-add"><input placeholder="Add a comment…" maxlength="160"></form>
+      </div>
+      `;
 
-      // Wire comments
-      const commentsUl = li.querySelector('.c-comments');
-      const addForm = li.querySelector('.c-add');
-      renderCommentsFor(commentsUl, c.id);
-      mountCommentForm(addForm, c.id, ()=> renderCommentsFor(commentsUl, c.id));
+      // Wire comments
+      const commentsUl = li.querySelector('.c-comments');
+      const addForm = li.querySelector('.c-add');
+      renderCommentsFor(commentsUl, c.id);
+      mountCommentForm(addForm, c.id, ()=> renderCommentsFor(commentsUl, c.id));
 
       // Wire delete (PIN-gated)
       const delBtn = li.querySelector('.c-del');
       handleDelete(delBtn, c.id, renderList);
 
-      return li;
-    }
+      return li;
+    }
 
-    function renderList(){
-      list.innerHTML = '';
-      todayCrumbs().forEach(c=> list.appendChild(makeRow(c)));
-    }
+    function renderList(){
+      list.innerHTML = '';
+      todayCrumbs().forEach(c=> list.appendChild(makeRow(c)));
+    }
 
-    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m])); }
+    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m])); }
 
-    renderList();
-  </script>
+    renderList();
+  </script>
+  <link rel="stylesheet" href="./css/settings.css">
+  <script type="module" src="./js/settings.js"></script>
+  <script type="module">
+    // Wire settings button
+    document.getElementById('openSettings')?.addEventListener('click', ()=> window.openSettings && window.openSettings());
+  </script>
 </body>
 </html>

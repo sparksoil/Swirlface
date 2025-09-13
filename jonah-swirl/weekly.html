@@ -10,15 +10,16 @@
 </head>
 <body>
   <main class="wrap">
-    <header class="head">
-      <a class="btn btn-ghost" href="./index.html">← Home</a>
-      <h1>Weekly Glow</h1>
-      <div class="head-actions">
-        <button id="prevWeek" class="btn btn-ghost" type="button">◀︎ Prev</button>
-        <button id="thisWeek" class="btn btn-ghost" type="button">This Week</button>
-        <button id="nextWeek" class="btn btn-ghost" type="button">Next ▶︎</button>
-      </div>
-    </header>
+    <header class="head">
+      <a class="btn btn-ghost" href="./index.html">← Home</a>
+      <h1>Weekly Glow</h1>
+      <div class="head-actions">
+        <button id="prevWeek" class="btn btn-ghost" type="button">◀︎ Prev</button>
+        <button id="thisWeek" class="btn btn-ghost" type="button">This Week</button>
+        <button id="nextWeek" class="btn btn-ghost" type="button">Next ▶︎</button>
+        <button id="openSettings" class="btn btn-ghost" type="button">⚙︎ Settings</button>
+      </div>
+    </header>
 
     <section class="week-range card" aria-live="polite">
       <h2 id="weekLabel">Week</h2>
@@ -49,15 +50,17 @@
     </section>
   </main>
 
-  <script type="module" src="./js/storage.js"></script>
-  <script type="module" src="./js/blooms.js"></script>
-  <script type="module" src="./js/export.js"></script>
-  <script type="module">
-    import { weekWindow, summarizeWeek, renderPillarBars, renderBlooms, gotoWeek, isoLabel } from './js/blooms.js';
-    import { downloadJson, downloadCsv } from './js/export.js';
+  <script type="module" src="./js/storage.js"></script>
+  <script type="module" src="./js/blooms.js"></script>
+  <script type="module" src="./js/export.js"></script>
+  <script type="module" src="./js/settings.js"></script>
+  <link rel="stylesheet" href="./css/settings.css">
+  <script type="module">
+    import { weekWindow, summarizeWeek, renderPillarBars, renderBlooms, gotoWeek, isoLabel } from './js/blooms.js';
+    import { downloadJson, downloadCsv } from './js/export.js';
 
-    // State: weekOffset = 0 -> this week; -1 prev; +1 next, etc.
-    let weekOffset = 0;
+    // State: weekOffset = 0 -> this week; -1 prev; +1 next, etc.
+    let weekOffset = 0;
 
     const weekLabel = document.getElementById('weekLabel');
     const bars = document.getElementById('pillarBars');
@@ -66,25 +69,26 @@
     const nextBtn = document.getElementById('nextWeek');
     const thisBtn = document.getElementById('thisWeek');
     const btnJson = document.getElementById('btnJson');
-    const btnCsv  = document.getElementById('btnCsv');
+    const btnCsv  = document.getElementById('btnCsv');
+    document.getElementById('openSettings')?.addEventListener('click', ()=> window.openSettings && window.openSettings());
 
-    function render(){
-      const { start, end } = weekWindow(weekOffset);
-      const summary = summarizeWeek(start, end);
-      weekLabel.textContent = `Week: ${isoLabel(start)} – ${isoLabel(end)}`;
-      renderPillarBars(bars, summary.pillars);
-      renderBlooms(bloomGrid, summary.tags);
-      // export handlers depend on current summary
-      btnJson.onclick = ()=> downloadJson(summary, start, end);
-      btnCsv.onclick  = ()=> downloadCsv(summary, start, end);
-    }
+    function render(){
+      const { start, end } = weekWindow(weekOffset);
+      const summary = summarizeWeek(start, end);
+      weekLabel.textContent = `Week: ${isoLabel(start)} – ${isoLabel(end)}`;
+      renderPillarBars(bars, summary.pillars);
+      renderBlooms(bloomGrid, summary.tags);
+      // export handlers depend on current summary
+      btnJson.onclick = ()=> downloadJson(summary, start, end);
+      btnCsv.onclick  = ()=> downloadCsv(summary, start, end);
+    }
 
-    prevBtn.onclick = ()=>{ weekOffset -= 1; render(); };
-    nextBtn.onclick = ()=>{ weekOffset += 1; render(); };
-    thisBtn.onclick = ()=>{ weekOffset  = 0; render(); };
+    prevBtn.onclick = ()=>{ weekOffset -= 1; render(); };
+    nextBtn.onclick = ()=>{ weekOffset += 1; render(); };
+    thisBtn.onclick = ()=>{ weekOffset  = 0; render(); };
 
-    // initial
-    render();
-  </script>
+    // initial
+    render();
+  </script>
 </body>
 </html>
