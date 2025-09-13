@@ -30,6 +30,7 @@ if(!('crypto' in window) || !crypto.randomUUID){
   const filterClient = $("#filterClient");
   const filterMonth  = $("#filterMonth");
   const filterPaid   = $("#filterPaid");
+  const invoiceBtn   = $("#invoiceBtn");
 
   $("#applyFilters").addEventListener("click", applyFilters);
   $("#resetFilters").addEventListener("click", resetFilters);
@@ -41,6 +42,15 @@ if(!('crypto' in window) || !crypto.randomUUID){
   $("#exportJSON").addEventListener("click", exportJSON);
 
   $("#clearForm").addEventListener("click", () => form.reset());
+  if(invoiceBtn){
+    invoiceBtn.addEventListener("click", ()=>{
+      const client = prompt("Invoice for which client?");
+      if(!client) return;
+      const list = entries.filter(e => (e.client||"").toLowerCase() === client.toLowerCase());
+      if(!list.length){ alert("No entries for that client."); return; }
+      window.makeInvoice(list, client);
+    });
+  }
 
   // Lucy toggle (adds/removes .lucy on <html>)
   $("#lucyToggle").addEventListener("change", (e)=>{
