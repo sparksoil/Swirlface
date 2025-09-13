@@ -1,0 +1,30 @@
+.bloom-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.bloom{
+  display:flex; align-items:center; gap:10px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,.8);
+  border: 2px solid var(--accent1);
+  border-radius: 14px;
+}
+
+.bloom .dot{
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--accent2); /* default */
+  box-shadow: 0 0 0 3px rgba(143,213,196,.25);
+}
+
+.bloom .name{ font-weight: 600; }
+.bloom .count{ margin-left:auto; opacity:.8; }
+
+/* Optional pillar tinting for dots */
+.bloom[data-pillar="divine"] .dot{ background: var(--accent1); }
+.bloom[data-pillar="family"] .dot{ background: var(--accent2); }
+.bloom[data-pillar="self"]   .dot{ background: var(--accent1); }
+.bloom[data-pillar="rrr"]    .dot{ background: var(--accent2); }
+.bloom[data-pillar="work"]   .dot{ background: var(--accent3); }

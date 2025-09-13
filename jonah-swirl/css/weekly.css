@@ -1,0 +1,41 @@
+body { margin:0; background: var(--bg); color: var(--ink); }
+
+.wrap{
+  max-width: 920px;
+  margin: 0 auto;
+  padding: clamp(14px, 3vw, 24px);
+}
+
+.head{
+  display:flex; align-items:center; gap:12px; flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.head h1{ margin:0; font-size: clamp(20px, 3.6vw, 28px); }
+.head-actions{ margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
+
+.card{
+  background: rgba(255,255,255,.9);
+  border: 2px solid var(--accent1);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 24px var(--shadow);
+  padding: 14px;
+  margin: 12px 0;
+}
+
+.hint{ opacity:.7; font-size:.92rem; margin:.25rem 0 0 0; }
+
+.bars{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:10px;
+}
+.bar{
+  display:grid;
+  grid-template-columns: 120px 1fr auto;
+  gap:10px; align-items:center;
+}
+.bar .label{ opacity:.9; }
+.bar .track{ background: rgba(0,0,0,.06); border-radius: 999px; height: 14px; overflow:hidden; }
+.bar .fill{ height:100%; background: var(--accent1); }
+
+.export-actions{ display:flex; gap:10px; flex-wrap:wrap; }

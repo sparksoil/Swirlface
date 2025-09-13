@@ -44,12 +44,69 @@
     </form>
 
     <section id="todayList" class="card">
-      <h2>Today</h2>
+      <div class="row" style="grid-template-columns: 1fr auto;">
+        <h2 style="margin:0;">Today</h2>
+        <button id="parentBtn" class="btn btn-ghost" type="button">Parent Controls</button>
+      </div>
       <ul id="todayUl" aria-live="polite"></ul>
     </section>
   </main>
 
   <script type="module" src="./js/storage.js"></script>
   <script type="module" src="./js/crumb-entry.js"></script>
+  <script type="module" src="./js/pin.js"></script>
+  <script type="module">
+    import { todayCrumbs } from './js/storage.js';
+    import { renderCommentsFor, mountCommentForm, handleDelete } from './js/comments.js';
+
+    const list = document.getElementById('todayUl');
+    const parentBtn = document.getElementById('parentBtn');
+
+    // Parent controls: set/change PIN
+    parentBtn.addEventListener('click', ()=>{
+      window.pinPrompt?.({ mode:'set', onOk(){ /* no-op; modal reports success */ } });
+    });
+
+    function makeRow(c){
+      const li = document.createElement('li');
+      li.dataset.id = c.id;
+
+      // Row content
+      const emoji = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' }[c.pillar] || '•';
+      li.innerHTML = `
+      <div class="c-top">
+        <div class="c-text">${emoji} ${escapeHtml(c.text)}</div>
+        <div class="c-actions">
+          <button class="btn btn-ghost c-del" type="button" title="Delete">Delete</button>
+        </div>
+      </div>
+      <div class="c-comments-wrap">
+        <ul class="c-comments"></ul>
+        <form class="c-add"><input placeholder="Add a comment…" maxlength="160"></form>
+      </div>
+      `;
+
+      // Wire comments
+      const commentsUl = li.querySelector('.c-comments');
+      const addForm = li.querySelector('.c-add');
+      renderCommentsFor(commentsUl, c.id);
+      mountCommentForm(addForm, c.id, ()=> renderCommentsFor(commentsUl, c.id));
+
+      // Wire delete (PIN-gated)
+      const delBtn = li.querySelector('.c-del');
+      handleDelete(delBtn, c.id, renderList);
+
+      return li;
+    }
+
+    function renderList(){
+      list.innerHTML = '';
+      todayCrumbs().forEach(c=> list.appendChild(makeRow(c)));
+    }
+
+    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m])); }
+
+    renderList();
+  </script>
 </body>
 </html>
