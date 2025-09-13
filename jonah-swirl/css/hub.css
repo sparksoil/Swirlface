@@ -193,7 +193,7 @@ body{
   to   { transform: rotate(calc(var(--angle, 0deg) + 360deg)) translate(var(--radius, 160px)) rotate(calc(var(--angle, 0deg) * -1 - 360deg)); }
 }
 
-/* ~lines 222-260: modes + portal + a11y */
+/* ~lines 222-260: modes + a11y */
 body.mode-structured .token{
   animation-play-state: paused;
   /* snap into a quiet ring when Structured mode is on */
@@ -215,58 +215,7 @@ body.mode-structured #dropCrumb{ display:none; }
 }
 @keyframes twinkle{ 0%,100%{ opacity:0.25 } 50%{ opacity:0.7 } }
 
-dialog#portal{
-  border:0; padding:0; background:transparent;
-}
-.portal-card{
-  width:min(520px, 90vw);
-  margin:auto; padding:22px 20px;
-  background:rgba(255,255,255,0.75); backdrop-filter: blur(12px);
-  border-radius:18px; box-shadow: var(--glow-strong);
-}
-
-/* —— free-floating glimmers that drift up on open —— */
-.free-glimmer{
-  position:absolute; width:8px; height:8px; pointer-events:none;
-  background:
-    radial-gradient(circle, #fff 0 40%, transparent 41%),
-    radial-gradient(circle at 50% 50%, rgba(255,255,255,.95), transparent 60%);
-  border-radius:50%;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,.8));
-  animation: floatout 2.4s ease-out forwards;
-  opacity:.9;
-}
-@keyframes floatout{
-  from { transform: translate(0,0) scale(.7); opacity:.9; }
-  to   { transform: translate(-8px,-36px) scale(1.2); opacity:0; }
-}
-
-/* —— POND RIPPLE OVERLAY (color-tinted to door hue) —— */
-.ripple-layer{
-  --rip-h: 0; --rip-s: 0%; --rip-l: 100%;
-  position: fixed;
-  left: calc(var(--x) * 1px);
-  top:  calc(var(--y) * 1px);
-  width: 22px; height: 22px;
-  transform: translate(-50%,-50%) scale(1);
-  border-radius: 50%;
-  background: radial-gradient(circle,
-      hsla(var(--rip-h), var(--rip-s), calc(var(--rip-l) + 10%), 0.55) 0%,
-      hsla(var(--rip-h), var(--rip-s), var(--rip-l), 0.35) 35%,
-      hsla(var(--rip-h), var(--rip-s), calc(var(--rip-l) - 10%), 0.12) 60%,
-      transparent 72%);
-  mix-blend-mode: soft-light;
-  pointer-events: none;
-  filter: blur(.4px);
-  animation: pond-ripple 1.8s ease-out forwards;
-  z-index: 5;
-}
-@keyframes pond-ripple{
-  to{ transform: translate(-50%,-50%) scale(28); opacity: 0; }
-}
-
 /* reduced motion kindness */
 @media (prefers-reduced-motion: reduce){
-  #pond::before, .swirl, .token, .sparkles,
-  .free-glimmer, .ripple-layer{ animation: none !important; }
+  #pond::before, .swirl, .token, .sparkles{ animation: none !important; }
 }

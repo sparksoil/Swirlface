@@ -18,6 +18,17 @@ const PILL_LABEL = {
   work:   '💵 Work'
 };
 
+// preselect pillar from URL hash if provided
+const hashPill = (location.hash || '').replace('#','').trim();
+if(hashPill && PILL_LABEL[hashPill]){
+  currentPill = hashPill;
+  chipRow.querySelectorAll('.chip').forEach(c => {
+    const active = c.dataset.pill === currentPill;
+    c.classList.toggle('is-active', active);
+    c.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+}
+
 function dateOnly(iso){ return (iso||'').slice(0,10); }
 function emojiFor(p){ return ({divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵'})[p] || '•'; }
 
