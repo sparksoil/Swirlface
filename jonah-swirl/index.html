@@ -74,9 +74,17 @@
         <span>🪶 Shoeday (1 crumb is enough)</span>
       </label>
       <button id="versePeek" class="btn btn-ghost" aria-label="Show today’s verse">✨ Verse</button>
+      <button id="openSettings" class="btn btn-ghost" type="button">⚙︎ Settings</button>
     </div>
   </footer>
 
   <script src="./js/landing.js" defer></script>
+  <link rel="stylesheet" href="./css/settings.css">
+  <script type="module" src="./js/settings.js"></script>
+  <script type="module">
+    // Wire settings button
+    const btn = document.getElementById('openSettings');
+    btn?.addEventListener('click', ()=> window.openSettings && window.openSettings());
+  </script>
 </body>
 </html>

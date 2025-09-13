@@ -1,50 +1,64 @@
 import { preselectPillarFromHash, saveCrumb, todayCrumbs } from './storage.js';
+import { compressFileToDataUrl } from './photos.js';
 
 (function(){
-  const form = document.getElementById('crumbForm');
-  const pillar = document.getElementById('pillar');
-  const text = document.getElementById('text');
-  const tags = document.getElementById('tags');
-  const todayUl = document.getElementById('todayUl');
+  const form = document.getElementById('crumbForm');
+  const pillar = document.getElementById('pillar');
+  const text = document.getElementById('text');
+  const tags = document.getElementById('tags');
+  const photo = document.getElementById('photo');
+  const todayUl = document.getElementById('todayUl');
 
-  // Preselect pillar from URL hash (e.g., day.html#self)
-  if (pillar) preselectPillarFromHash(pillar);
+  if (pillar) preselectPillarFromHash(pillar);
 
-  // Submit handler
-  form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    if(!pillar.value || !text.value.trim()) return;
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    if(!pillar.value || !text.value.trim()) return;
 
-    const crumb = saveCrumb({
-      pillar: pillar.value,
-      text: text.value.trim(),
-      tags: tags.value.trim()
-    });
+    let media = [];
+    const file = photo?.files?.[0];
+    if(file){
+      try{
+        const { dataUrl, width, height } = await compressFileToDataUrl(file, { max: 1024, quality: .72 });
+        media = [{ kind:'image', dataUrl, w: width, h: height }];
+      }catch(err){
+        console.warn('Photo compression failed, saving without image', err);
+      }
+    }
 
-    // Reset text, keep pillar for easy next crumb
-    text.value = ''; tags.value = '';
-    // Show in list
-    addToTodayList(crumb);
-  });
+    const crumb = saveCrumb({
+      pillar: pillar.value,
+      text: text.value.trim(),
+      tags: tags.value.trim(),
+      media
+    });
 
-  // Render today on load
-  renderToday();
+    // Reset text & photo, keep pillar for easy next crumb
+    text.value = ''; tags.value = ''; if(photo) photo.value = '';
+    addToTodayList(crumb);
+  });
 
-  function renderToday(){
-    todayUl.innerHTML = '';
-    todayCrumbs().forEach(addToTodayList);
-  }
+  renderToday();
 
-  function addToTodayList(c){
-    const li = document.createElement('li');
-    li.textContent = displayCrumb(c);
-    todayUl.prepend(li);
-  }
+  function renderToday(){
+    todayUl.innerHTML = '';
+    todayCrumbs().forEach(addToTodayList);
+  }
 
-  function displayCrumb(c){
-    const emoji = {
-      divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵'
-    }[c.pillar] || '•';
-    return `${emoji} ${c.text}`;
-  }
+  function addToTodayList(c){
+    const li = document.createElement('li');
+    li.innerHTML = renderCrumbRow(c);
+    todayUl.prepend(li);
+  }
+
+  function renderCrumbRow(c){
+    const emoji = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' }[c.pillar] || '•';
+    const text = escapeHtml(c.text);
+    const img = (Array.isArray(c.media) && c.media[0]?.kind==='image')
+      ? `<div style="margin-top:6px;"><img alt="" src="${c.media[0].dataUrl}" style="max-width:100%; height:auto; border-radius:10px;"/></div>`
+      : '';
+    return `${emoji} ${text}${img}`;
+  }
+
+  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m])); }
 })();
