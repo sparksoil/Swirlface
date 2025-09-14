@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Drop a Crumb · Jonah</title>
-  <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/day.css">
-  <link rel="stylesheet" href="./css/settings.css">
+  <link rel="stylesheet" href="./css/base.css?v=jonah-1">
+  <link rel="stylesheet" href="./css/day.css?v=jonah-1">
+  <link rel="stylesheet" href="./css/settings.css?v=jonah-1">
 </head>
 <body>
   <!-- DAY VIEW / ENTRY -->
@@ -68,10 +68,10 @@
     </section>
   </main>
 
-  <script type="module" src="./js/storage.js"></script>
-  <script type="module" src="./js/crumb-entry.js"></script>
-  <script type="module" src="./js/pin.js"></script>
-  <script type="module" src="./js/photos.js"></script>
+  <script type="module" src="./js/storage.js?v=jonah-1"></script>
+  <script type="module" src="./js/crumb-entry.js?v=jonah-1"></script>
+  <script type="module" src="./js/pin.js?v=jonah-1"></script>
+  <script type="module" src="./js/photos.js?v=jonah-1"></script>
   <script type="module">
     import { initSync } from './js/sync.js';
     // Start listening to storage events for optional sync.
@@ -172,7 +172,7 @@
     renderList();
     renderSchedule();
   </script>
-  <script type="module" src="./js/settings.js"></script>
+  <script type="module" src="./js/settings.js?v=jonah-1"></script>
   <script type="module">
     // Wire settings button
     document.getElementById('openSettings')?.addEventListener('click', ()=> window.openSettings && window.openSettings());
