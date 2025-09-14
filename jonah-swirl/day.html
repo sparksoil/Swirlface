@@ -11,11 +11,16 @@
   <!-- DAY VIEW / ENTRY -->
   <!-- QUOTE ROTATOR / VERSE PREVIEW (future) -->
 
-  <main class="day-wrap">
-    <header class="day-head">
-      <a class="btn btn-ghost" href="./index.html">← Home</a>
-      <h1>Drop a Crumb</h1>
-    </header>
+  <main class="day-wrap">
+    <header class="day-head">
+      <a class="btn btn-ghost" href="./index.html">← Home</a>
+      <h1>Drop a Crumb</h1>
+    </header>
+
+    <section id="schedule" class="card">
+      <h2>Today's Plan</h2>
+      <ul id="scheduleList"></ul>
+    </section>
 
     <form id="crumbForm" class="card">
       <label class="row">
@@ -35,8 +40,8 @@
       </label>
 
       <label class="row">
-        <span class="lab">Photo</span>
-        <input id="photo" type="file" accept="image/*" capture="environment">
+        <span class="lab">Add media</span>
+        <input id="photo" type="file" multiple>
       </label>
 
       <label class="row">
@@ -55,7 +60,12 @@
       </div>
       <ul id="todayUl" aria-live="polite"></ul>
     </section>
-  </main>
+
+    <section id="narrative" class="card">
+      <h2>Today's Story</h2>
+      <p id="narrativeText"></p>
+    </section>
+  </main>
 
   <script type="module" src="./js/storage.js"></script>
   <script type="module" src="./js/crumb-entry.js"></script>
@@ -73,10 +83,19 @@
 
     const list = document.getElementById('todayUl');
     const parentBtn = document.getElementById('parentBtn');
+    const narrativeText = document.getElementById('narrativeText');
+    const scheduleList = document.getElementById('scheduleList');
+    const PILL_EMOJI = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' };
 
     // Parent controls: set/change PIN
     parentBtn.addEventListener('click', ()=>{
       window.pinPrompt?.({ mode:'set', onOk(){ /* no-op; modal reports success */ } });
+    });
+
+    window.addEventListener('swirl:changed', e=>{
+      if(e.detail?.type === 'crumb_create' || e.detail?.type === 'crumb_delete'){
+        renderList();
+      }
     });
 
     function makeRow(c){
@@ -85,7 +104,7 @@
       li.className = 'crumb-age ' + seasonClass(c.tsISO);
 
       // Row content
-      const emoji = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' }[c.pillar] || '•';
+      const emoji = PILL_EMOJI[c.pillar] || '•';
       li.innerHTML = `
       <div class="c-top">
         <div class="c-text">${emoji} ${escapeHtml(c.text)}</div>
@@ -115,11 +134,35 @@
     function renderList(){
       list.innerHTML = '';
       todayCrumbs().forEach(c=> list.appendChild(makeRow(c)));
+      renderNarrative();
+    }
+
+    function renderNarrative(){
+      const crumbs = todayCrumbs();
+      narrativeText.textContent = crumbs.map(c=> c.text).join(' ');
+    }
+
+    function renderSchedule(){
+      scheduleList.innerHTML = '';
+      try{
+        const plan = JSON.parse(localStorage.getItem('swirl_plan_jonah') || '{}');
+        const cells = plan.cells || {};
+        const dow = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
+        Object.entries(cells).forEach(([key,val])=>{
+          const [pillar, day] = key.split('_');
+          if(day===dow && val){
+            const li = document.createElement('li');
+            li.textContent = `${PILL_EMOJI[pillar]||''} ${val}`;
+            scheduleList.appendChild(li);
+          }
+        });
+      }catch{}
     }
 
     function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m])); }
 
     renderList();
+    renderSchedule();
   </script>
   <link rel="stylesheet" href="./css/settings.css">
   <script type="module" src="./js/settings.js"></script>

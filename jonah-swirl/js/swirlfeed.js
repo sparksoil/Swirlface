@@ -79,11 +79,11 @@ function makeItem(c){
 }
 
 function render(){
-  const rows = filtered();
-  const groups = groupByDay(rows);
+  const rows = filtered();
+  const groups = groupByDay(rows);
 
-  feedRoot.innerHTML = '';
-  if(!groups.length){
+  feedRoot.innerHTML = '';
+  if(!groups.length){
     const p = document.createElement('p');
     p.className = 'hint';
     p.textContent = q || currentPill!=='all'
@@ -91,19 +91,47 @@ function render(){
       : 'No crumbs yet. Drop one from the Home doors or Day page.';
     feedRoot.appendChild(p);
     return;
-  }
+  }
 
-  for(const [day, items] of groups){
-    const group = document.createElement('div');
-    group.className = 'day-group';
-    const h = document.createElement('h3');
-    h.className = 'day-head';
-    h.textContent = day;
-    group.appendChild(h);
+  for(const [day, items] of groups){
+    const group = document.createElement('div');
+    group.className = 'day-group';
 
-    items.forEach(c=> group.appendChild(makeItem(c)));
-    feedRoot.appendChild(group);
-  }
+    const coverCrumb = items.find(c=> Array.isArray(c.media) && c.media.find(m=>m.kind==='image'));
+    if(coverCrumb){
+      const imgObj = coverCrumb.media.find(m=>m.kind==='image');
+      const cover = document.createElement('div');
+      cover.className = 'cover';
+      cover.innerHTML = `<img src="${imgObj.dataUrl}" alt="" />`;
+      group.appendChild(cover);
+
+      const details = document.createElement('div');
+      details.className = 'day-details hidden';
+      const h = document.createElement('h3');
+      h.className = 'day-head';
+      h.textContent = day;
+      details.appendChild(h);
+      const nar = document.createElement('p');
+      nar.className = 'narrative';
+      nar.textContent = items.map(c=> c.text).join(' ');
+      details.appendChild(nar);
+      items.forEach(c=> details.appendChild(makeItem(c)));
+      group.appendChild(details);
+      cover.addEventListener('click', ()=> details.classList.toggle('hidden'));
+    }else{
+      const h = document.createElement('h3');
+      h.className = 'day-head';
+      h.textContent = day;
+      group.appendChild(h);
+      const nar = document.createElement('p');
+      nar.className = 'narrative';
+      nar.textContent = items.map(c=> c.text).join(' ');
+      group.appendChild(nar);
+      items.forEach(c=> group.appendChild(makeItem(c)));
+    }
+
+    feedRoot.appendChild(group);
+  }
 }
 
 // chip interactions
