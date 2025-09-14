@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evidence Pack · Jonah</title>
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/evidence.css">
+  <link rel="stylesheet" href="./css/blooms.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="head no-print">
+      <a class="btn btn-ghost" href="./index.html">← Home</a>
+      <div class="spacer"></div>
+      <button id="btnPrint" class="btn" type="button">🖨 Print</button>
+      <button id="btnJson"  class="btn" type="button">Download JSON</button>
+    </header>
+
+    <section class="card">
+      <h1>Evidence Pack</h1>
+      <p id="range" class="subtle"></p>
+    </section>
+
+    <section class="card">
+      <h2>Growth This Week</h2>
+      <div id="pillarBars" class="bars"></div>
+      <h3 style="margin-top:10px;">Top Tags</h3>
+      <div id="bloomGrid" class="bloom-grid"></div>
+      <h3 style="margin-top:10px;">Latest Moments (10)</h3>
+      <ul id="miniFeed" class="mini-feed"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Upcoming Focus</h2>
+      <p id="anchor" class="hint"></p>
+      <ul id="goals" class="goals"></ul>
+    </section>
+
+    <footer class="foot subtle">
+      <p>Local-first snapshot for documentation. Print or export JSON as needed.</p>
+    </footer>
+  </main>
+
+  <script type="module" src="./js/storage.js"></script>
+  <script type="module" src="./js/blooms.js"></script>
+  <script type="module">
+    import { weekWindow, summarizeWeek, renderPillarBars, renderBlooms, isoLabel } from './js/blooms.js';
+    import { listCrumbs } from './js/storage.js';
+
+    const qs = new URLSearchParams(location.search);
+    const offset = Number(qs.get('w')||'0'); // ?w=-1 for previous week, etc.
+
+    const { start, end } = weekWindow(offset);
+    const summary = summarizeWeek(start, end);
+
+    document.getElementById('range').textContent = `Week: ${isoLabel(start)} – ${isoLabel(end)}`;
+
+    // Growth
+    renderPillarBars(document.getElementById('pillarBars'), summary.pillars);
+    renderBlooms(document.getElementById('bloomGrid'), summary.tags);
+
+    // Latest moments (10 within range)
+    const mini = document.getElementById('miniFeed');
+    listCrumbs().filter(c=>{
+      const d = (c.tsISO||'').slice(0,10);
+      return d >= summary.range.start && d <= summary.range.end;
+    }).slice(0,10).forEach(c=>{
+      const li = document.createElement('li');
+      const emoji = ({divine:'👑',family:'🏠',self:'🌱',rrr:'📚',work:'💵'})[c.pillar] || '•';
+      li.textContent = `${(c.tsISO||'').slice(0,10)} — ${emoji} ${c.text||''}`;
+      mini.appendChild(li);
+    });
+
+    // Upcoming from plan store
+    const plan = JSON.parse(localStorage.getItem('swirl_plan_jonah')||'{"anchor":""}');
+    document.getElementById('anchor').textContent = plan.anchor || '(No anchor set)';
+
+    const goalsUl = document.getElementById('goals');
+    const EMOJI = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' };
+    const goals = JSON.parse(localStorage.getItem('swirl_goals_jonah')||'[]')
+      .filter(g=>g.status!=='done') // show open goals
+      .slice(0,8);
+    goalsUl.innerHTML = '';
+    goals.forEach(g=>{
+      const li = document.createElement('li');
+      li.textContent = `${g.date} — ${EMOJI[g.pillar]||'•'} ${g.title}`;
+      goalsUl.appendChild(li);
+    });
+
+    // Actions
+    document.getElementById('btnPrint').onclick = ()=> window.print();
+    document.getElementById('btnJson').onclick = ()=>{
+      const pack = { week: {start, end, summary}, upcoming: { anchor: plan.anchor, openGoals: goals } };
+      const blob = new Blob([JSON.stringify(pack, null, 2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `jonah_evidence_${start}_${end}.json`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 0);
+    };
+  </script>
+</body>
+</html>

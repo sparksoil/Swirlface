@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Grandma Plan · Jonah (Upcoming)</title>
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/grandma-plan.css">
+</head>
+<body>
+  <main class="wrap">
+    <!-- HEADER (hidden in print) -->
+    <header class="head no-print">
+      <a class="btn btn-ghost" href="./index.html">← Home</a>
+      <a class="btn btn-ghost" href="./grandma.html">🗓 Last Week</a>
+      <div class="spacer"></div>
+      <button id="btnSuggest" class="btn btn-ghost" type="button">Suggest from last 4 weeks</button>
+      <button id="btnExportPlan" class="btn" type="button">Export Plan (JSON)</button>
+      <button id="btnPrint" class="btn" type="button">🖨 Print</button>
+    </header>
+
+    <!-- TITLE + DATE PICKERS -->
+    <section class="card title-card">
+      <h1>Grandma Plan — Upcoming Week</h1>
+      <div class="when">
+        <label>Week starting (Mon): <input type="date" id="weekStart"></label>
+        <label class="alt">or Month: <input type="month" id="monthStart"></label>
+      </div>
+      <p class="hint">Pick a Monday to plan a single week, or choose a month for a light monthly outline.</p>
+    </section>
+
+    <!-- WEEK GRID: 5 PILLARS × 7 DAYS -->
+    <section class="card">
+      <h2>Weekly Focus by Pillar</h2>
+      <div id="planGrid" class="plan-grid" aria-label="Weekly plan grid">
+        <!-- JS populates rows for 👑 🏠 🌱 📚 💵 and 7 day columns -->
+      </div>
+      <p class="hint">Keep it tiny: 1 line per cell. The point is rhythm, not pressure.</p>
+    </section>
+
+    <!-- GOALS / APPOINTMENTS -->
+    <section class="card">
+      <h2>Simple Goals & Appointments</h2>
+      <form id="goalForm" class="row">
+        <select id="gPillar" aria-label="Pillar">
+          <option value="divine">👑 Divine</option>
+          <option value="family">🏠 Home</option>
+          <option value="self">🌱 Self</option>
+          <option value="rrr">📚 Skills</option>
+          <option value="work">💵 Work</option>
+        </select>
+        <input id="gTitle" type="text" placeholder="Short goal or appointment…" maxlength="80" required />
+        <input id="gDate" type="date" required />
+        <button class="btn" type="submit">Add</button>
+      </form>
+
+      <ul id="goalList" class="goals"></ul>
+    </section>
+
+    <!-- VERSE / ANCHOR CARD -->
+    <section class="card">
+      <h2>Anchor Verse or Thought</h2>
+      <textarea id="anchorText" rows="3" placeholder="Optional weekly anchor (verse, theme, family value)…"></textarea>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="foot subtle">
+      <p>Local-first, printable planner. Export does not change your data.</p>
+    </footer>
+  </main>
+
+  <!-- SCRIPTS -->
+  <script type="module" src="./js/storage.js"></script>
+  <script type="module" src="./js/blooms.js"></script>
+  <script type="module" src="./js/planner.js"></script>
+  <script type="module">
+    import { initPlanner } from './js/planner.js';
+    initPlanner();
+  </script>
+</body>
+</html>
