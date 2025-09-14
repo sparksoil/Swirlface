@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Day Journal · Jonah</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="./css/base.css"/>
+  <link rel="stylesheet" href="./css/dayview.css"/>
+</head>
+<body class="day-body">
+  <header class="topbar">
+    <a class="brand" href="./feed.html">← SwirlFeed</a>
+    <h1 id="dayTitle">Day Journal</h1>
+    <nav class="nav">
+      <a href="./index.html">＋ Drop Crumb</a>
+    </nav>
+  </header>
+
+  <main class="day-wrap">
+    <section id="entries" class="entries"></section>
+
+    <section class="comments">
+      <h2>Add a Thought</h2>
+      <form id="commentForm">
+        <label>Comment
+          <textarea id="commentText" rows="3" placeholder="A sentence is enough…"></textarea>
+        </label>
+        <label>Part (optional)
+          <select id="commentPart">
+            <option value="">—</option>
+            <option>Otter</option>
+            <option>Ron</option>
+            <option>Lucy</option>
+            <option>Glimmer</option>
+          </select>
+        </label>
+        <button type="submit">Add Comment</button>
+      </form>
+      <ul id="commentList" class="comment-list"></ul>
+    </section>
+  </main>
+
+  <script type="module" src="./js/dayview.js"></script>
+</body>
+</html>
