@@ -1,152 +1,322 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="ron">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Ron — Pet Job Income Ledger</title>
+  <title>Ron — Modular Ledger (Ron • Lucy • Coffee)</title>
 
-  <!-- STYLES -->
-  <link rel="stylesheet" href="theme/ron-style.css">
-  <link rel="stylesheet" href="theme/lucy-mode.css">
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Inter (body), Cormorant (Lucy), Patrick Hand (Ron quote) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;600&family=Patrick+Hand&display=swap" rel="stylesheet">
 
-  <!-- FONTS (safe system stack by default; swap later if desired) -->
+  <!-- THEMES (versioned for cache-busting) -->
+  <link rel="stylesheet" href="theme/ron-style.css?v=8">
+  <link rel="stylesheet" href="theme/lucy-mode.css?v=8">
+  <link rel="stylesheet" href="theme/coffee-mode.css?v=8">
 </head>
-<body class="body-bg">
-  <!-- ========================= HEADER ========================= -->
-  <header class="site-header">
-    <h1 class="title">Ron — Pet Job Income Ledger</h1>
-    <div class="header-right">
-      <label class="toggle">
-        <input id="lucyToggle" type="checkbox">
-        <span>Lucy mode</span>
-      </label>
-      <label class="toggle">
-    <input id="bizToggle" type="checkbox">
-    <span>Business mode</span>
-  </label>
-</div>
-</header>
+<body>
+  <div class="wrap">
+    <div class="panel" role="region" aria-label="Ron Ledger">
 
-  <!-- ========================= QUOTE ROTATOR ========================= -->
-  <!-- QUOTE ROTATOR -->
-  <section class="quote-wrap">
-    <blockquote id="quoteBox" class="quote"></blockquote>
-  </section>
+      <!-- HEADER: title first, modes at right -->
+      <div class="header-line">
+        <h1 id="titleSwap">Money and Things</h1>
 
-  <!-- ========================= ENTRY FORM ========================= -->
-  <!-- ENTRY FORM -->
-  <section class="panel">
-    <h2>Add Entry</h2>
-    <form id="entryForm" class="grid">
-      <label>Client
-        <input name="client" placeholder="e.g., Sparkie" required>
-      </label>
-      <label>Date
-        <input name="date" type="date" required>
-      </label>
-      <label>Service
-        <select name="service">
-          <option>Drop-in</option>
-          <option>Overnight</option>
-          <option>Walk / Play</option>
-          <option>Other</option>
-        </select>
-      </label>
-      <label>Amount ($)
-        <input name="amount" type="number" step="0.01" min="0" placeholder="40.00" required>
-      </label>
-      <label>Paid?
-        <select name="paid">
-          <option value="No">No</option>
-          <option value="Yes">Yes</option>
-        </select>
-      </label>
-      <label>Notes
-        <input name="notes" placeholder="Optional details">
-      </label>
-      <div class="row-actions">
-        <button type="submit" class="btn">Add</button>
-        <button id="clearForm" type="button" class="btn ghost">Clear</button>
+        <div class="modes" role="group" aria-label="Felt mode">
+          <label><input type="radio" name="felt" value="ron" checked> Ron</label>
+          <label><input type="radio" name="felt" value="lucy"> Lucy</label>
+          <label><input type="radio" name="felt" value="coffee"> Coffee</label>
+        </div>
       </div>
-    </form>
-  </section>
 
-  <!-- ========================= FILTERS ========================= -->
-  <!-- FILTERS -->
-  <section class="panel">
-    <h2>Filters</h2>
-    <div class="grid">
-      <label>Client
-        <input id="filterClient" placeholder="Start typing a name">
-      </label>
-      <label>Month
-        <input id="filterMonth" type="month">
-      </label>
-      <label>Paid?
-        <select id="filterPaid">
-          <option value="">Any</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </label>
-      <div class="row-actions">
-        <button id="applyFilters" class="btn">Apply</button>
-        <button id="resetFilters" class="btn ghost">Reset</button>
+      <!-- Single quote line under title -->
+      <div id="quoteMain" class="muted quote-under-title"></div>
+      <div id="quoteSub" class="quote-sub muted" style="margin-top:2px;"></div>
+
+      <!-- Character area (sprite + coffee mug) -->
+      <div class="header-right" aria-hidden="true" style="display:flex;gap:12px;align-items:flex-start;">
+        <!-- Ron face sprite (shown in Ron mode) -->
+        <div id="ronFace" class="ron-face pose-1" style="display:none"></div>
+        <!-- Coffee mug face (CSS controls visibility in Coffee mode) -->
+        <div class="coffee-face right-of-title expression-1"></div>
       </div>
-    </div>
-  </section>
 
-  <!-- ========================= TABLE ========================= -->
-  <!-- LEDGER TABLE -->
-  <section class="panel">
-    <div class="table-actions">
-      <h2>Entries</h2>
-      <div class="row-actions">
-        <button id="loadSeed" class="btn ghost" title="Load ron-entries.js sample data">Load Seed</button>
-        <button id="saveLocal" class="btn" title="Save to this browser only">Save</button>
-        <button id="exportCSV" class="btn ghost">Export CSV</button>
-        <button id="exportJSON" class="btn ghost">Export JSON</button>
-        <button id="invoiceBtn" class="btn">Invoice</button>
-        <button id="clearLocal" class="btn danger" title="Clears local browser copy only">Clear Local</button>
+      <!-- TOP art (only Lucy uses an <img>) -->
+      <div class="top-art" aria-hidden="true">
+        <img id="lucyArt" class="art" alt="Lucy bubble art" style="display:none"
+             data-folder="assets" data-name="Lucy-bubble" data-ext="png,PNG,jpg,JPG,webp,WEBP">
+        <!-- legacy quote block kept for other modes; hidden in Ron via CSS -->
+        <div class="ron-quote-text"><div id="ronQuoteMain"></div><div id="ronQuoteSub"></div></div>
       </div>
+
+      <hr class="quietline">
+
+      <!-- Settings -->
+      <details>
+        <summary><strong>Settings</strong> — Set-Aside % (Ron’s Jar)</summary>
+        <div class="row" style="margin-top:8px;">
+          <label>Set-Aside Percentage (% to reserve)
+            <input id="reservePct" type="number" step="0.1" min="0" max="100" placeholder="25">
+          </label>
+          <div class="inline" style="align-items:flex-end;">
+            <button id="saveSettings" type="button" class="secondary">Save</button>
+            <span class="muted">Used to compute “Set-Aside” and “Net”. Defaults to 25%.</span>
+          </div>
+        </div>
+      </details>
+
+      <hr class="quietline">
+
+      <!-- Form -->
+      <form id="entryForm" aria-describedby="savedMsg">
+        <div class="row">
+          <label>Date <input type="date" name="date" required></label>
+          <label>Client <input name="client" placeholder="Keely / Dexter / Witcher" required></label>
+        </div>
+
+        <div class="row-3">
+          <label>Service <input name="service" placeholder="Drop-in / Overnight / Litter clean" required></label>
+          <label>Amount (USD) <input type="number" step="0.01" name="amount" min="0" required placeholder="45.00"></label>
+          <label>Payment Method
+            <select name="method" required>
+              <option value="Cash">Cash</option><option value="Venmo">Venmo</option>
+              <option value="Zelle">Zelle</option><option value="Card">Card</option><option>Other</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="row">
+          <label class="inline"><input type="checkbox" name="paid"> Mark as paid</label>
+          <label>Field Log <input name="notes" placeholder="Council remarks, special care, etc."></label>
+        </div>
+
+        <!-- Multi-day toggle -->
+        <div class="row" style="align-items:end;">
+          <label class="inline"><input id="multiToggle" type="checkbox" name="multiday"> Multi-day job?</label>
+          <div class="muted">For house sitting or multi-day care (Income only).</div>
+        </div>
+        <div id="multiFields" class="row-3" style="display:none;">
+          <label>Start Date <input type="date" name="startDate"></label>
+          <label>End Date   <input type="date" name="endDate"></label>
+          <label>Split evenly across days?
+            <select name="splitEvenly"><option value="yes">Yes — divide total amount</option><option value="no">No — keep on first day</option></select>
+          </label>
+        </div>
+        <div id="multiChoice" class="row" style="display:none;">
+          <label>Destination mode
+            <select name="expandMode"><option value="summary">One summary row</option><option value="expand">Auto-expand into daily rows</option></select>
+          </label>
+        </div>
+
+        <div class="inline" style="margin-top:10px;">
+          <div>
+            <button class="primary" type="submit" id="logBtn">Log to Ledger</button>
+            <button class="secondary" type="button" id="clearBtn">Wipe Slate</button>
+          </div>
+          <p id="savedMsg" class="success" role="status" aria-live="polite">Logged. Ron set it on the shelf. 🪵</p>
+        </div>
+      </form>
+
+      <div class="row" style="margin-top:14px;">
+        <div>
+          <h2>This Season’s Stack</h2>
+          <div class="inline" style="gap:8px; flex-wrap:wrap;">
+            <span class="pill" id="monthLabel">Month</span>
+            <span class="pill">Logs: <span id="countMonth">0</span></span>
+            <span class="pill">Gross Income: $<span id="grossMonth">0.00</span></span>
+            <span class="pill">Expenses: $<span id="expMonth">0.00</span></span>
+            <span class="pill">Net After Exp: $<span id="netMonth">0.00</span></span>
+            <span class="pill">Tax Set-Aside: $<span id="reserveMonth">0.00</span></span>
+          </div>
+          <div class="card watermark" style="margin-top:10px;">
+            <div class="inline"><strong>Ledger</strong><small class="muted">The mountain remembers.</small></div>
+            <div class="table-wrap" style="margin-top:6px;">
+              <table aria-label="Logged entries">
+                <thead><tr>
+                  <th>Date / Range</th><th>Client</th><th>Category</th><th>Service</th><th>Platform</th><th>Method</th>
+                  <th class="right">Amount</th><th class="right">Set-Aside</th><th class="right">Net</th><th>Paid</th><th>Field Log</th>
+                </tr></thead>
+                <tbody id="rows"></tbody>
+                <tfoot><tr>
+                  <td colspan="6">Totals</td>
+                  <td class="right">$<span id="totalFoot">0.00</span></td>
+                  <td class="right">$<span id="totalReserveFoot">0.00</span></td>
+                  <td class="right">$<span id="totalNetFoot">0.00</span></td>
+                  <td colspan="2"></td>
+                </tr></tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- BACKUPS -->
+          <div class="card" style="margin-top:12px; padding:12px;">
+            <div class="inline" style="justify-content:space-between; align-items:center;">
+              <strong>Backups</strong>
+              <small class="muted">Your data lives in this browser. Export often.</small>
+            </div>
+            <div class="actions" style="margin-top:8px; flex-wrap:wrap;">
+              <button type="button" class="primary" id="exportCsvBtn">Export CSV</button>
+              <button type="button" class="secondary" id="exportJsonBtn">Export JSON</button>
+              <label class="inline" style="gap:6px;">
+                <input type="file" id="importJsonInput" accept="application/json" style="display:none">
+                <button type="button" class="secondary" id="importJsonBtn">Import JSON</button>
+                <span class="muted">Restores entries from a JSON file</span>
+              </label>
+            </div>
+            <p class="footer">📦 Tip: Keep backups off-device (Drive, iCloud). Exports do not include your settings; that’s okay.</p>
+          </div>
+        </div>
+
+        <div class="right">
+          <h2 id="titleRight">The Mountain’s Record</h2>
+          <div>Logs: <strong id="countAll">0</strong></div>
+          <div>Gross Income: <strong>$<span id="totalAll">0.00</span></strong></div>
+          <div>Expenses: <strong>$<span id="expAll">0.00</span></strong></div>
+          <div>Net After Expenses: <strong>$<span id="netAll">0.00</span></strong></div>
+          <div>Tax Set-Aside: <strong>$<span id="reserveAll">0.00</span></strong></div>
+
+          <!-- Coffee mini (only in coffee mode) -->
+          <div id="coffeeMini" class="card" style="display:none; margin-top:12px;">
+            <div class="inline"><strong>Reading Timer</strong><button id="start10" class="secondary">10 min</button></div>
+            <div class="row" style="margin-top:8px;">
+              <label>DNF / Juice Box
+                <input id="coffeeNote" placeholder="Too many italics. Emotionally allergic.">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="muted" style="margin-top:10px;">🦦 Nudge: Tides come four times a year — <strong>Apr 15 • Jun 15 • Sep 15 • Jan 15</strong></p>
     </div>
+  </div>
 
-    <div class="table-wrap">
-      <table id="ledgerTable">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Client</th>
-            <th>Service</th>
-            <th class="num">Amount</th>
-            <th>Paid</th>
-            <th>Notes</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="ledgerBody"><!-- rows injected by JS --></tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3" class="num">Subtotal (visible):</td>
-            <td class="num" id="subtotalCell">$0.00</td>
-            <td colspan="3"></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  </section>
+  <!-- Sparkle layer -->
+  <div class="sparkles" id="sparkles"></div>
 
-  <!-- ========================= FOOTER ========================= -->
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <p class="ronism">“One number at a time is still progress.”</p>
-    <p class="ronism">“You already did more than you think.”</p>
-  </footer>
+  <!-- MODULES -->
+  <script type="module">
+    import {resolveImage, resolveBgVar} from './ui/image-resolver.js';
+    import {current, initModeRadio} from './ui/modes.js';
+    import {showOnce} from './ui/quotes.js';
+    import * as store from './ui/storage.js';
+    import {wireForm} from './ui/ledger-form.js';
+    import {renderTable} from './ui/ledger-table.js';
+    import {renderSummaries} from './ui/summaries.js';
+    import {burst as sparklesBurst} from './ui/sparkles.js';
+    import {wireCoffeeMini} from './ui/coffee-mini.js';
+    import {applyCoffeeOnMode} from './ui/coffee-faces.js';
+    import {setRonPose, randomPose} from './ui/Ron-face.js';  // capital R
 
-  <!-- SCRIPTS -->
-  <script src="quote-rotator.js"></script>
-  <script src="ron-entries.js"></script>
-  <script src="ui/invoice.js"></script>
-  <script src="ron-logic.js"></script>
+    // Only Lucy has an <img> art now (Ron uses sprite)
+    resolveImage(document.getElementById('lucyArt'));
+
+    // CSS var backgrounds (case exact)
+    resolveBgVar('--bg-lucy',   'assets/Lucy-bokeh.png');
+    resolveBgVar('--bg-coffee','assets/coffee/coffee-paper.PNG');
+
+    // Mode init
+    initModeRadio(document.querySelectorAll('input[name="felt"]'), (m)=>{
+      titleUpdate(m);
+      artSwap(m);
+      showOnce(m);
+      applyCoffeeOnMode(m);
+      document.getElementById('coffeeMini').style.display = (m==='coffee') ? '' : 'none';
+
+      // Keep <html> mode classes in sync for CSS themes
+      document.documentElement.classList.toggle('ron',    m === 'ron');
+      document.documentElement.classList.toggle('lucy',   m === 'lucy');
+      document.documentElement.classList.toggle('coffee', m === 'coffee');
+
+      // Sprite visibility + default/random pose
+      const ronFace = document.getElementById('ronFace');
+      if (ronFace) {
+        ronFace.style.display = (m === 'ron') ? '' : 'none';
+        if (m === 'ron') randomPose(1); // swap to randomPose() if you want a surprise
+      }
+    });
+
+    function titleUpdate(m){
+      const t = document.getElementById('titleSwap');
+      const r = document.getElementById('titleRight');
+      t.textContent = (m==='lucy')   ? 'Pebbles and Things'
+                   : (m==='coffee') ? 'Receipts or whatever.'
+                                     : 'Money and Things';
+      r.textContent = (m==='lucy')   ? 'The River’s Ledger'
+                   : (m==='coffee') ? 'The Café’s Till'
+                                     : 'The Mountain’s Record';
+    }
+
+    // Only Lucy image toggles; Ron uses sprite
+    function artSwap(m){
+      const lucy = document.getElementById('lucyArt');
+      if (!lucy) return;
+      lucy.style.display = (m==='lucy') ? '' : 'none';
+    }
+
+    // Settings
+    const reservePctInput = document.getElementById('reservePct');
+    const saveSettingsBtn  = document.getElementById('saveSettings');
+    reservePctInput.value  = store.loadSettings().reservePct;
+    saveSettingsBtn.addEventListener('click', ()=>{
+      const v = Number(reservePctInput.value);
+      const pct = isNaN(v) || v < 0 ? 0 : Math.min(100, v);
+      const s = store.loadSettings(); s.reservePct = pct; store.saveSettings(s);
+      paint();
+    });
+
+    // Form wiring
+    const form     = document.getElementById('entryForm');
+    const clearBtn = document.getElementById('clearBtn');
+    clearBtn.addEventListener('click', ()=> form.reset());
+
+    wireForm(form, {
+      onSubmit(entry, meta){
+        const entries = store.loadEntries();
+        if (meta.multiday.mode==='summary'){
+          entries.push(entry);
+        } else if (meta.multiday.mode==='expand'){
+          meta.multiday.expanded.forEach(e => entries.push(e));
+        } else {
+          entries.push(entry);
+        }
+        store.saveEntries(entries);
+
+        // Sparkles
+        const btn = document.getElementById('logBtn');
+        const r = btn.getBoundingClientRect();
+        const y = r.top + r.height/2 + window.scrollY;
+        sparklesBurst(r.left + r.width/2, y, current());
+
+        const saved = document.getElementById('savedMsg');
+        saved.style.display='block'; setTimeout(()=> saved.style.display='none', 1200);
+        form.reset();
+        form.date.value = new Date().toISOString().slice(0,10);
+        document.getElementById('multiFields').style.display='none';
+        document.getElementById('multiChoice').style.display='none';
+        document.getElementById('multiToggle').checked=false;
+
+        paint();
+      }
+    });
+
+    // Coffee mini
+    wireCoffeeMini(document.getElementById('coffeeMini'));
+
+    // Initial paint
+    function paint(){
+      showOnce(current());
+      const entries = store.loadEntries();
+      const reservePct = store.loadSettings().reservePct;
+      const totals = renderTable(document.getElementById('rows'), entries, reservePct);
+      renderSummaries(entries, reservePct, totals);
+    }
+    paint();
+  </script>
+
+  <!-- BACKUP MODULE -->
+  <script src="ui/backup.js" defer></script>
 </body>
 </html>
