@@ -59,6 +59,7 @@ body { background: var(--paper); color: var(--ink); }
 
 .hero{
   position: relative; z-index: 10; padding: clamp(12px,4vw,24px) 16px 8px; text-align:center;
+  margin-top:72px;
 }
 .hero-title{ margin:0 auto; max-width:22ch; line-height:1.1; display:grid; gap:6px; }
 .hero-kicker{
@@ -90,5 +91,6 @@ body { background: var(--paper); color: var(--ink); }
   position: relative; z-index: 5; display: grid; place-items:center;
   margin: clamp(12px, 6vw, 40px) auto; width:min(240px, 60vw);
   aspect-ratio:1/1; opacity:.9;
+  color:#6e5fbf;
 }
 .center-swirl img{ width:100%; height:100%; }

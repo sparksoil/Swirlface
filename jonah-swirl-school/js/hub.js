@@ -57,8 +57,9 @@ crumbBox?.addEventListener('change', () => {
   }
 });
 
-// start in Swirlface mode
-setMode('swirl');
+// start in mode based on hash (#structured) or default to Swirlface
+const initialMode = location.hash === '#structured' ? 'structured' : 'swirl';
+setMode(initialMode);
 
 // draw smooth spiral
 function makeSpiralPath({cx=100, cy=100, startR=5, spacing=4, turns=4, steps=360}={}){
