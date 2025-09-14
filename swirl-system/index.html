@@ -16,7 +16,7 @@
     <form id="crumbForm">
       <label>Pillar
         <select id="pillar">
-          <option>👑 Divine</option>
+          <option>👑 Spiritual Routine</option>
           <option>🏡 Family</option>
           <option>🌱 Self+Parts</option>
           <option>📚 RRR</option>
@@ -32,25 +32,50 @@
         <input id="photo" type="file" accept="image/*" />
       </label>
 
-      <!-- Starter Parts/Feelings/Needs + Real-life tag + Micro-goal -->
-      <div id="extras"></div>
+      <label>Part who showed up
+        <select name="part">
+          <option value="">— optional —</option>
+          <option>Curious</option><option>Tired</option><option>Brave</option>
+          <option>Helper</option><option>Playful</option>
+        </select>
+      </label>
+
+      <label>Feeling
+        <select name="feeling">
+          <option value="">— optional —</option>
+          <option>Calm</option><option>Happy</option><option>Frustrated</option>
+          <option>Anxious</option><option>Proud</option>
+        </select>
+      </label>
+
+      <details class="goal-block"><summary>Set a tiny skill goal?</summary>
+        <label>Skill <input name="goalSkill" placeholder="e.g., make a pet-flyer"></label>
+        <label>Next step <input name="goalNext" placeholder="print one draft"></label>
+        <label>Helper part
+          <select name="goalHelper">
+            <option value="">— choose —</option>
+            <option>Curious</option><option>Tired</option><option>Brave</option>
+            <option>Helper</option><option>Playful</option>
+          </select>
+        </label>
+      </details>
 
       <button type="submit">Save</button>
     </form>
 
     <section id="swirl-feed" class="feed"></section>
     <template id="postTpl">
-      <article class="post">
+      <article class="post-card">
         <div class="post-head">
           <span class="pillar"></span>
           <span class="date"></span>
         </div>
         <div class="media"></div>
         <p class="text"></p>
-        <div class="meta">
+        <div class="post-actions">
           <span class="parts"></span>
-          <button class="open-day">Open Day</button>
-          <button class="fav">♡</button>
+          <button class="like">Like</button>
+          <button class="save">Save</button>
         </div>
       </article>
     </template>
