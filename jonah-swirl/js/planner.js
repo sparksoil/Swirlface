@@ -227,7 +227,7 @@ function readPlan(){ return readJSON(KEYS.plan, '{"weekStartISO":"","monthISO":"
 function readJSON(key, fallback){ try{ return JSON.parse(localStorage.getItem(key)||fallback); }catch{ return JSON.parse(fallback); } }
 function writeJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
 
-function nameOf(p){ return ({divine:'Divine',family:'Home',self:'Self',rrr:'Skills',work:'Work'})[p] || p; }
+function nameOf(p){ return ({divine:'Spiritual Routine',family:'Home',self:'Self',rrr:'Skills',work:'Work'})[p] || p; }
 function cellKey(cell){ return `${cell.dataset.pillar}_${cell.dataset.day}`; }
 function cellFromKey(key){ const [pillar, day] = key.split('_'); return {pillar, day}; }
 function nextMondayISO(){

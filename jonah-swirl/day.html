@@ -18,7 +18,7 @@
     </header>
 
     <section id="schedule" class="card">
-      <h2>Today's Plan</h2>
+      <h2>Today's Schedule</h2>
       <ul id="scheduleList"></ul>
     </section>
 
@@ -26,7 +26,7 @@
       <label class="row">
         <span class="lab">Pillar</span>
         <select id="pillar" name="pillar" required>
-          <option value="divine">👑 Divine</option>
+          <option value="divine">👑 Spiritual Routine</option>
           <option value="family">🏠 Home</option>
           <option value="self">🌱 Self</option>
           <option value="rrr">📚 Skills</option>
@@ -155,6 +155,13 @@
             li.textContent = `${PILL_EMOJI[pillar]||''} ${val}`;
             scheduleList.appendChild(li);
           }
+        });
+        const goals = JSON.parse(localStorage.getItem('swirl_goals_jonah') || '[]');
+        const todayISO = new Date().toISOString().slice(0,10);
+        goals.filter(g=>g.date===todayISO).forEach(g=>{
+          const li = document.createElement('li');
+          li.textContent = `${PILL_EMOJI[g.pillar]||''} ${g.title}`;
+          scheduleList.appendChild(li);
         });
       }catch{}
     }

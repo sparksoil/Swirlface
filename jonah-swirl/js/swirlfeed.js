@@ -12,7 +12,7 @@ let currentPill = 'all';
 let q = '';
 
 const PILL_LABEL = {
-  divine: '👑 Divine',
+  divine: '👑 Spiritual Routine',
   family: '🏠 Home',
   self:   '🌱 Self',
   rrr:    '📚 Skills',
