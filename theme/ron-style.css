@@ -10,14 +10,14 @@
   /* Vanilla ink + neutrals */
   --ink:#2a2e34;             /* readable dark gray, not harsh black */
   --muted:#70757f;           /* soft secondary text */
-  --panel-rgb:253,250,244;   /* ☁️ cream panel base (matches RV Helper) */
+  --panel-rgb:253,250,244;   /* cream panel base (matches RV Helper) */
   --line:#e8e1d7;            /* gentle divider/borders */
 
   /* Actions */
-  --moss:#365a3c;            /* green primary (Save) — same as your token */
+  --moss:#365a3c;            /* green primary (Save) */
   --cedar:#2d3748;           /* dark accent if needed */
 
-  /* Ron (kept but unused visually in vanilla) */
+  /* Ron tokens kept for future use */
   --ron-accent:#b68c57;      /* brass */
   --ron-subtext:#9a8f82;     /* warmer muted */
 }
@@ -27,7 +27,7 @@
 html,body{ height:100%; max-width:100%; overflow-x:hidden; }
 body{
   margin:0; color:var(--ink); font-family:var(--font); line-height:1.5;
-  background-color:#fdfaf4; /* 🌼 vanilla cream page */
+  background-color:#fdfaf4; /* vanilla cream page */
 }
 
 /* Layout */
@@ -73,13 +73,13 @@ button.secondary{
   color:var(--ink);
 }
 
-/* Success chip (kept) */
+/* Success chip */
 .success{
   display:none; background:#e7f5ec; color:var(--moss);
   border:1px solid #b6e2c7; padding:8px 10px; border-radius:10px
 }
 
-/* Mode toggle cluster — vanilla base */
+/* Mode toggle cluster — vanilla pills */
 .modes{
   display:inline-flex; gap:8px; padding:6px;
   border:1px solid var(--line);
@@ -95,74 +95,19 @@ button.secondary{
 }
 .modes input{ position:absolute; opacity:0; pointer-events:none; }
 
-/* ✅ Your purple ON state */
+/* ON state — your purple */
 .modes input:checked + label{
   background-color:#FFC4FE;
   border-color:#e6a6e5;
-  color:#3a2740;           /* readable on the light purple */
-  box-shadow: 0 0 0 2px rgba(255,196,254,.35);
-/* Compact, vertical switch-style modes */
-.modes {
-  display: flex;
-  flex-direction: column; /* vertical stack */
-  gap: 6px;
-  padding: 6px;
-  border: none;           /* remove heavy outline */
-  background: transparent;
+  color:#3a2740;
+  box-shadow:0 0 0 2px rgba(255,196,254,.35);
 }
-
-.modes label {
-  position: relative;
-  font-size: 0.8rem;      /* smaller text */
-  padding-left: 34px;     /* room for switch */
-  cursor: pointer;
-  color: #444;
-}
-
-.modes input {
-  display: none; /* hide default radio */
-}
-
-.modes label::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 28px;            /* switch track */
-  height: 16px;
-  border-radius: 999px;
-  background: #ddd;
-  transition: background 0.2s;
-}
-
-.modes label::after {
-  content: "";
-  position: absolute;
-  left: 2px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 12px;            /* toggle knob */
-  height: 12px;
-  border-radius: 50%;
-  background: #fff;
-  transition: left 0.2s;
-}
-
-/* ON state with your purple */
-.modes input:checked + label::before {
-  background: #FFC4FE;
-}
-.modes input:checked + label::after {
-  left: 14px; /* move knob to right side */
-}
-
 
 /* Header line */
 .header-line{ display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:6px; }
 .header-line .modes{ margin-left:auto; }
 
-/* Top art shell — keep but neutral */
+/* Top art shell */
 .top-art{ position:relative; margin:8px 0 14px; border-radius:12px; overflow:hidden; }
 .top-art img.art{ display:block; width:35%; height:auto; opacity:.96; }
 .ron-quote-text{ display:none !important; }  /* one quote only */
@@ -176,7 +121,7 @@ button.secondary{
 }
 .right{ text-align:right }
 
-/* Sparkles (unchanged) */
+/* Sparkles */
 .sparkles{ position:fixed; inset:0; pointer-events:none; z-index:99 }
 .sparkle{ position:absolute; width:6px; height:6px; border-radius:50%; opacity:0; transform:scale(.6) }
 .sparkle.show{ animation:pop 800ms ease-out forwards }
@@ -211,7 +156,7 @@ button.secondary{
 }
 
 /* =========================================================
-   Ron specifics — stripped of dark walnut, now vanilla
+   Ron specifics — vanilla (no dark walnut)
    ========================================================= */
 
 /* Page type */
@@ -254,14 +199,14 @@ html.ron .secondary{
   border-color: var(--line) !important;
 }
 
-/* Toggle cluster stays vanilla; purple handled above */
+/* Toggle cluster remains pills; purple handled above */
 html.ron .modes label{ background:#f2f1ed; border-color:#ded7cc; color:#444; }
 
 /* Table accents */
 html.ron table thead th, html.ron table tfoot td{ color:#454a52; }
 html.ron .quietline{ background: var(--line); opacity:.9; }
 
-/* Ron sprite (unchanged paths) */
+/* Ron sprite */
 .ron-face{
   width:180px; height:220px;
   background: url("../assets/Ron/Ron-sheet.PNG") no-repeat;
