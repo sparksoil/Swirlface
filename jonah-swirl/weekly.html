@@ -19,6 +19,7 @@
         <button id="nextWeek" class="btn btn-ghost" type="button">Next ▶︎</button>
         <button id="openSettings" class="btn btn-ghost" type="button">⚙︎ Settings</button>
         <button id="openEvidence" class="btn" type="button">📄 Evidence Pack</button>
+        <button id="printWeek" class="btn" type="button">🖨 Print</button>
       </div>
     </header>
 
@@ -71,6 +72,7 @@
     const thisBtn = document.getElementById('thisWeek');
     const btnJson = document.getElementById('btnJson');
     const btnCsv  = document.getElementById('btnCsv');
+    const printBtn = document.getElementById('printWeek');
     document.getElementById('openSettings')?.addEventListener('click', ()=> window.openSettings && window.openSettings());
 
     function render(){
@@ -94,6 +96,8 @@
       url.searchParams.set('w', weekOffset);
       location.href = url.toString();
     };
+
+    printBtn.onclick = ()=> window.print();
 
     // initial
     render();

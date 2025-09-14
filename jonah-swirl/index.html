@@ -17,9 +17,8 @@
       <button id="btnSwirl" class="pill active" aria-pressed="true">Swirlface</button>
       <button id="btnStructured" class="pill">Structured</button>
     </nav>
-    <button id="dropCrumb" class="pill">Drop Crumb</button>
-    <a class="btn btn-ghost" href="./day.html">✍️ Enter Day</a>
-    <a class="btn btn-ghost" href="./grandma-plan.html">🗒️ Plan (Upcoming)</a>
+    <input id="crumbBox" class="pill" placeholder="Drop a crumb…" x-webkit-speech aria-label="Drop a crumb" />
+    <a class="btn btn-ghost" href="./weekly.html">🗓️ Schedule</a>
   </header>
 
   <!-- POND + SWIRL CENTER -->
@@ -29,30 +28,19 @@
       <p>Jonahs Swirl School</p>
     </div>
     <div class="swirl" aria-hidden="true">
-      <!-- minimalist spiral using SVG so we avoid images -->
       <svg viewBox="0 0 200 200" class="swirl-svg">
-        <path d="M100,100
-                 m-5,0
-                 a5,5 0 1,0 10,0
-                 m-15,0
-                 a15,15 0 1,0 30,0
-                 m-30,0
-                 a30,30 0 1,0 60,0
-                 m-45,0
-                 a45,45 0 1,0 90,0
-                 m-60,0
-                 a60,60 0 1,0 120,0"
-              fill="none" stroke="currentColor" stroke-width="1.75" opacity="0.8"
-              stroke-linecap="round" stroke-linejoin="round"/>
+        <path id="spiralPath" fill="none" stroke="currentColor" stroke-width="1.75" opacity="0.8"
+              stroke-linecap="round" stroke-linejoin="round"></path>
       </svg>
     </div>
+    <a id="enterDay" class="enter-day" href="./day.html" aria-label="Enter Day"></a>
 
     <!-- FLOATING PILLAR TOKENS -->
-    <button class="token" data-pillar="divine" data-app="Theocratic Education" style="--hue: 288; --sat: 58%; --lit: 70%;">Theocratic</button>
+    <button class="token" data-pillar="divine" data-app="Spiritual Routine" style="--hue: 288; --sat: 58%; --lit: 70%;">Spiritual Routine</button>
     <button class="token" data-pillar="self" data-app="Self" style="--hue: 96; --sat: 62%; --lit: 68%;">Self</button>
     <button class="token" data-pillar="family" data-app="Family &amp; Home" style="--hue: 42; --sat: 72%; --lit: 66%;">Family</button>
     <button class="token" data-pillar="rrr" data-app="RRR" style="--hue: 210; --sat: 65%; --lit: 72%;">RRR</button>
-    <button class="token" data-pillar="secular" data-app="Secular Employment" style="--hue: 12; --sat: 70%; --lit: 68%;">Secular Employment</button>
+    <button class="token" data-pillar="work" data-app="Work" style="--hue: 12; --sat: 70%; --lit: 68%;">Work</button>
 
     <!-- Sparkles (very subtle) -->
     <div class="sparkles" aria-hidden="true"></div>

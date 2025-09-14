@@ -53,6 +53,7 @@ body{
 }
 .pill.active{ background:#fff; box-shadow: var(--glow-strong); }
 .modes{ display:flex; gap:8px; }
+#crumbBox{ flex:1; min-width:160px; }
 
 /* ~lines 80-144: pond + swirl + ripples */
 #pond{
@@ -103,6 +104,12 @@ body{
 }
 @keyframes breathe{ 0%,100%{ transform:scale(1)} 50%{ transform:scale(1.03)} }
 .swirl-svg{ width:82%; height:82%; }
+.enter-day{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:90px; height:130px; border-radius:60px 60px 8px 8px;
+  background:rgba(255,255,255,0.75); box-shadow: var(--glow-strong);
+  display:block;
+}
 
 /* ~lines 146-220: tokens (circles → doors) */
 .token{

@@ -29,7 +29,7 @@ tokens.forEach((t) => {
 // ~lines 80-150: mode toggles (Swirlface ↔ Structured) + crumb capture
 const btnSwirl      = document.getElementById('btnSwirl');
 const btnStructured = document.getElementById('btnStructured');
-const dropCrumb     = document.getElementById('dropCrumb');
+const crumbBox      = document.getElementById('crumbBox');
 
 function setMode(mode){
   document.body.classList.toggle('mode-swirl',      mode === 'swirl');
@@ -49,12 +49,27 @@ function setMode(mode){
 btnSwirl.addEventListener('click',      () => setMode('swirl'));
 btnStructured.addEventListener('click', () => setMode('structured'));
 
-dropCrumb.addEventListener('click', () => {
-  const text = prompt('Drop a crumb:');
-  if(text && text.trim()){
+crumbBox?.addEventListener('change', () => {
+  const text = crumbBox.value.trim();
+  if(text){
     alert('Crumb saved and auto-sorted!');
+    crumbBox.value = '';
   }
 });
 
 // start in Swirlface mode
 setMode('swirl');
+
+// draw smooth spiral
+function makeSpiralPath({cx=100, cy=100, startR=5, spacing=4, turns=4, steps=360}={}){
+  const TAU=Math.PI*2,total=turns*TAU,k=spacing/(2*Math.PI);
+  let d="";
+  for(let i=0;i<=steps;i++){
+    const t=i/steps,th=t*total+0.0001,r=startR+k*th;
+    const x=cx+r*Math.cos(th),y=cy+r*Math.sin(th);
+    d+= (i?` L ${x.toFixed(2)} ${y.toFixed(2)}`:`M ${x.toFixed(2)} ${y.toFixed(2)}`);
+  }
+  return d;
+}
+const spiralPath=document.getElementById('spiralPath');
+if(spiralPath){ spiralPath.setAttribute('d', makeSpiralPath()); }

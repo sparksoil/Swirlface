@@ -73,7 +73,7 @@ export function renderPillarBars(root, pillars){
   root.innerHTML = '';
   const total = Object.values(pillars).reduce((a,b)=>a+b,0) || 1;
   const labels = {
-    divine:'👑 Divine', family:'🏠 Home', self:'🌱 Self', rrr:'📚 Skills', work:'💵 Work'
+    divine:'👑 Spiritual Routine', family:'🏠 Home', self:'🌱 Self', rrr:'📚 Skills', work:'💵 Work'
   };
   Object.keys(labels).forEach(key=>{
     const c = pillars[key]||0;
