@@ -1,9 +1,26 @@
 :root{
-  /* Calm paper + grounded ink */
-  --bg: #F6F5F3;
-  --ink: #37423D;
+  /* Core palette from swirl-system */
+  --ink: #1B1F33;
+  --ink-soft: #3A3F57;
+  --paper: #FAF7F2;      /* warm off-white background */
+  --bg: var(--paper);    /* maintain existing var name */
+  --veil: rgba(255,255,255,0.7);
 
-  /* Alive accents (same family as Mom’s hub for coherence) */
+  /* pillar anchors */
+  --pillar-spiritual: #CFA9F2;  /* soft lilac (Spiritual Routine) */
+  --pillar-family:    #F2C156;  /* warm honey gold */
+  --pillar-self:      #CFE8DF;  /* seafoam/minty */
+  --pillar-rrr:       #BFD7F6;  /* sky blue */
+  --pillar-work:      #FFB38A;  /* peach/apricot */
+
+  /* supportive pastels from the photo */
+  --pastel-pink:   #F7B3C8;
+  --pastel-lilac:  #D9A7E1;
+  --pastel-peach:  #FFC29B;
+  --pastel-butter: #F7E5A3;
+  --pastel-sky:    #A7C7E7;
+
+  /* accents carried over from previous theme */
   --accent1: #8FD5C4;   /* mint aqua shimmer */
   --accent2: #FF9DD8;   /* Lucy pink sparkle */
   --accent3: #F0BC06;   /* golden encouragement */
@@ -14,6 +31,16 @@
   --season-summer: #d6a33a;
   --season-fall:   #c3743a;
   --season-winter: #6b7a8c;
+
+  /* UI chips + gradients */
+  --chip-fill: #FFFFFF;
+  --chip-border: #DFE3F3;
+  --chip-active: #F4F7FF;
+  --chip-accent: #EAF0FF;
+
+  --grad-hero: linear-gradient(180deg, #AFC8FF 0%, #D9A7E1 100%);
+  --grad-like: linear-gradient(135deg, #FF8FB2 0%, #FFB38A 100%);
+  --grad-save: linear-gradient(135deg, #B2F0E6 0%, #BFD7F6 100%);
 
   --shadow: rgba(0,0,0,0.12);
   --radius: 18px;
