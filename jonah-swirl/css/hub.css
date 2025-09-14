@@ -37,6 +37,7 @@ body{
   position:fixed; inset: 16px 16px auto 16px;
   display:flex; align-items:center; justify-content:space-between;
   gap:16px; padding:10px 12px;
+  flex-wrap:wrap;
   background:rgba(255,255,255,0.55); backdrop-filter: blur(8px);
   border-radius:14px; box-shadow: var(--glow);
   z-index: 10;
@@ -103,6 +104,15 @@ body{
 }
 @keyframes breathe{ 0%,100%{ transform:scale(1)} 50%{ transform:scale(1.03)} }
 .swirl-svg{ width:82%; height:82%; }
+
+/* Responsive tweaks */
+@media (max-width:600px){
+  .lab-toolbar{ justify-content:center; }
+  .lab-toolbar .brand{ flex-basis:100%; justify-content:center; }
+  .lab-toolbar .modes{ flex-basis:100%; justify-content:center; }
+  .lab-toolbar > a{ flex-basis:100%; text-align:center; }
+  .token{ --size:70px; }
+}
 
 /* ~lines 146-220: tokens (circles → doors) */
 .token{

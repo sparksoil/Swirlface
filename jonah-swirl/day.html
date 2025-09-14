@@ -12,10 +12,15 @@
   <!-- QUOTE ROTATOR / VERSE PREVIEW (future) -->
 
   <main class="day-wrap">
-    <header class="day-head">
-      <a class="btn btn-ghost" href="./index.html">← Home</a>
-      <h1>Drop a Crumb</h1>
-    </header>
+    <header class="day-head">
+      <a class="btn btn-ghost" href="./index.html">← Home</a>
+      <h1>Drop a Crumb</h1>
+    </header>
+
+    <section id="daySchedule" class="card">
+      <h2>Today's Schedule</h2>
+      <ul id="scheduleList"></ul>
+    </section>
 
     <form id="crumbForm" class="card">
       <label class="row">
@@ -73,6 +78,7 @@
 
     const list = document.getElementById('todayUl');
     const parentBtn = document.getElementById('parentBtn');
+    const scheduleUl = document.getElementById('scheduleList');
 
     // Parent controls: set/change PIN
     parentBtn.addEventListener('click', ()=>{
@@ -117,9 +123,27 @@
       todayCrumbs().forEach(c=> list.appendChild(makeRow(c)));
     }
 
+    function renderSchedule(){
+      const plan = JSON.parse(localStorage.getItem('swirl_plan_jonah') || '{}');
+      const cells = plan.cells || {};
+      const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      const dayName = dayNames[new Date().getDay()];
+      const EMOJI = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' };
+      const items = [];
+      ['divine','family','self','rrr','work'].forEach(p=>{
+        const key = `${p}_${dayName}`;
+        if(cells[key]) items.push(`${EMOJI[p]||''} ${cells[key]}`);
+      });
+      const goals = JSON.parse(localStorage.getItem('swirl_goals_jonah') || '[]');
+      const todayISO = new Date().toISOString().slice(0,10);
+      goals.forEach(g=>{ if(g.date === todayISO){ items.push(`${EMOJI[g.pillar]||''} ${g.title}`); }});
+      scheduleUl.innerHTML = items.length ? items.map(t=>`<li>${escapeHtml(t)}</li>`).join('') : '<li>No scheduled activities.</li>';
+    }
+
     function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m])); }
 
     renderList();
+    renderSchedule();
   </script>
   <link rel="stylesheet" href="./css/settings.css">
   <script type="module" src="./js/settings.js"></script>

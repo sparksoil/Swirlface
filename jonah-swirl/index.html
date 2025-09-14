@@ -17,8 +17,9 @@
       <button id="btnSwirl" class="pill active" aria-pressed="true">Swirlface</button>
       <button id="btnStructured" class="pill">Structured</button>
     </nav>
-    <button id="dropCrumb" class="pill">Drop Crumb</button>
+    <a id="enterDay" class="pill" href="./day.html">Enter Day</a>
     <a class="btn btn-ghost" href="./grandma-plan.html">🗒️ Plan (Upcoming)</a>
+    <a class="btn btn-ghost" href="./calendar.html">📅 Schedule</a>
   </header>
 
   <!-- POND + SWIRL CENTER -->
@@ -31,17 +32,14 @@
       <!-- minimalist spiral using SVG so we avoid images -->
       <svg viewBox="0 0 200 200" class="swirl-svg">
         <path d="M100,100
-                 m-5,0
-                 a5,5 0 1,0 10,0
-                 m-15,0
-                 a15,15 0 1,0 30,0
-                 m-30,0
-                 a30,30 0 1,0 60,0
-                 m-45,0
-                 a45,45 0 1,0 90,0
-                 m-60,0
-                 a60,60 0 1,0 120,0"
-              fill="none" stroke="currentColor" stroke-width="1.75" opacity="0.8"/>
+                 m0,-5
+                 a5,5   0 1,1 0,10
+                 a15,15 0 1,1 0,30
+                 a30,30 0 1,1 0,60
+                 a45,45 0 1,1 0,90
+                 a60,60 0 1,1 0,120"
+              fill="none" stroke="currentColor" stroke-width="1.75"
+              stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
       </svg>
     </div>
 

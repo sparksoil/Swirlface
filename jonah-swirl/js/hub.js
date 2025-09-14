@@ -5,11 +5,15 @@ const tokens = Array.from(document.querySelectorAll('.token'));
 
 function rand(min, max){ return Math.random() * (max - min) + min; }
 
+const isMobile = window.matchMedia('(max-width: 600px)').matches;
+const R_MIN = isMobile ? 90  : 150;
+const R_MAX = isMobile ? 160 : 260;
+
 tokens.forEach((t, i) => {
   // randomize orbits so each circle feels alive
   const startAngle = rand(0, 360);
-  const radius     = rand(150, 260);      // distance from center
-  const duration   = rand(26, 46);        // seconds per revolution
+  const radius     = rand(R_MIN, R_MAX);      // distance from center
+  const duration   = rand(26, 46);            // seconds per revolution
 
   t.style.setProperty('--angle', `${startAngle}deg`);
   t.style.setProperty('--radius', `${radius}px`);
@@ -29,7 +33,6 @@ tokens.forEach((t) => {
 // ~lines 80-150: mode toggles (Swirlface ↔ Structured) + crumb capture
 const btnSwirl      = document.getElementById('btnSwirl');
 const btnStructured = document.getElementById('btnStructured');
-const dropCrumb     = document.getElementById('dropCrumb');
 
 function setMode(mode){
   document.body.classList.toggle('mode-swirl',      mode === 'swirl');
@@ -41,20 +44,13 @@ function setMode(mode){
     tokens.forEach((t, i) => {
       const angle = (360 / tokens.length) * i;
       t.style.setProperty('--angle', `${angle}deg`);
-      t.style.setProperty('--radius', `210px`);
+      t.style.setProperty('--radius', `${isMobile ? 140 : 210}px`);
     });
   }
 }
 
 btnSwirl.addEventListener('click',      () => setMode('swirl'));
 btnStructured.addEventListener('click', () => setMode('structured'));
-
-dropCrumb.addEventListener('click', () => {
-  const text = prompt('Drop a crumb:');
-  if(text && text.trim()){
-    alert('Crumb saved and auto-sorted!');
-  }
-});
 
 // start in Swirlface mode
 setMode('swirl');
