@@ -15,6 +15,7 @@ const parts    = ['Otter','Ron','Lucy','Glimmer'];
 function qs(id){ return document.getElementById(id); }
 function renderList(){
   const list = qs('crumbList');
+  if(!list) return;
   const data = load(KEY, []);
   list.innerHTML = data.slice().reverse().map(c => {
     const when = new Date(c.date).toLocaleString();
@@ -111,13 +112,14 @@ window.addEventListener('DOMContentLoaded', ()=>{
       }
     }
 
-    data.push(crumb);
-    save(KEY, data);
-    form.reset();
-    // hide goal wrap again
-    qs('goalWrap')?.classList.add('hidden');
-    renderList();
-  });
+      data.push(crumb);
+      save(KEY, data);
+      document.dispatchEvent(new Event('crumbsChanged'));
+      form.reset();
+      // hide goal wrap again
+      qs('goalWrap')?.classList.add('hidden');
+      renderList();
+    });
 
   renderList();
 });

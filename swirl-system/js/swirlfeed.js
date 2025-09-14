@@ -12,7 +12,7 @@ const PILLAR_ICON = {
   'divine':'👑 Divine','family':'🏡 Family','self':'🌱 Self+Parts','rrr':'📚 RRR','work':'💵 Earning'
 };
 
-const feed = document.getElementById('feed');
+const feed = document.getElementById('swirl-feed') || document.getElementById('feed');
 const tpl  = document.getElementById('postTpl');
 
 function byNewest(a,b){ return new Date(b.date) - new Date(a.date); }
@@ -24,6 +24,7 @@ function ymd(dateStr){
 }
 
 function render(){
+  if(!feed || !tpl) return;
   const data = load(KEY, []);
   const posts = [...data].sort(byNewest);
   feed.innerHTML = '';
@@ -55,4 +56,5 @@ function render(){
   });
 }
 
+document.addEventListener('crumbsChanged', render);
 render();
