@@ -1,0 +1,94 @@
+/* Swirlface Core Palette — Jonah v1 (photo-derived) */
+/* neutrals */
+:root{
+  --ink: #1B1F33;
+  --ink-soft: #3A3F57;
+  --paper: #FAF7F2;      /* warm off-white background */
+  --veil: rgba(255,255,255,0.7);
+
+  /* pillar anchors */
+  --pillar-spiritual: #CFA9F2;  /* soft lilac (Spiritual Routine) */
+  --pillar-family:    #F2C156;  /* warm honey gold */
+  --pillar-self:      #CFE8DF;  /* seafoam/minty */
+  --pillar-rrr:       #BFD7F6;  /* sky blue */
+  --pillar-work:      #FFB38A;  /* peach/apricot */
+
+  /* supportive pastels from the photo */
+  --pastel-pink:   #F7B3C8;
+  --pastel-lilac:  #D9A7E1;
+  --pastel-peach:  #FFC29B;
+  --pastel-butter: #F7E5A3;
+  --pastel-sky:    #A7C7E7;
+
+  /* UI accents (IG-ish) */
+  --chip-fill: #FFFFFF;
+  --chip-border: #DFE3F3;
+  --chip-active: #F4F7FF;
+  --chip-accent: #EAF0FF;
+
+  /* gradients used for hero text / buttons */
+  --grad-hero: linear-gradient(180deg, #AFC8FF 0%, #D9A7E1 100%);
+  --grad-like: linear-gradient(135deg, #FF8FB2 0%, #FFB38A 100%);
+  --grad-save: linear-gradient(135deg, #B2F0E6 0%, #BFD7F6 100%);
+}
+
+/* Pillar utility classes */
+.pillar--spiritual { --pillar: var(--pillar-spiritual); }
+.pillar--family    { --pillar: var(--pillar-family); }
+.pillar--self      { --pillar: var(--pillar-self); }
+.pillar--rrr       { --pillar: var(--pillar-rrr); }
+.pillar--work      { --pillar: var(--pillar-work); }
+
+/* --- Swirlface landing mobile layout tweaks --- */
+body { background: var(--paper); color: var(--ink); }
+
+.swirl-tabs{
+  position: sticky; top: 0; z-index: 20;
+  display: flex; gap: 8px; padding: 10px 12px;
+  background: var(--veil); backdrop-filter: blur(10px);
+  border-radius: 14px; margin: 12px auto; max-width: 680px;
+  border: 1px solid var(--chip-border);
+}
+.tab{
+  appearance:none; border:1px solid var(--chip-border);
+  border-radius: 12px; padding:10px 14px; background: var(--chip-fill);
+  font: inherit; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.tab.is-active{ background: var(--chip-active); }
+.tab.accent{ background: var(--chip-accent); border-color:#BACEFF; }
+
+.hero{
+  position: relative; z-index: 10; padding: clamp(12px,4vw,24px) 16px 8px; text-align:center;
+}
+.hero-title{ margin:0 auto; max-width:22ch; line-height:1.1; display:grid; gap:6px; }
+.hero-kicker{
+  font-weight:700; font-size:clamp(18px,5vw,28px);
+  background: var(--grad-hero); -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero-main{ font-weight:800; font-size:clamp(22px,7vw,40px); color:var(--ink);
+  text-shadow: 0 1px 0 #fff, 0 14px 30px rgba(93,109,161,.22);
+}
+
+/* Decorative layers must sit under text */
+.bubbles-layer{ position:relative; z-index:1; pointer-events:none; }
+
+/* Orb labels */
+.orb-label{ font-weight:700; letter-spacing:.1px; text-shadow:0 1px 2px rgba(0,0,0,.25); }
+
+@media (max-width:420px){
+  .swirl-tabs{ gap:6px; padding:8px 8px; }
+  .tab{ padding:8px 10px; font-size:14px; }
+}
+
+/* Orb tinting */
+.orb{ width:140px; height:140px; border-radius:50%;
+      background: radial-gradient(120% 120% at 30% 20%, #fff 0%, var(--pillar) 70%);
+      box-shadow: 0 12px 30px rgba(0,0,0,.12); }
+
+/* Center swirl */
+.center-swirl{
+  position: relative; z-index: 5; display: grid; place-items:center;
+  margin: clamp(12px, 6vw, 40px) auto; width:min(240px, 60vw);
+  aspect-ratio:1/1; opacity:.9;
+}
+.center-swirl img{ width:100%; height:100%; }

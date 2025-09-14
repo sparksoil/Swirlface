@@ -10,3 +10,17 @@
 .meta .open-day { background:#8ae; color:#0c1020; border:none; padding:6px 10px; border-radius:10px; cursor:pointer; }
 .meta .fav { background:transparent; color:#9fb0c6; border:1px solid #2a2f40; padding:6px 10px; border-radius:10px; cursor:pointer; }
 .meta .fav.faved { color:#ff8ac5; border-color:#ff8ac5; }
+
+/* New palette styles */
+.feed-body { background: var(--paper); color: var(--ink); }
+.feed { background: var(--paper); color: var(--ink); }
+.post-card{
+  background:#fff; border:1px solid #ECEFF7; border-radius:16px; padding:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.06); margin:10px auto; max-width:720px;
+}
+.post-card .post-actions button.like{
+  background: var(--grad-like); color:#fff; border:none; border-radius:12px; padding:8px 12px;
+}
+.post-card .post-actions button.save{
+  background: var(--grad-save); color:#0d2933; border:none; border-radius:12px; padding:8px 12px;
+}

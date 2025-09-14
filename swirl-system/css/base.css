@@ -1,33 +1,68 @@
+/* Swirlface Core Palette — Jonah v1 (photo-derived) */
+/* neutrals */
+:root{
+  --ink: #1B1F33;
+  --ink-soft: #3A3F57;
+  --paper: #FAF7F2;      /* warm off-white background */
+  --veil: rgba(255,255,255,0.7);
+
+  /* pillar anchors */
+  --pillar-spiritual: #CFA9F2;  /* soft lilac (Spiritual Routine) */
+  --pillar-family:    #F2C156;  /* warm honey gold */
+  --pillar-self:      #CFE8DF;  /* seafoam/minty */
+  --pillar-rrr:       #BFD7F6;  /* sky blue */
+  --pillar-work:      #FFB38A;  /* peach/apricot */
+
+  /* supportive pastels from the photo */
+  --pastel-pink:   #F7B3C8;
+  --pastel-lilac:  #D9A7E1;
+  --pastel-peach:  #FFC29B;
+  --pastel-butter: #F7E5A3;
+  --pastel-sky:    #A7C7E7;
+
+  /* UI accents (IG-ish) */
+  --chip-fill: #FFFFFF;
+  --chip-border: #DFE3F3;
+  --chip-active: #F4F7FF;
+  --chip-accent: #EAF0FF;
+
+  /* gradients used for hero text / buttons */
+  --grad-hero: linear-gradient(180deg, #AFC8FF 0%, #D9A7E1 100%);
+  --grad-like: linear-gradient(135deg, #FF8FB2 0%, #FFB38A 100%);
+  --grad-save: linear-gradient(135deg, #B2F0E6 0%, #BFD7F6 100%);
+}
+
+/* Pillar utility classes */
+.pillar--spiritual { --pillar: var(--pillar-spiritual); }
+.pillar--family    { --pillar: var(--pillar-family); }
+.pillar--self      { --pillar: var(--pillar-self); }
+.pillar--rrr       { --pillar: var(--pillar-rrr); }
+.pillar--work      { --pillar: var(--pillar-work); }
+
 body {
   font-family: sans-serif;
   margin: 0;
   padding: 20px;
-  background-color: #f8f8f8;
-  color: #333;
+  background: var(--paper);
+  color: var(--ink);
 }
 
-form {
-  margin-bottom: 20px;
-}
+form { margin-bottom: 20px; }
 
-label {
-  display: block;
-  margin-top: 10px;
-}
+label { display: block; margin-top: 10px; }
 
 input,
 select,
-textarea {
+textarea,
+button {
   width: 100%;
   padding: 8px;
   margin-top: 4px;
   box-sizing: border-box;
+  font: inherit;
 }
 
-#crumb-list {
-  list-style: none;
-  padding: 0;
-}
+#crumb-list { list-style: none; padding: 0; }
 
 #crumb-list li {
   background: #fff;
@@ -43,11 +78,10 @@ textarea {
   margin-bottom: 5px;
 }
 
-:root { --bg:#0d0f12; --fg:#f6f7fb; --accent:#8ae; }
-body { margin:0; background:var(--bg); color:var(--fg); font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-label { display:grid; gap:6px; margin:10px 0; }
-input, select, textarea, button { font: inherit; }
-.thumb { width:100%; max-height: 260px; object-fit: cover; border-radius: 10px; border:1px solid #22283a; }
-.crumb { background:#111520; border:1px solid #22283a; border-radius:12px; padding:10px; margin:10px 0; }
-.crumb .head { display:flex; justify-content:space-between; color:#9fb0c6; margin-bottom:8px; }
+.thumb { width:100%; max-height: 260px; object-fit: cover; border-radius: 10px; border:1px solid var(--chip-border); }
+
+.crumb {
+  background:#fff; border:1px solid #ECEFF7; border-radius:12px; padding:10px; margin:10px 0;
+}
+.crumb .head { display:flex; justify-content:space-between; color:var(--ink-soft); margin-bottom:8px; }
 .hidden { display:none !important; }

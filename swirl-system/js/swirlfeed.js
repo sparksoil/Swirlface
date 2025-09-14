@@ -3,13 +3,13 @@ import { load } from './storage.js';
 const KEY = 'crumbs';
 
 const PILLAR_ICON = {
-  '👑 Divine':'👑 Divine',
+  '👑 Spiritual Routine':'👑 Spiritual Routine',
   '🏡 Family':'🏡 Family',
   '🌱 Self+Parts':'🌱 Self+Parts',
   '📚 RRR':'📚 RRR',
   '💵 Earning':'💵 Earning',
   // also support old internal codes if any
-  'divine':'👑 Divine','family':'🏡 Family','self':'🌱 Self+Parts','rrr':'📚 RRR','work':'💵 Earning'
+  'divine':'👑 Spiritual Routine','family':'🏡 Family','self':'🌱 Self+Parts','rrr':'📚 RRR','work':'💵 Earning'
 };
 
 const feed = document.getElementById('swirl-feed') || document.getElementById('feed');
@@ -43,12 +43,11 @@ function render(){
       media.appendChild(img);
     }
 
-    node.querySelector('.open-day').addEventListener('click',()=>{
-      // pass date via query param so day view groups all crumbs from that day
+    node.querySelector('.save').addEventListener('click',()=>{
       location.href = `./day.html?d=${encodeURIComponent(ymd(c.date))}`;
     });
 
-    node.querySelector('.fav').addEventListener('click', (e)=>{
+    node.querySelector('.like').addEventListener('click', (e)=>{
       e.currentTarget.classList.toggle('faved');
     });
 
