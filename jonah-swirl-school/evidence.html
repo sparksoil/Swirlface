@@ -60,27 +60,34 @@
     renderPillarBars(document.getElementById('pillarBars'), summary.pillars);
     renderBlooms(document.getElementById('bloomGrid'), summary.tags);
 
-    // Latest moments (10 within range)
+    // Latest moments (10 within range) — sort newest first before slicing
     const mini = document.getElementById('miniFeed');
-    listCrumbs().filter(c=>{
+    const EMOJI = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' };
+
+    const inRange = listCrumbs().filter(c=>{
       const d = (c.tsISO||'').slice(0,10);
       return d >= summary.range.start && d <= summary.range.end;
-    }).slice(0,10).forEach(c=>{
-      const li = document.createElement('li');
-      const emoji = ({divine:'👑',family:'🏠',self:'🌱',rrr:'📚',work:'💵'})[c.pillar] || '•';
-      li.textContent = `${(c.tsISO||'').slice(0,10)} — ${emoji} ${c.text||''}`;
-      mini.appendChild(li);
     });
+
+    inRange
+      .sort((a,b)=> String(b.tsISO||'').localeCompare(String(a.tsISO||'')))
+      .slice(0,10)
+      .forEach(c=>{
+        const li = document.createElement('li');
+        const emoji = EMOJI[c.pillar] || '•';
+        li.textContent = `${(c.tsISO||'').slice(0,10)} — ${emoji} ${c.text||''}`;
+        mini.appendChild(li);
+      });
 
     // Upcoming from plan store
     const plan = JSON.parse(localStorage.getItem('swirl_plan_jonah')||'{"anchor":""}');
     document.getElementById('anchor').textContent = plan.anchor || '(No anchor set)';
 
     const goalsUl = document.getElementById('goals');
-    const EMOJI = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' };
     const goals = JSON.parse(localStorage.getItem('swirl_goals_jonah')||'[]')
-      .filter(g=>g.status!=='done') // show open goals
+      .filter(g=>g.status!=='done')
       .slice(0,8);
+
     goalsUl.innerHTML = '';
     goals.forEach(g=>{
       const li = document.createElement('li');
