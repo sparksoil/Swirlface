@@ -1,0 +1,18 @@
+.day-body { background:#0d0f12; color:#f6f7fb; }
+.topbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; position:sticky; top:0; background:#11131a; border-bottom:1px solid #212634; }
+.topbar .brand { color:#8ae; text-decoration:none; }
+
+.day-wrap { max-width:820px; margin:16px auto; padding:0 12px; display:grid; gap:24px; }
+.entries { display:grid; gap:16px; }
+.day-card { background:#111520; border:1px solid #21283a; border-radius:14px; padding:12px; }
+.day-card header { display:flex; justify-content:space-between; color:#9fb0c6; margin-bottom:8px; }
+.day-card .pic img { width:100%; display:block; border-radius:10px; }
+.day-card .txt { margin:10px 0; line-height:1.5; }
+.day-card .parts { color:#aab9ce; font-size:14px; }
+
+.comments h2 { margin:0; }
+.comments form { display:grid; gap:8px; background:#101522; border:1px solid #1e2535; border-radius:12px; padding:12px; }
+.comments button { background:#8ae; color:#0c1020; border:none; padding:8px 12px; border-radius:10px; cursor:pointer; }
+.comment-list { list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+.comment-list li { background:#0f1320; border:1px solid #1d2434; border-radius:10px; padding:8px 10px; }
+.comment-list .when { color:#8aa0ba; margin-right:6px; }

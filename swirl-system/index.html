@@ -1,36 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8"/>
   <title>SwirlSystem</title>
-  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="./css/base.css"/>
 </head>
 <body>
-  <h1>SwirlSystem</h1>
-  <form id="crumb-form">
-    <label for="photo">Photo</label>
-    <input type="file" id="photo" accept="image/*">
+  <!-- DROP A CRUMB (PHASE 1+) -->
+  <main style="max-width:720px;margin:2rem auto;padding:1rem;">
+    <header style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <h1>Drop a Crumb</h1>
+      <nav><a href="./feed.html" style="color:#8ae;text-decoration:none;">Open SwirlFeed →</a></nav>
+    </header>
 
-    <label for="caption">Caption</label>
-    <textarea id="caption"></textarea>
+    <form id="crumbForm">
+      <label>Pillar
+        <select id="pillar">
+          <option>👑 Divine</option>
+          <option>🏡 Family</option>
+          <option>🌱 Self+Parts</option>
+          <option>📚 RRR</option>
+          <option>💵 Earning</option>
+        </select>
+      </label>
 
-    <label for="pillar">Pillar</label>
-    <select id="pillar">
-      <option value="divine">👑 Divine Education</option>
-      <option value="family">🏡 Family &amp; Home</option>
-      <option value="self">🌱 Self + Parts</option>
-      <option value="rrr">📚 RRR</option>
-      <option value="work">💵 Employment &amp; Future</option>
-    </select>
+      <label>What happened?
+        <input id="text" placeholder="Short sentence…" />
+      </label>
 
-    <label for="part">Part (optional)</label>
-    <input type="text" id="part">
+      <label>Photo (optional)
+        <input id="photo" type="file" accept="image/*" />
+      </label>
 
-    <button type="submit">Drop Crumb</button>
-  </form>
+      <!-- Starter Parts/Feelings/Needs + Real-life tag + Micro-goal -->
+      <div id="extras"></div>
 
-  <ul id="crumb-list"></ul>
+      <button type="submit">Save</button>
+    </form>
 
-  <script type="module" src="js/crumb-entry.js"></script>
+    <h2>Recent Crumbs</h2>
+    <ul id="crumbList"></ul>
+  </main>
+  <script type="module" src="./js/crumb-entry.js"></script>
 </body>
 </html>

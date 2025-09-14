@@ -1,0 +1,12 @@
+.feed-body { background: var(--bg, #0d0f12); color: var(--fg,#f6f7fb); }
+.topbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; position:sticky; top:0; background:#11131a; border-bottom:1px solid #212634; }
+.topbar .brand { color:#8ae; text-decoration:none; }
+.feed { max-width:720px; margin:16px auto; padding: 0 12px; display:grid; gap:16px; }
+.post { background:#141823; border:1px solid #22283a; border-radius:16px; overflow:hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+.post-head { display:flex; gap:8px; justify-content:space-between; padding:10px 12px; font-size:14px; color:#9fb0c6; }
+.media img { display:block; width:100%; height:auto; }
+.text { padding:12px; font-size:16px; line-height:1.5; }
+.meta { display:flex; gap:12px; align-items:center; padding:10px 12px 14px; border-top:1px solid #212634; }
+.meta .open-day { background:#8ae; color:#0c1020; border:none; padding:6px 10px; border-radius:10px; cursor:pointer; }
+.meta .fav { background:transparent; color:#9fb0c6; border:1px solid #2a2f40; padding:6px 10px; border-radius:10px; cursor:pointer; }
+.meta .fav.faved { color:#ff8ac5; border-color:#ff8ac5; }
