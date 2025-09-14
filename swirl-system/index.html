@@ -4,13 +4,13 @@
   <meta charset="utf-8"/>
   <title>SwirlSystem</title>
   <link rel="stylesheet" href="./css/base.css"/>
+  <link rel="stylesheet" href="./css/swirlfeed.css"/>
 </head>
 <body>
   <!-- DROP A CRUMB (PHASE 1+) -->
   <main style="max-width:720px;margin:2rem auto;padding:1rem;">
     <header style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
       <h1>Drop a Crumb</h1>
-      <nav><a href="./feed.html" style="color:#8ae;text-decoration:none;">Open SwirlFeed →</a></nav>
     </header>
 
     <form id="crumbForm">
@@ -38,9 +38,24 @@
       <button type="submit">Save</button>
     </form>
 
-    <h2>Recent Crumbs</h2>
-    <ul id="crumbList"></ul>
+    <section id="swirl-feed" class="feed"></section>
+    <template id="postTpl">
+      <article class="post">
+        <div class="post-head">
+          <span class="pillar"></span>
+          <span class="date"></span>
+        </div>
+        <div class="media"></div>
+        <p class="text"></p>
+        <div class="meta">
+          <span class="parts"></span>
+          <button class="open-day">Open Day</button>
+          <button class="fav">♡</button>
+        </div>
+      </article>
+    </template>
   </main>
   <script type="module" src="./js/crumb-entry.js"></script>
+  <script type="module" src="./js/swirlfeed.js"></script>
 </body>
 </html>
