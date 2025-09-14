@@ -29,7 +29,6 @@ tokens.forEach((t) => {
 // ~lines 80-150: mode toggles (Swirlface ↔ Structured) + crumb capture
 const btnSwirl      = document.getElementById('btnSwirl');
 const btnStructured = document.getElementById('btnStructured');
-const dropCrumb     = document.getElementById('dropCrumb');
 
 function setMode(mode){
   document.body.classList.toggle('mode-swirl',      mode === 'swirl');
@@ -48,13 +47,6 @@ function setMode(mode){
 
 btnSwirl.addEventListener('click',      () => setMode('swirl'));
 btnStructured.addEventListener('click', () => setMode('structured'));
-
-dropCrumb.addEventListener('click', () => {
-  const text = prompt('Drop a crumb:');
-  if(text && text.trim()){
-    alert('Crumb saved and auto-sorted!');
-  }
-});
 
 // start in Swirlface mode
 setMode('swirl');

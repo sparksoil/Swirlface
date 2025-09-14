@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jonah Schedule</title>
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/grandma-plan.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="head no-print">
+      <a class="btn btn-ghost" href="./index.html">← Home</a>
+      <div class="spacer"></div>
+      <button id="btnPrint" class="btn" type="button">🖨 Print</button>
+    </header>
+
+    <section class="card">
+      <h1>Schedule</h1>
+      <div id="scheduleGrid" class="plan-grid" aria-label="Weekly schedule"></div>
+      <p id="noPlan" class="hint" style="display:none;">No schedule found. Create one in Plan page.</p>
+    </section>
+  </main>
+
+  <script type="module">
+    const plan = JSON.parse(localStorage.getItem('swirl_plan_jonah') || '{}');
+    const grid = document.getElementById('scheduleGrid');
+    const noPlan = document.getElementById('noPlan');
+    const PILLARS = ['divine','family','self','rrr','work'];
+    const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    const EMOJI = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' };
+    function cell(cls, text){ const d=document.createElement('div'); d.className=cls; d.textContent=text; return d; }
+    function nameOf(p){ return ({divine:'Divine',family:'Home',self:'Self',rrr:'Skills',work:'Work'})[p] || p; }
+    grid.appendChild(cell('hdr','Pillar/Day'));
+    DAYS.forEach(d=> grid.appendChild(cell('hdr',d)));
+    PILLARS.forEach(p=>{
+      grid.appendChild(cell('phdr', `${EMOJI[p]} ${nameOf(p)}`));
+      DAYS.forEach(d=>{
+        const txt = (plan.cells||{})[`${p}_${d}`] || '';
+        grid.appendChild(cell('cell', txt));
+      });
+    });
+    if(!plan.cells || Object.keys(plan.cells).length===0){ noPlan.style.display='block'; }
+    document.getElementById('btnPrint').addEventListener('click', ()=> window.print());
+  </script>
+</body>
+</html>
