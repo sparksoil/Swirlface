@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Grandma Recap · Jonah</title>
   <link rel="stylesheet" href="./css/base.css?v=jonah-1">
   <link rel="stylesheet" href="./css/weekly.css?v=jonah-1">
   <link rel="stylesheet" href="./css/blooms.css?v=jonah-1">
 </head>
 <body>
-  <main class="wrap">
+  <main class="wrap">
     <header class="head no-print">
       <a class="btn btn-ghost" href="./index.html">← Home</a>
       <div class="spacer"></div>
@@ -20,34 +20,34 @@
       <button id="seedToPlan" class="btn" type="button">→ Seed Next Week Plan</button>
     </header>
 
-    <section class="week-range card" aria-live="polite">
-      <h2 id="weekLabel">Week</h2>
-      <p class="hint">ISO week (Mon–Sun). Change in <code>blooms.js</code> if you prefer Sun–Sat.</p>
-    </section>
+    <section class="week-range card" aria-live="polite">
+      <h2 id="weekLabel">Week</h2>
+      <p class="hint">ISO week (Mon–Sun). Change in <code>blooms.js</code> if you prefer Sun–Sat.</p>
+    </section>
 
-    <!-- PILLAR COUNTS -->
-    <section class="pillars card">
-      <h2>By Pillar</h2>
-      <div id="pillarBars" class="bars"></div>
-    </section>
+    <!-- PILLAR COUNTS -->
+    <section class="pillars card">
+      <h2>By Pillar</h2>
+      <div id="pillarBars" class="bars"></div>
+    </section>
 
-    <!-- TAG BLOOMS -->
-    <section class="blooms card">
-      <h2>Blooms (Top Tags)</h2>
-      <div id="bloomGrid" class="bloom-grid" aria-live="polite"></div>
-      <p class="hint">Size = how often the tag appeared in crumbs this week.</p>
-    </section>
+    <!-- TAG BLOOMS -->
+    <section class="blooms card">
+      <h2>Blooms (Top Tags)</h2>
+      <div id="bloomGrid" class="bloom-grid" aria-live="polite"></div>
+      <p class="hint">Size = how often the tag appeared in crumbs this week.</p>
+    </section>
 
-    <!-- EXPORT -->
-    <section class="export card">
-      <h2>Export</h2>
-      <div class="export-actions">
-        <button id="btnJson" class="btn" type="button">Download JSON</button>
-        <button id="btnCsv"  class="btn" type="button">Download CSV</button>
-      </div>
-      <p class="hint">Exports are read-only snapshots. Your saved crumbs don’t change.</p>
-    </section>
-  </main>
+    <!-- EXPORT -->
+    <section class="export card">
+      <h2>Export</h2>
+      <div class="export-actions">
+        <button id="btnJson" class="btn" type="button">Download JSON</button>
+        <button id="btnCsv"  class="btn" type="button">Download CSV</button>
+      </div>
+      <p class="hint">Exports are read-only snapshots. Your saved crumbs don’t change.</p>
+    </section>
+  </main>
 
   <script type="module" src="./js/storage.js?v=jonah-1"></script>
   <script type="module" src="./js/blooms.js?v=jonah-1"></script>
@@ -55,7 +55,7 @@
   <script type="module">
     import { weekWindow, summarizeWeek, renderPillarBars, renderBlooms, isoLabel } from './js/blooms.js';
     import { downloadJson, downloadCsv } from './js/export.js';
-    import { listCrumbs, settings } from './js/storage.js';
+    import { listCrumbs } from './js/storage.js';
 
     let weekOffset = 0;
 
@@ -75,12 +75,12 @@
       btnCsv.onclick  = ()=> downloadCsv(summary, start, end);
     }
 
-    // === Continuity Bridge → seed plan for next week ===
+    // === Continuity Bridge → seed AND promote plan for next week ===
     document.getElementById('seedToPlan')?.addEventListener('click', ()=>{
       const { start, end } = weekWindow(weekOffset);
       const summary = summarizeWeek(start, end);
-      const s = settings();
 
+      // pick the 2 quietest pillars to nudge
       const quiet = Object.entries(summary.pillars)
         .sort((a,b)=>a[1]-b[1]).map(([k])=>k).slice(0,2);
 
@@ -94,20 +94,29 @@
       const seedCells = {};
       quiet.forEach(p=>{ seedCells[`${p}_Mon`] = SUGGEST[p]; });
 
-      const seedAnchor = '';
-
       const goals = JSON.parse(localStorage.getItem('swirl_goals_jonah')||'[]')
                       .filter(g=>g.status!=='done');
 
       const seed = {
         weekStartISO: nextMondayISOFrom(end),
         monthISO: nextMonthISOFrom(end),
-        anchor: seedAnchor,
+        anchor: '',
         cells: seedCells,
         goalsCarry: goals
       };
-      localStorage.setItem('swirl_plan_seed', JSON.stringify(seed));
 
+      // Write seed for grandma-plan flow...
+      localStorage.setItem('swirl_plan_seed', JSON.stringify(seed));
+      // ...and PROMOTE to active plan so Day page has something to show now
+      const activePlan = {
+        weekStartISO: seed.weekStartISO,
+        monthISO: seed.monthISO,
+        anchor: seed.anchor,
+        cells: seed.cells
+      };
+      localStorage.setItem('swirl_plan_jonah', JSON.stringify(activePlan));
+
+      // keep goals store as-is (Day reads it independently)
       location.href = './grandma-plan.html';
     });
 
