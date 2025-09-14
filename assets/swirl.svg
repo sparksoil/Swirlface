@@ -1,5 +1,5 @@
 <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-label="Swirl">
   <title>Met, Not Grabbed</title>
-  <path d="M454 274c0 115-93 208-208 208S38 389 38 274 131 66 246 66c82 0 149 67 149 149 0 58-47 105-105 105-46 0-83-37-83-83 0-35 28-63 63-63 27 0 49 22 49 49"
-        fill="none" stroke="#4F6F5F" stroke-width="18" stroke-linecap="round"/>
+   <path d="M454 274c0 115-93 208-208 208S38 389 38 274 131 66 246 66c82 0 149 67 149 149 0 58-47 105-105 105-46 0-83-37-83-83 0-35 28-63 63-63 27 0 49 22 49 49"
+         fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/>
 </svg>
