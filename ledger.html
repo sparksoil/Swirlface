@@ -12,9 +12,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;600&family=Patrick+Hand&display=swap" rel="stylesheet">
 
   <!-- THEMES (versioned for cache-busting) -->
-  <link rel="stylesheet" href="theme/ron-style.css?v=8">
-  <link rel="stylesheet" href="theme/lucy-mode.css?v=8">
-  <link rel="stylesheet" href="theme/coffee-mode.css?v=8">
+  <link rel="stylesheet" href="theme/vanilla.css?v=10">  <!-- baseline -->
+  <link rel="stylesheet" href="theme/ron.css?v=10">      <!-- Ron deltas -->
+  <link rel="stylesheet" href="theme/lucy.css?v=10">     <!-- Lucy deltas -->
+  <link rel="stylesheet" href="theme/coffee.css?v=10">   <!-- Coffee deltas -->
 </head>
 <body>
   <div class="wrap">
@@ -24,6 +25,7 @@
       <div class="header-line">
         <h1 id="titleSwap">🌲 Money and Things</h1>
 
+        <!-- Switch-style modes: input INSIDE label (vanilla.css uses :has() to style ON state) -->
         <div class="modes" role="group" aria-label="Felt mode">
           <label><input type="radio" name="felt" value="ron" checked> Ron</label>
           <label><input type="radio" name="felt" value="lucy"> Lucy</label>
@@ -234,7 +236,7 @@
       const ronFace = document.getElementById('ronFace');
       if (ronFace) {
         ronFace.style.display = (m === 'ron') ? '' : 'none';
-        if (m === 'ron') randomPose(1); // swap to randomPose() if you want a surprise
+        if (m === 'ron') randomPose(1);
       }
     });
 
