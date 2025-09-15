@@ -13,9 +13,9 @@
   --line:#e8e1d7;
 
   /* Actions */
-  --primary:#6244AD;           /* calmer purple */
-  --accent-lavender:#FFC4FE;   /* ON color for switches; Lucy-leaning purple */
-  /* Cooler option if you want later: #E6D9FF or #E7D8FF */
+  --primary:#334152;           /* Lucy’s dark slate for primary buttons */
+  --accent-lavender:#FFC4FE;   /* legacy pink; no longer used for ON, kept for refs */
+  --switch-on:#F7E2A7;         /* golden ripple for switch ON */
 
   /* Avatars (standardized to Coffee’s size) */
   --avatar-w:120px;
@@ -64,9 +64,11 @@ input::placeholder, textarea::placeholder{ color:#9aa1a9; }
 
 button.primary{
   background:var(--primary);
-  color:#fff; /* white text for contrast on purple */
+  color:#fff; /* white text for contrast */
   border:none;
-  border-radius:12px; padding:12px 16px; cursor:pointer;
+  border-radius:12px;
+  padding:12px 16px;
+  cursor:pointer;
   box-shadow: 0 2px 0 rgba(0,0,0,.06);
 }
 button.primary:active{ transform:translateY(1px) }
@@ -84,10 +86,12 @@ button.secondary{
 }
 
 /* ---------- Header line ---------- */
-.header-line{ display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.header-line{
+  display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:6px;
+}
 
-/* ---------- SWITCH-STYLE MODES (sitewide) ---------- */
-/* structure: <div class="modes"><label><input type="radio"> Label</label>…</div> */
+/* ---------- SWITCH-STYLE MODES (sitewide) ----------
+   structure: <div class="modes"><label><input type="radio"> Label</label>…</div> */
 .modes{
   display:flex; gap:8px; padding:6px;
   border:1px solid var(--line);
@@ -126,18 +130,18 @@ button.secondary{
   transition:left .2s ease;
 }
 
-/* ON state — sitewide lavender (supports input INSIDE label via :has) */
+/* ON state — golden ripple */
 .modes label:has(input:checked){
   background:#fff;
-  border-color:#e6dcea;
+  border-color:#e6dcea; /* light border so it doesn’t shout */
   color:#3a2740;
 }
-.modes label:has(input:checked)::before{ background: var(--accent-lavender); }
+.modes label:has(input:checked)::before{ background: var(--switch-on); }
 .modes label:has(input:checked)::after{ left:22px; }
 
 /* Focus ring (keyboard a11y) */
 .modes label:has(input:focus-visible){
-  outline: 2px solid color-mix(in srgb, var(--accent-lavender), #000 20%);
+  outline: 2px solid color-mix(in srgb, var(--switch-on), #000 20%);
   outline-offset: 2px;
 }
 
@@ -174,10 +178,23 @@ button.secondary{
   table thead th:nth-child(4), table tbody td:nth-child(4){ white-space:normal; }
 }
 .inline > div > button, .actions button{ min-height:44px; padding:10px 16px; }
-@media (max-width:560px){
-  .inline > div{ display:grid; gap:10px; }
-  .inline > div > button{ width:100%; }
-  .actions{ display:grid; grid-template-columns:1fr; gap:10px; }
+
+/* Make the mode switch vertical on mobile to avoid clipping */
+@media (max-width:720px){
+  .header-line{ align-items:flex-start; }
+  .modes{
+    flex-direction:column;
+    gap:6px;
+    padding:6px;
+    border:none;
+    background:transparent;
+    box-shadow:none;
+  }
+  .modes label{
+    font-size:.85rem;
+    padding:8px 10px 8px 36px;
+    min-height:44px; /* good thumb target */
+  }
   .card{ padding:12px; }
   .panel{ padding:16px; }
   h2{ font-size:1.35rem; }
