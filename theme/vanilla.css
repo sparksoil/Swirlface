@@ -13,7 +13,7 @@
   --line:#e8e1d7;
 
   /* Actions */
-  --primary:#365a3c;           /* green "Save" */
+  --primary:#B581FF;           /* CHANGED from green to purple */
   --accent-lavender:#FFC4FE;   /* ON color for switches; Lucy-leaning purple */
   /* Cooler option if you want later: #E6D9FF or #E7D8FF */
 
@@ -63,7 +63,8 @@ input,select,textarea,button{
 input::placeholder, textarea::placeholder{ color:#9aa1a9; }
 
 button.primary{
-  background:var(--primary); color:#fff; border:none;
+  background:var(--primary); color:var(--ink); /* CHANGED from #fff */
+  border:none;
   border-radius:12px; padding:12px 16px; cursor:pointer;
   box-shadow: 0 2px 0 rgba(0,0,0,.06);
 }
