@@ -1,0 +1,190 @@
+THIS IS THE ONE WITH WORKING SPRITES
+/* =========================================================
+   Ron — Walnut Desk (handsome, legible, mobile-polished)
+   File: theme/ron-style.css
+   ========================================================= */
+
+/* ---------- Base tokens / layout (shared) ---------- */
+:root{
+  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  --ink:#1f2328; 
+  --muted:#5f6670;
+  --panel-rgb:246,239,227;
+  --line:#d5cbbb; 
+  --moss:#365a3c; 
+  --cedar:#2d3748;
+
+  /* Ron palette */
+  --ron-accent:#b68c57;   /* brass */
+  --ron-subtext:#cdbca9;  /* warm gray */
+}
+
+*{ box-sizing:border-box }
+html,body{ height:100%; max-width:100%; overflow-x:wrap; } /* iOS gutter guard */
+body{
+  margin:0; color:var(--ink); font-family:var(--font); line-height:1.45;
+  background-color:#5B4F40; /* fallback; each mode overrides */
+}
+
+.wrap{ max-width:980px; margin:24px auto; padding:0 16px }
+.inline{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:space-between }
+
+.panel,.card,table{ background: rgba(var(--panel-rgb),0.45); }
+.panel,.card{ border:1px solid var(--line); border-radius:14px; padding:16px; /* no overflow hidden */ }
+table{ width:100%; border-collapse:collapse }
+th,td{ padding:8px 10px; border-bottom:1px solid var(--line); text-align:left; font-size:.95rem }
+tfoot td{ font-weight:600; border-top:2px solid var(--line) }
+
+h1{ margin:0 0 6px; font-size:2.55rem; font-weight:700; }
+h2{ margin:0 0 8px; font-size:1.5rem; font-weight:650 }
+.muted{ color:var(--muted) }
+
+.row{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
+.row-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px }
+@media (max-width:760px){ .row,.row-3{ grid-template-columns:1fr } }
+
+label{ display:grid; gap:6px; font-size:.95rem }
+input,select,textarea,button{
+  font:inherit; padding:10px 12px; border:1px solid var(--line);
+  border-radius:10px; background: rgba(var(--panel-rgb),0.40); color:var(--ink);
+}
+button.primary{ background:var(--cedar); color:#fff; border:none; border-radius:12px; padding:12px 16px; cursor:pointer }
+button.secondary{ background:rgba(231,223,209,.6) }
+.success{ display:none; background:#e7f5ec; color:var(--moss); border:1px solid #b6e2c7; padding:8px 10px; border-radius:10px }
+
+.modes{ display:inline-flex; gap:8px; padding:6px; border:1px solid var(--line); border-radius:10px; background:rgba(255,255,255,.35); }
+.modes label{ display:flex; gap:6px; align-items:center; }
+.modes input{ transform:translateY(1px) }
+
+.header-line{ display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:4px; }
+.header-line .modes{ margin-left:auto; }
+
+/* Top art shell */
+.top-art{ position:relative; margin:6px 0 14px; border-radius:12px; overflow:hidden; }
+.top-art img.art{ display:block; width:35%; height:auto; opacity:.92; } /* Lucy uses this */
+.ron-quote-text{ display:none !important; }  /* one quote only */
+
+/* Dividers / pills */
+.quietline{ border:none; height:1px; background:var(--line); opacity:.7; margin:6px 0 12px }
+.pill{ display:inline-block; padding:4px 10px; border-radius:999px; background: rgba(231,223,209,0.6); font-size:.85rem; margin-bottom:6px; white-space:normal; line-height:1.2; }
+.right{ text-align:right }
+
+/* Sparkles */
+.sparkles{ position:fixed; inset:0; pointer-events:none; z-index:99 }
+.sparkle{ position:absolute; width:6px; height:6px; border-radius:50%; opacity:0; transform:scale(.6) }
+.sparkle.show{ animation:pop 800ms ease-out forwards }
+@keyframes pop{0%{opacity:0;transform:translate(0,0)scale(.4)}20%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy))scale(1)}}
+
+/* ---------- Mobile polish for table & buttons ---------- */
+.table-wrap{
+  overflow-x:auto; -webkit-overflow-scrolling:touch;
+  --fade:16px;
+  mask-image: linear-gradient(to right, transparent 0, black var(--fade),
+    black calc(100% - var(--fade)), transparent 100%);
+}
+.table-wrap table{ min-width:720px; display:block; }
+.table-wrap thead, .table-wrap tbody, .table-wrap tfoot{ display:table; width:100%; table-layout:fixed; }
+.table-wrap th, .table-wrap td{ white-space:nowrap; }
+
+@media (max-width:480px){
+  table thead th:nth-child(5), table tbody td:nth-child(5),
+  table thead th:nth-child(6), table tbody td:nth-child(6),
+  table thead th:nth-child(8), table tbody td:nth-child(8),
+  table thead th:nth-child(11),table tbody td:nth-child(11){ display:none; }
+  table thead th:nth-child(4), table tbody td:nth-child(4){ white-space:normal; }
+}
+.inline > div > button, .actions button{ min-height:44px; padding:10px 16px; }
+@media (max-width:560px){
+  .inline > div{ display:grid; gap:10px; }
+  .inline > div > button{ width:100%; }
+  .actions{ display:grid; grid-template-columns:1fr; gap:10px; }
+  .card{ padding:10px; }
+  .panel{ padding:14px; }
+  h2{ font-size:1.35rem; }
+}
+
+/* =========================================================
+   Ron specifics — walnut desk theme + sprite
+   ========================================================= */
+
+/* Ron base (type + background) */
+html.ron body{
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color:#efe7dc;
+  background:
+    linear-gradient(180deg,#3b2f25 0%, #2a231d 100%),
+    url("...assets/Ron/Ron-woodgrain.webp"); /* capital R folder */
+  background-size:auto, 480px;
+  background-repeat:no-repeat, repeat;
+  background-blend-mode:overlay, multiply;
+}
+
+/* Panels/forms on walnut */
+html.ron .panel,
+html.ron .card,
+html.ron table,
+html.ron input,
+html.ron select,
+html.ron textarea{
+  background: rgba(245,235,220,.12) !important;
+  border-color: rgba(255,255,255,.08) !important;
+  color:#f5efe6 !important;
+  backdrop-filter: blur(2px);
+}
+html.ron input, html.ron select, html.ron textarea{
+  background: rgba(255,255,255,.10) !important;
+  border-color: rgba(255,255,255,.16) !important;
+}
+html.ron input::placeholder, html.ron textarea::placeholder{ color: rgba(245,239,230,.65); }
+
+/* Title + quote */
+html.ron h1{ color:#fff7e5 !important; font-weight:700; letter-spacing:.2px; }
+.quote-under-title{
+  font-family:"Patrick Hand", Inter, system-ui, sans-serif;
+  color:var(--ron-subtext) !important;
+  font-size:1.05em; letter-spacing:.2px;
+  text-shadow:0 1px 0 rgba(0,0,0,.35);
+  margin:6px 0 2px;
+}
+
+/* Buttons — brass */
+html.ron .primary{
+  background:var(--ron-accent) !important;
+  color:#1e1409 !important;
+  border-color: color-mix(in srgb, var(--ron-accent), #000 20%) !important;
+  box-shadow:0 1px 0 rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08);
+}
+html.ron .primary:active{ transform:translateY(1px) }
+html.ron .secondary{
+  background: rgba(255,245,230,.18) !important;
+  color:#fff7e5 !important;
+  border-color: rgba(255,238,210,.28) !important;
+}
+
+/* Radio cluster tidy on dark */
+html.ron .modes label{
+  background: rgba(0,0,0,.18);
+  border:1px solid rgba(255,238,210,.20);
+  color:#f5efe6; padding:6px 10px; border-radius:12px;
+}
+
+/* Table accents */
+html.ron table thead th, html.ron table tfoot td{ color:#fff7e5; }
+html.ron .quietline{ background: rgba(255,245,230,.12); }
+
+/* Mobile header sizing */
+@media (max-width:720px){
+  html.ron #titleSwap{ font-size:1.75rem; line-height:1.2; }
+  html.ron .panel{ padding-top:14px; }
+}
+
+/* Ron face sprite (assets/Ron/Ron-sheet.PNG) */
+.ron-face{
+  width:180px; height:220px;
+  background: url("../assets/Ron/Ron-sheet.PNG") no-repeat;
+  background-size:300% 100%;
+  border-radius:12px;
+}
+.ron-face.pose-1{ background-position:  0% 0%; }  /* arms folded   */
+.ron-face.pose-2{ background-position: 50% 0%; }  /* with mug       */
+.ron-face.pose-3{ background-position:100% 0%; }  /* whittling   
