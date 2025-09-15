@@ -15,8 +15,8 @@
   /* Actions */
   --primary:#365a3c;           /* green "Save" */
   --accent-lavender:#FFC4FE;   /* ON color for switches; Lucy-leaning purple */
-  /* If you want cooler Lucy lavender later, try: #E6D9FF or #E7D8FF */
-  
+  /* Cooler option if you want later: #E6D9FF or #E7D8FF */
+
   /* Avatars (standardized to Coffee’s size) */
   --avatar-w:120px;
   --avatar-h:120px;
@@ -83,7 +83,7 @@ button.secondary{
 .header-line{ display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:6px; }
 
 /* ---------- SWITCH-STYLE MODES (sitewide) ---------- */
-/* Structure: input[type=radio] + label inside .modes */
+/* structure: <div class="modes"><label><input type="radio"> Label</label>…</div> */
 .modes{
   display:flex; gap:8px; padding:6px;
   border:1px solid var(--line);
@@ -91,7 +91,11 @@ button.secondary{
   background:#ffffffd9;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
 }
-.modes input{ position:absolute; opacity:0; pointer-events:none; }
+.modes input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
 .modes label{
   position:relative;
   display:flex; align-items:center;
@@ -118,14 +122,20 @@ button.secondary{
   transition:left .2s ease;
 }
 
-/* ON state — sitewide lavender */
-.modes input:checked + label{
+/* ON state — sitewide lavender (supports input INSIDE label via :has) */
+.modes label:has(input:checked){
   background:#fff;
   border-color:#e6dcea;
   color:#3a2740;
 }
-.modes input:checked + label::before{ background: var(--accent-lavender); }
-.modes input:checked + label::after{ left:22px; }
+.modes label:has(input:checked)::before{ background: var(--accent-lavender); }
+.modes label:has(input:checked)::after{ left:22px; }
+
+/* Focus ring (keyboard a11y) */
+.modes label:has(input:focus-visible){
+  outline: 2px solid color-mix(in srgb, var(--accent-lavender), #000 20%);
+  outline-offset: 2px;
+}
 
 /* Prefer reduced motion */
 @media (prefers-reduced-motion: reduce){
