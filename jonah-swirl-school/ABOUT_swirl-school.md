@@ -2,7 +2,7 @@
 
 Swirl School isn’t just a homeschool planner.
 
-It’s a **neurospiritual, whole-child translator system** disguised as a journaling app.  
+It’s a **ND supportive, whole-child, spiritually safe translator system** disguised as a journaling app.  
 Part scrapbook, part nervous system log, part academic dashboard, part sacred noticing machine.
 
 Swirlhub lets Jonah live in **Soft Time**—moments, emotions, wonder—and gently translates that into **Clock Time** when needed: subjects, minutes, logs, transcripts.
