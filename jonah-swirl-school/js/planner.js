@@ -172,7 +172,15 @@ function suggestFromHistory(){
   const counts = { divine:0,family:0,self:0,rrr:0,work:0 };
   crumbs.forEach(c=>{
     const ymd = (c.tsISO||'').slice(0,10);
-    if(ymd >= since) counts[c.pillar] = (counts[c.pillar]||0)+1;
+    if(ymd >= since){
+      const crumbPillars = Array.isArray(c.pillars) && c.pillars.length
+        ? c.pillars
+        : (c.pillar ? [c.pillar] : []);
+      crumbPillars.forEach(p=>{
+        if(counts[p] === undefined) counts[p] = 0;
+        counts[p] = (counts[p]||0)+1;
+      });
+    }
   });
 
   const order = Object.entries(counts).sort((a,b)=>a[1]-b[1]).map(([k])=>k).slice(0,2);

@@ -23,6 +23,31 @@ body { margin:0; background: var(--bg); color: var(--ink); }
 .row{ display:grid; grid-template-columns: 120px 1fr; gap:12px; align-items:center; margin:10px 0; }
 .lab{ opacity:.9; }
 
+.pill-field{ border:0; padding:0; margin:10px 0; }
+.pill-field legend{ margin:0; }
+.pill-options{ display:flex; flex-wrap:wrap; gap:8px; }
+.pill-option{ position:relative; display:inline-flex; }
+.pill-option input{ position:absolute; opacity:0; pointer-events:none; }
+.pill-option span{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:.5rem .85rem;
+  border-radius:999px;
+  border:2px solid var(--chip-border);
+  background:#fff;
+  font-weight:500;
+}
+.pill-option input:checked + span{
+  background: var(--accent1);
+  border-color: var(--accent1);
+  color:#003d2f;
+}
+.pill-option input:focus-visible + span{
+  outline:3px solid rgba(143,213,196,.35);
+  outline-offset:2px;
+}
+
+.hint{ opacity:.75; font-size:.92rem; margin:.35rem 0 0 0; }
+
 input, select, textarea{
   width:100%;
   padding: .8rem 1rem;
