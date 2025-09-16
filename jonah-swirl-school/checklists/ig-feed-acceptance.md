@@ -1,5 +1,3 @@
----
-
 # `jonah-swirl-school/playbooks/DayJournal-Comments.md`
 
 ```md
