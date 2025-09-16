@@ -131,7 +131,6 @@ body{
   box-shadow: var(--hub-glow-strong);
   animation: breathe 6.5s ease-in-out infinite;
   z-index:5;
-  pointer-events:none;
 }
 .swirl::before{
   content:"";
@@ -155,11 +154,12 @@ body{
 .enter-day{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   width:96px; height:138px; border-radius:60px 60px 12px 12px;
-  background:transparent;
-  box-shadow:none;
+  background: radial-gradient(60% 50% at 50% 38%, color-mix(in srgb, var(--accent1) 42%, transparent) 0 60%, transparent 92%);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent1) 32%, transparent), 0 24px 42px -28px color-mix(in srgb, var(--accent1) 60%, transparent);
   border:0;
   display:block;
   z-index:6;
+  pointer-events:auto;
 }
 .enter-day:focus-visible{
   outline:3px solid color-mix(in srgb, var(--accent1) 60%, transparent);
@@ -169,6 +169,7 @@ body{
 /* ~lines 146-220: tokens (circles → doors) */
 .token{
   --size: 88px;
+  --token-color: var(--token-self);
   position:absolute; inset:auto;
   width:var(--size); height:var(--size); border-radius:50%;
   border:none; cursor:pointer;
@@ -177,13 +178,13 @@ body{
   color:color-mix(in srgb, var(--ink) 88%, transparent);
   font-weight:600; letter-spacing:0.2px;
   background:
-    radial-gradient(circle at 35% 28%, rgba(255,255,255,0.65), transparent 45%),
+    radial-gradient(circle at 35% 28%, color-mix(in srgb, var(--surface-strong) 85%, transparent) 0 45%, transparent 70%),
     linear-gradient(145deg,
-      hsl(var(--hue) var(--sat) calc(var(--lit) + 6%)),
-      hsl(var(--hue) calc(var(--sat) - 6%) calc(var(--lit) - 8%)));
+      color-mix(in srgb, var(--token-color) 88%, var(--surface) 12%),
+      color-mix(in srgb, var(--token-color) 82%, var(--ink) 18%));
   box-shadow:
     var(--hub-glow),
-    0 0 0 0 hsla(var(--hue), 60%, 60%, 0); /* reserved for hover aura */
+    0 0 0 0 color-mix(in srgb, var(--token-color) 55%, transparent); /* reserved for hover aura */
   transition: transform .25s ease, border-radius .35s ease, box-shadow .25s ease, width .35s ease, height .35s ease, background .35s ease;
   animation: drift linear infinite;
   z-index:4;
@@ -192,9 +193,22 @@ body{
 .token:hover{
   box-shadow:
     var(--hub-glow-strong),
-    0 0 18px 4px hsla(var(--hue), 60%, 60%, .25);
+    0 0 18px 4px color-mix(in srgb, var(--token-color) 65%, transparent);
   transform: translateZ(0) scale(1.045);
 }
+.token:focus-visible{
+  outline:none;
+  box-shadow:
+    var(--hub-glow-strong),
+    0 0 0 4px color-mix(in srgb, var(--token-color) 48%, transparent),
+    0 0 18px 6px color-mix(in srgb, var(--token-color) 62%, transparent);
+}
+
+.token[data-pillar="divine"]{ --token-color: var(--token-divine); }
+.token[data-pillar="family"]{ --token-color: var(--token-family); }
+.token[data-pillar="self"]{ --token-color: var(--token-self); }
+.token[data-pillar="rrr"]{ --token-color: var(--token-rrr); }
+.token[data-pillar="work"]{ --token-color: var(--token-work); }
 
 /* morph into ARCH DOOR on click (with wood slats + aura) */
 .token.door{
@@ -202,20 +216,20 @@ body{
   width:150px; height:190px;
   border-radius: 90px 90px 14px 14px; /* arch */
   background:
-    radial-gradient(circle at 38% 12%, rgba(255,255,255,0.75), transparent 40%),
+    radial-gradient(circle at 38% 12%, color-mix(in srgb, var(--surface-strong) 92%, transparent) 0 40%, transparent 68%),
     repeating-linear-gradient(90deg,
-      rgba(255,255,255,0.06) 0 7px,
-      rgba(0,0,0,0.06) 7px 9px),
+      color-mix(in srgb, var(--surface) 18%, transparent) 0 7px,
+      color-mix(in srgb, var(--ink) 10%, transparent) 7px 9px),
     linear-gradient(165deg,
-      hsl(var(--hue) var(--sat) calc(var(--lit) + 3%)),
-      hsl(var(--hue) calc(var(--sat) - 10%) calc(var(--lit) - 14%)));
+      color-mix(in srgb, var(--token-color) 86%, var(--surface) 14%),
+      color-mix(in srgb, var(--token-color) 72%, var(--ink) 22%));
   box-shadow:
     0 10px 26px rgba(var(--hub-shadow-rgb),0.20),
     0 0 0 1px rgba(var(--hub-shadow-rgb),0.10) inset,
-    0 0 24px 8px hsla(var(--hue), 60%, 60%, .35);
+    0 0 24px 8px color-mix(in srgb, var(--token-color) 60%, transparent);
   animation-play-state: paused; /* stop drifting when it becomes a door */
   position: relative;
-  outline: 2px solid rgba(var(--hub-shadow-rgb),0.12);
+  outline: 2px solid color-mix(in srgb, var(--token-color) 30%, transparent);
   outline-offset: 0;
   transition: box-shadow .3s ease, transform .25s ease;
 }
@@ -225,11 +239,11 @@ body{
   content:"";
   position:absolute; right:18px; top:54%;
   width:12px; height:12px; border-radius:50%;
-  background:rgba(0,0,0,0.42);
+  background:color-mix(in srgb, var(--ink) 70%, transparent);
   transform: translateY(-50%);
   box-shadow:
-    0 0 0 1px rgba(255,255,255,0.45) inset,
-    0 2px 4px rgba(0,0,0,0.25);
+    0 0 0 1px color-mix(in srgb, var(--surface) 72%, transparent) inset,
+    0 2px 4px color-mix(in srgb, var(--ink) 26%, transparent);
 }
 
 /* star glimmer that pulses on active door */
@@ -238,10 +252,10 @@ body{
   position:absolute; left:16%; top:20%;
   width:10px; height:10px;
   background:
-    radial-gradient(circle, #fff 0 40%, transparent 41%),
-    radial-gradient(circle at 50% 50%, rgba(255,255,255,.9), transparent 55%);
+    radial-gradient(circle, color-mix(in srgb, var(--surface-strong) 100%, transparent) 0 40%, transparent 41%),
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--surface) 92%, transparent), transparent 55%);
   border-radius:50%;
-  filter: drop-shadow(0 0 10px hsla(var(--hue), 80%, 70%, .6));
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--token-color) 70%, transparent));
   animation: door-glimmer 3.6s ease-in-out infinite;
   opacity:0;
 }
