@@ -1,55 +1,121 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Jonah Swirl — Home</title>
-    <link rel="stylesheet" href="./css/landing.css?v=jonah-1">
-  <link rel="stylesheet" href="./css/hub.css?v=jonah-1">
-  <link rel="stylesheet" href="./css/base.css?v=jonah-1">
+
+  <!-- Styles (order: page → feature → base so tokens win) -->
+  <link rel="stylesheet" href="./css/landing.css?v=jonah-2" />
+  <link rel="stylesheet" href="./css/hub.css?v=jonah-2" />
+  <link rel="stylesheet" href="./css/base.css?v=jonah-2" />
 </head>
+
 <body class="mode-swirl">
-  <!-- MODE TOGGLES -->
-  <header class="lab-toolbar" aria-label="Swirlface Controls">
+  <!-- Toolbar -->
+  <header class="lab-toolbar" aria-label="Swirlface controls">
     <div class="brand">
       <span class="swirl-dot" aria-hidden="true"></span>
       <strong>Swirlface</strong>
     </div>
-    <nav class="modes">
+
+    <nav class="modes" aria-label="Mode">
       <button id="btnSwirl" class="pill active" aria-pressed="true">Swirlface</button>
-      <button id="btnStructured" class="pill">Structured</button>
+      <button id="btnStructured" class="pill" aria-pressed="false">Structured</button>
     </nav>
-    <input id="crumbBox" class="pill" placeholder="Drop a crumb…" x-webkit-speech aria-label="Drop a crumb" />
+
+    <label class="visually-hidden" for="crumbBox">Drop a crumb</label>
+    <input id="crumbBox" class="pill" placeholder="Drop a crumb…" x-webkit-speech />
+
     <a class="btn btn-ghost" href="./weekly.html">🗓️ Schedule</a>
   </header>
 
-  <!-- POND + SWIRL CENTER -->
+  <!-- Pond / Landing -->
   <main id="pond">
-    <div class="site-banner">
-      <h1>Life is Learning</h1>
-      <p>Jonahs Swirl School</p>
-      <p class="page-intro">Start at the swirl hub to feel today's glow and choose the door you need; tap the bright center when you're ready to drop a crumb for the day.</p>
-    </div>
-    <div class="swirl" aria-hidden="true">
-      <svg viewBox="0 0 200 200" class="swirl-svg">
-        <path id="spiralPath" fill="none" stroke="currentColor" stroke-width="1.75" opacity="0.8"
-              stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-    </div>
-    <a id="enterDay" class="enter-day" href="./day.html" aria-label="Enter Day"></a>
-
-    <!-- FLOATING PILLAR TOKENS -->
-    <button class="token" data-pillar="divine" data-app="Spiritual Routine" style="--hue: 288; --sat: 58%; --lit: 70%;">Spiritual Routine</button>
-    <button class="token" data-pillar="self" data-app="Self" style="--hue: 96; --sat: 62%; --lit: 68%;">Self</button>
-    <button class="token" data-pillar="family" data-app="Family &amp; Home" style="--hue: 42; --sat: 72%; --lit: 66%;">Family</button>
-    <button class="token" data-pillar="rrr" data-app="RRR" style="--hue: 210; --sat: 65%; --lit: 72%;">RRR</button>
-    <button class="token" data-pillar="work" data-app="Work" style="--hue: 12; --sat: 70%; --lit: 68%;">Work</button>
-
-    <!-- Sparkles (very subtle) -->
+    <!-- Subtle sparkles background -->
     <div class="sparkles" aria-hidden="true"></div>
+
+    <!-- Title + small byline -->
+    <div class="site-banner" role="img" aria-label="Life is Learning — Jonah’s Swirl School">
+      <h1>Life is Learning</h1>
+      <p>Jonah’s Swirl School</p>
+    </div>
+
+    <!-- Center spiral (no central door) -->
+    <figure class="swirl" aria-label="Swirl hub">
+      <img
+        src="./assets/spiral-sprout.svg"
+        alt="Hand-drawn spiral with sprout"
+        class="swirl-svg"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <!-- Enter Day hotspot (ring in the bright center) -->
+      <a id="enterDay" class="enter-day" href="./day.html" aria-label="Enter Day"></a>
+    </figure>
+
+    <!-- Floating pillar tokens (positions styled in CSS; colors via CSS vars) -->
+    <button class="token" data-pillar="divine" data-app="Spiritual Routine" style="--hue:288;--sat:58%;--lit:70%;">Spiritual Routine</button>
+    <button class="token" data-pillar="self"   data-app="Self"               style="--hue:96; --sat:62%;--lit:68%;">Self</button>
+    <button class="token" data-pillar="family" data-app="Family &amp; Home"  style="--hue:42; --sat:72%;--lit:66%;">Family</button>
+    <button class="token" data-pillar="rrr"    data-app="RRR"                style="--hue:210;--sat:65%;--lit:72%;">RRR</button>
+    <button class="token" data-pillar="work"   data-app="Work"               style="--hue:12; --sat:70%;--lit:68%;">Work</button>
+
+    <!-- Dismissible intro card (temporary helper copy) -->
+    <aside id="introCard" class="intro-card" role="dialog" aria-modal="false" aria-labelledby="introTitle">
+      <button id="introDismiss" class="intro-close" aria-label="Dismiss help">×</button>
+      <h2 id="introTitle">Start at the hub</h2>
+      <p>Feel today’s glow and choose the door you need. Tap the bright center when you’re ready to drop a crumb for the day.</p>
+    </aside>
   </main>
 
-  <!-- Ensure ES module imports inside hub.js run correctly -->
-  <script type="module" src="./js/hub.js?v=jonah-1"></script>
+  <!-- Scripts -->
+  <script type="module">
+    // Minimal helpers to keep the page interactive without extra globals.
+
+    // Mode buttons (stubbed – actual routing can live in hub.js)
+    const btnSwirl = document.getElementById('btnSwirl');
+    const btnStructured = document.getElementById('btnStructured');
+    btnSwirl?.addEventListener('click', () => {
+      document.body.classList.add('mode-swirl');
+      btnSwirl.setAttribute('aria-pressed','true');
+      btnStructured.setAttribute('aria-pressed','false');
+    });
+    btnStructured?.addEventListener('click', () => {
+      document.body.classList.remove('mode-swirl');
+      btnStructured.setAttribute('aria-pressed','true');
+      btnSwirl.setAttribute('aria-pressed','false');
+      // optional: window.location.href = './index-structured.html';
+    });
+
+    // Intro card dismiss (persist once per browser using localStorage)
+    const intro = document.getElementById('introCard');
+    const introBtn = document.getElementById('introDismiss');
+    const INTRO_KEY = 'swirl.intro.dismissed';
+    if (localStorage.getItem(INTRO_KEY) === '1') intro?.setAttribute('hidden','');
+    introBtn?.addEventListener('click', () => {
+      intro?.setAttribute('hidden','');
+      localStorage.setItem(INTRO_KEY, '1');
+    });
+
+    // Token clicks → route user (these can be refined later)
+    const map = {
+      divine: './day.html#divine',
+      self: './day.html#self',
+      family: './day.html#family',
+      rrr: './day.html#rrr',
+      work: './day.html#work'
+    };
+    document.querySelectorAll('.token').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-pillar');
+        const href = map[key] || './day.html';
+        window.location.href = href;
+      });
+    });
+  </script>
+
+  <!-- Keep ES module import for any shared hub logic -->
+  <script type="module" src="./js/hub.js?v=jonah-2"></script>
 </body>
 </html>
