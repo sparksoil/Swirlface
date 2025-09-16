@@ -35,14 +35,14 @@
   --p-work-100:   rgba(255,179,138,0.30);
 
   /* supportive pastels from the photo */
-  --pastel-pink:   #F7B3C8;
+  --pastel-pink:   hsl(343 84% 81%);
   --pastel-lilac:  #D9A7E1;
-  --pastel-peach:  #FFC29B;
+  --pastel-peach:  hsl(26 92% 83%);
   --pastel-butter: #F7E5A3;
-  --pastel-sky:    #A7C7E7;
+  --pastel-sky:    hsl(204 67% 79%);
 
   /* accents carried over from previous theme */
-  --accent1: #8FD5C4;   /* mint aqua shimmer */
+  --accent1: hsl(161 53% 69%);   /* mint aqua shimmer */
   --accent2: #FF9DD8;   /* Lucy pink sparkle */
   --accent3: #F0BC06;   /* golden encouragement */
 

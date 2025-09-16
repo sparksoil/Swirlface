@@ -24,10 +24,7 @@
       <button id="btnStructured" class="pill" aria-pressed="false">Structured</button>
     </nav>
 
-    <label class="visually-hidden" for="crumbBox">Drop a crumb</label>
-    <input id="crumbBox" class="pill" placeholder="Drop a crumb…" x-webkit-speech />
-
-    <a class="btn btn-ghost" href="./weekly.html">Weekly</a>
+    <input id="crumbBox" class="pill" type="text" placeholder="Drop a crumb…" aria-label="Drop a crumb" x-webkit-speech />
   </header>
 
   <!-- Pond / Landing -->
@@ -43,13 +40,7 @@
 
     <!-- Center spiral (no central door) -->
     <figure class="swirl" aria-label="Swirl hub">
-      <img
-        src="./assets/spiral-sprout.svg"
-        alt="Hand-drawn spiral with sprout"
-        class="swirl-svg"
-        decoding="async"
-        fetchpriority="high"
-      />
+      <img src="./assets/spiral-sprout.svg" alt="Hand-drawn spiral with sprout" class="swirl-svg" decoding="async" fetchpriority="high" />
       <!-- Enter Day hotspot (ring in the bright center) -->
       <a id="enterDay" class="enter-day" href="./day.html" aria-label="Enter Day"></a>
     </figure>
@@ -62,10 +53,9 @@
     <button class="token" data-pillar="work" data-app="Work">Work</button>
 
     <!-- Dismissible intro card (temporary helper copy) -->
-    <aside id="introCard" class="intro-card" role="dialog" aria-modal="false" aria-labelledby="introTitle">
+    <aside id="introCard" class="intro-card" role="dialog" aria-modal="false" aria-labelledby="introCopy">
       <button id="introDismiss" class="intro-close" aria-label="Dismiss help">×</button>
-      <h2 id="introTitle">Start at the hub</h2>
-      <p>Tap the bright center when you’re ready to drop a crumb for the day.</p>
+      <p id="introCopy">Tap the bright center to drop a crumb for today.</p>
     </aside>
   </main>
 
