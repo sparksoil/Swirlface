@@ -1,4 +1,4 @@
-**playbooks/3_DayJournal-Comments.md**
+**playbooks/DayJournal-Comments.md**
 
 Files
 	•	day.html
