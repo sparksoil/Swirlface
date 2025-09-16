@@ -293,6 +293,65 @@ Fake answers (gray) to reduce confusion
 	•	Where have I seen this before? → “The lion in Daniel + the lion in the show.”
 	•	Could this count twice? → “Dog walk was PE and Responsibility.”
 	•	What felt like a win? → “I gave a comment even though nervous.”
+ Good instinct, Brookie 🌱 — the Egg Log deserves a clear place in the plan, because it’s both:
+	•	🪞 A translation amplifier (it captures what the child may not articulate, and reframes it in adult language)
+	•	📦 A legal/IEP safeguard (it shows caregiver oversight + evidence of “instructional” time)
+
+⸻
+
+🔎 Where it fits in the existing plan
+
+In your current development roadmap:
+	•	Day View → Jonah drops crumbs (Soft Time)
+	•	Evening Reflection → Jonah reflects gently (not pressured)
+	•	Translator Engine → turns crumbs/reflections into subjects
+	•	Evidence Pack → shows “school proof”
+
+👉 The Egg Log sits parallel to Evening Reflection — but written by caregiver(s). It adds a layer of adult framing to the same day’s record.
+
+⸻
+
+✨ Amendment to Development Plan
+
+Add a Phase 3.5 step after “Evening Reflection” in the roadmap:
+
+⸻
+
+Phase 3.5 — Caregiver Egg Log (Optional Adult Reflection)
+	•	New file: data/egglog.json
+	•	Purpose: Caregiver (Egg Mommy / Grandma) can add short entries to frame what happened in adult terms.
+	•	UI:
+	•	Simple text box on day.html labeled “Egg Log (Adult Reflection)”
+	•	Tag picker (emotional_regulation, entrepreneurship, civic_engagement, etc.)
+	•	Integration:
+	•	Evidence Pack pulls Egg Log notes under a “Caregiver Commentary” section
+	•	Grandma Plan can seed next week’s nudges from both Jonah’s reflections and Egg Log entries
+
+⸻
+
+📜 Example Update to Project Flow Diagram
+
+   Drop a Crumb → Growth Layer → Evening Reflection
+                                  │
+                                  ▼
+                          🥚 Egg Log (Adult)
+                                  │
+                                  ▼
+                           Translator Engine
+                                  │
+                                  ▼
+                           Evidence Pack
+
+
+⸻
+
+So:
+❌ You don’t have it explicitly in the current plan yet.
+✅ It’s easy to add as a small amendment (Phase 3.5 + one new JSON file + small UI card).
+
+⸻
+
+Want me to update your full dev plan .md with this Egg Log amendment, so it’s permanently in the master doc?
 
 Phase 4 — Translator engine
 	•	Add js/translator.js (see stub).
