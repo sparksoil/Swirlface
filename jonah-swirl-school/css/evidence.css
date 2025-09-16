@@ -1,17 +1,12 @@
 /* Evidence Pack – neutral print page */
-body { margin:0; background: var(--bg); color: var(--ink); }
-.wrap{ max-width: 960px; margin: 0 auto; padding: clamp(16px,3.5vw,28px); }
+body { margin:0; color: var(--ink); }
+.wrap{ max-width: 980px; margin: 0 auto; }
 
 .no-print{ display:block; }
 .head{ display:flex; gap:10px; align-items:center; }
 .head .spacer{ margin-left:auto; }
 
-.card{
-  background: #fff; border: 2px solid var(--accent1);
-  border-radius: var(--radius); box-shadow: 0 10px 24px var(--shadow);
-  padding: 16px; margin: 12px 0;
-}
-.subtle{ opacity:.8; }
+.subtle{ color: var(--ink-faint); }
 
 .bars{ display:grid; gap:10px; }
 .mini-feed{ list-style:none; margin:8px 0 0; padding:0; display:grid; gap:6px; }

@@ -2,9 +2,20 @@
   /* Core palette from swirl-system */
   --ink: #1B1F33;
   --ink-soft: #3A3F57;
+  --ink-mist: #555a70;
+  --ink-faint: #7c829c;
   --paper: #FAF7F2;      /* warm off-white background */
   --bg: var(--paper);    /* maintain existing var name */
   --veil: rgba(255,255,255,0.7);
+
+  /* translucent surface tones */
+  --surface: rgba(255,255,255,0.92);
+  --surface-strong: rgba(255,255,255,0.96);
+  --surface-soft: rgba(255,255,255,0.82);
+  --border-soft: rgba(27,31,51,0.08);
+  --border-strong: rgba(27,31,51,0.12);
+  --halo-mint: rgba(143,213,196,0.28);
+  --halo-pink: rgba(255,157,216,0.22);
 
   /* pillar anchors */
   --pillar-spiritual: #CFA9F2;  /* soft lilac (Spiritual Routine) */
@@ -12,6 +23,11 @@
   --pillar-self:      #CFE8DF;  /* seafoam/minty */
   --pillar-rrr:       #BFD7F6;  /* sky blue */
   --pillar-work:      #FFB38A;  /* peach/apricot */
+  --p-divine-100: rgba(207,169,242,0.22);
+  --p-family-100: rgba(242,193,86,0.22);
+  --p-self-100:   rgba(207,232,223,0.35);
+  --p-rrr-100:    rgba(191,215,246,0.32);
+  --p-work-100:   rgba(255,179,138,0.30);
 
   /* supportive pastels from the photo */
   --pastel-pink:   #F7B3C8;
@@ -42,7 +58,8 @@
   --grad-like: linear-gradient(135deg, #FF8FB2 0%, #FFB38A 100%);
   --grad-save: linear-gradient(135deg, #B2F0E6 0%, #BFD7F6 100%);
 
-  --shadow: rgba(0,0,0,0.12);
+  --shadow: rgba(0,0,0,0.14);
+  --shadow-strong: rgba(0,0,0,0.18);
   --radius: 18px;
 
   /* Jonah-friendly sizes */
@@ -53,11 +70,81 @@
 html,body{height:100%}
 body{
   margin:0;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--ink);
   font-family: ui-rounded, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  line-height: 1.45;
+  line-height: 1.5;
+}
+
+body:not(.mode-swirl){
+  background-image:
+    radial-gradient(1200px 820px at 12% -10%, rgba(255,177,207,0.32), transparent 58%),
+    radial-gradient(900px 900px at 88% 0%, rgba(181,211,255,0.28), transparent 58%),
+    radial-gradient(1200px 820px at 50% 120%, rgba(143,213,196,0.22), transparent 65%);
+  background-attachment: fixed;
+}
+
+a{
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover{ text-decoration: underline; text-decoration-color: rgba(27,31,51,0.35); }
+
+.page-shell{
+  width: min(960px, 94vw);
+  margin: 0 auto;
+  padding: clamp(16px, 4vw, 32px) clamp(18px, 4vw, 36px) clamp(54px, 9vw, 88px);
+}
+
+.page-head{
+  display:flex;
+  align-items:center;
+  gap: clamp(10px, 2.6vw, 18px);
+  flex-wrap: wrap;
+  margin-bottom: clamp(12px, 3vw, 26px);
+}
+
+.page-head h1{
+  margin:0;
+  font-size: clamp(22px, 4.4vw, 32px);
+  letter-spacing: 0.5px;
+}
+
+.page-head .spacer{ flex:1 1 auto; }
+
+.page-intro{
+  margin: clamp(4px, 1.4vw, 12px) 0 clamp(16px, 4vw, 28px);
+  padding: 0.85rem 1rem;
+  border-radius: 18px;
+  background: rgba(27,31,51,0.06);
+  border: 1px dashed rgba(27,31,51,0.12);
+  color: var(--ink-mist);
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+  line-height: 1.6;
+}
+
+body.mode-swirl .page-intro{
+  background: rgba(255,255,255,0.68);
+  border-color: rgba(255,255,255,0.5);
+  color: rgba(33,35,52,0.82);
+}
+
+.card{
+  background: var(--surface-strong);
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border-soft);
+  box-shadow: 0 22px 55px -32px var(--shadow-strong);
+  padding: clamp(16px, 3vw, 24px);
+  margin: clamp(16px, 3.2vw, 28px) 0;
+  backdrop-filter: blur(8px);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 28px 64px -30px rgba(27,31,51,0.26);
 }
 
 .btn{
@@ -65,20 +152,33 @@ body{
   padding: .8rem 1.1rem;
   min-height: var(--tap);
   border-radius: 14px;
-  background: var(--accent3);
-  color: #fff;
+  background: linear-gradient(135deg, var(--accent3), #ffcc4b);
+  color: #382600;
   text-decoration: none;
-  box-shadow: 0 6px 16px var(--shadow);
+  box-shadow: 0 12px 24px -12px var(--shadow);
   border: 0;
   cursor: pointer;
   font-size: 1rem;
+  font-weight: 600;
+}
+
+.btn:hover{
+  box-shadow: 0 20px 32px -18px rgba(240,188,6,0.45);
+  filter: saturate(1.05);
+  text-decoration: none;
 }
 
 .btn-big{ font-size: 1.05rem; padding: 1rem 1.2rem; }
 .btn-ghost{
-  background: rgba(255,255,255,.7);
+  background: rgba(255,255,255,.72);
   color: var(--ink);
-  border: 2px solid var(--accent1);
+  border: 2px solid rgba(143,213,196,0.6);
+  box-shadow: 0 6px 18px -12px rgba(0,0,0,0.2);
+}
+
+.btn-ghost:hover{
+  background: rgba(255,255,255,.85);
+  box-shadow: 0 16px 28px -18px rgba(143,213,196,0.6);
 }
 
 .sr-only{
