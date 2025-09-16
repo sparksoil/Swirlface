@@ -5,8 +5,12 @@ import { listCrumbs } from './storage.js';
 import { seasonClass } from './season.js';
 
 const feedRoot = document.getElementById('feedRoot');
-const chipRow  = document.querySelector('.chips');
-const qInput   = document.getElementById('q');
+const chipRow  = document.querySelector('.chips');
+const qInput   = document.getElementById('q');
+
+if(!feedRoot) {
+  console.warn('Swirlfeed: root element missing');
+}
 
 let currentPill = 'all';
 let q = '';
@@ -21,7 +25,7 @@ const PILL_LABEL = {
 
 // preselect pillar from URL hash if provided
 const hashPill = (location.hash || '').replace('#','').trim();
-if(hashPill && PILL_LABEL[hashPill]){
+if(hashPill && PILL_LABEL[hashPill] && chipRow){
   currentPill = hashPill;
   chipRow.querySelectorAll('.chip').forEach(c => {
     const active = c.dataset.pill === currentPill;
@@ -92,6 +96,7 @@ function makeItem(c){
 }
 
 function render(){
+  if(!feedRoot) return;
   const rows = filtered();
   const groups = groupByDay(rows);
 
@@ -148,27 +153,39 @@ function render(){
 }
 
 // chip interactions
-chipRow.addEventListener('click', (e)=>{
-  const btn = e.target.closest('.chip');
-  if(!btn) return;
-  const pill = btn.dataset.pill;
-  if(!pill) return;
-  currentPill = pill;
-  // update active + aria-selected
-  chipRow.querySelectorAll('.chip').forEach(c=>{
-    const active = c === btn;
-    c.classList.toggle('is-active', active);
-    c.setAttribute('aria-selected', active ? 'true' : 'false');
+if(chipRow){
+  chipRow.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.chip');
+    if(!btn) return;
+    const pill = btn.dataset.pill;
+    if(!pill) return;
+    currentPill = pill;
+    // update active + aria-selected
+    chipRow.querySelectorAll('.chip').forEach(c=>{
+      const active = c === btn;
+      c.classList.toggle('is-active', active);
+      c.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    render();
   });
-  render();
-});
+}
 
 // search interactions (debounced)
 let t = null;
-qInput.addEventListener('input', ()=>{
-  clearTimeout(t);
-  t = setTimeout(()=>{ q = qInput.value || ''; render(); }, 150);
-});
+if(qInput){
+  qInput.addEventListener('input', ()=>{
+    clearTimeout(t);
+    t = setTimeout(()=>{ q = qInput.value || ''; render(); }, 150);
+  });
+}
+
+// react to crumb changes while the page is open
+if(typeof window !== 'undefined'){
+  window.addEventListener('swirl:changed', (evt)=>{
+    const type = evt.detail?.type || '';
+    if(type.startsWith('crumb_')) render();
+  });
+}
 
 // initial render
 render();

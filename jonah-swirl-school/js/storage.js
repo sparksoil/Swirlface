@@ -43,6 +43,30 @@ function normalizeCrumb(raw = {}){
   const crumb = { ...raw };
   let dirty = false;
 
+  // Ensure an id exists (used for ordering + audit trails)
+  const existingId = (raw.id ?? '').toString().trim();
+  if(existingId){
+    crumb.id = existingId;
+  }else{
+    crumb.id = 'c_' + Math.random().toString(36).slice(2,9);
+    dirty = true;
+  }
+
+  // Normalize timestamp; fallback to "now" if invalid/missing
+  let ts = (raw.tsISO ?? raw.ts ?? '').toString().trim();
+  if(ts && Number.isNaN(Date.parse(ts))) ts = '';
+  if(ts){
+    crumb.tsISO = ts;
+  }else{
+    crumb.tsISO = new Date().toISOString();
+    dirty = true;
+  }
+
+  // Trim text content to avoid storing stray whitespace
+  const trimmedText = (raw.text ?? '').toString().trim();
+  if(trimmedText !== (raw.text ?? '')) dirty = true;
+  crumb.text = trimmedText;
+
   const sanitizedPillars = uniqueList(raw.pillars ?? raw.pillar);
   const originalPillars = Array.isArray(raw.pillars)
     ? raw.pillars.map(p=> (p ?? '').toString().trim()).filter(Boolean)
@@ -97,7 +121,27 @@ function normalizeCrumb(raw = {}){
     crumb.media = [];
   }
 
+  const status = raw.status || 'pending_review';
+  if(status !== raw.status) dirty = true;
+  crumb.status = status;
+
+  const privacy = raw.privacy || 'private';
+  if(privacy !== raw.privacy) dirty = true;
+  crumb.privacy = privacy;
+
   return { crumb, dirty };
+}
+
+function sortCrumbsDesc(list){
+  return list.sort((a,b)=>{
+    const tsCompare = String(b.tsISO||'').localeCompare(String(a.tsISO||''));
+    if(tsCompare !== 0) return tsCompare;
+    return String(b.id||'').localeCompare(String(a.id||''));
+  });
+}
+
+function orderSignature(arr){
+  return arr.map(item=>`${item.id||''}#${item.tsISO||''}`).join('|');
 }
 
 // Emit helper (so sync.js can listen)
@@ -114,17 +158,19 @@ const Storage = {
   getCrumbs(){
     const raw = this._load(KEYS.crumbs);
     let dirty = false;
-    const list = raw.map(item => {
+    const normalized = raw.map(item => {
       const { crumb, dirty: changed } = normalizeCrumb(item || {});
       if(changed) dirty = true;
       return crumb;
     });
-    if(dirty) this._save(KEYS.crumbs, list);
-    return list;
+    const sorted = sortCrumbsDesc(normalized.slice());
+    if(orderSignature(normalized) !== orderSignature(sorted)) dirty = true;
+    if(dirty) this._save(KEYS.crumbs, sorted);
+    return sorted;
   },
   addCrumb(crumb){
     const { crumb: normalized } = normalizeCrumb(crumb || {});
-    const list = this.getCrumbs(); list.push(normalized);
+    const list = sortCrumbsDesc([...this.getCrumbs(), normalized]);
     this._save(KEYS.crumbs, list);
     this.audit('create','crumb', normalized.id, {pillars: normalized.pillars, text: normalized.text.slice(0,80)});
     emit('crumb_create', { id: normalized.id, crumb: normalized });
@@ -236,11 +282,18 @@ export function saveCrumb({ pillars, text, tags, media, packet, minutes, parts, 
   return Storage.addCrumb(normalized);
 }
 
-export function todayCrumbs(){
-  const today = new Date().toISOString().slice(0,10);
-  return Storage.getCrumbs().filter(c=> (c.tsISO||'').slice(0,10) === today);
+export function todayCrumbs(day){
+  let target = '';
+  if(day instanceof Date){
+    target = day.toISOString().slice(0,10);
+  }else if(typeof day === 'string' && day.trim()){
+    target = day.trim().slice(0,10);
+  }else{
+    target = new Date().toISOString().slice(0,10);
+  }
+  return listCrumbs().filter(c=> (c.tsISO||'').slice(0,10) === target);
 }
-export function listCrumbs(){ return Storage.getCrumbs().slice().sort((a,b)=> (b.tsISO||'').localeCompare(a.tsISO||'')); }
+export function listCrumbs(){ return Storage.getCrumbs().slice(); }
 export function deleteCrumb(id){ return Storage.deleteCrumbById(id); }
 
 export function addComment({crumbId, text}){

@@ -1,7 +1,69 @@
+import { saveCrumb } from './storage.js';
+
 // Swirlface Hub — JS
 
 // ~lines 1-18: helpers + token setup
 const tokens = Array.from(document.querySelectorAll('.token'));
+const QUICK_PILLARS = ['divine','family','self','rrr','work'];
+const QUICK_KEY = 'swirl_quick_pillar';
+
+function readQuickPillar(){
+  try{
+    const stored = localStorage.getItem(QUICK_KEY);
+    if(stored && QUICK_PILLARS.includes(stored)) return stored;
+  }catch{}
+  return 'self';
+}
+
+let quickPillar = readQuickPillar();
+
+function setQuickPillar(pillar){
+  if(!pillar || !QUICK_PILLARS.includes(pillar)) return;
+  quickPillar = pillar;
+  try{ localStorage.setItem(QUICK_KEY, pillar); }catch{}
+}
+
+function parseQuickEntry(raw){
+  let text = (raw || '').trim();
+  let pillar = quickPillar;
+  const match = text.match(/^#(divine|family|self|rrr|work)\b/i);
+  if(match){
+    pillar = match[1].toLowerCase();
+    text = text.slice(match[0].length).trim();
+  }
+  return { text, pillar };
+}
+
+function flashSaved(){
+  if(!crumbBox) return;
+  const original = crumbBox.dataset.placeholder || crumbBox.getAttribute('placeholder') || '';
+  crumbBox.dataset.placeholder = original;
+  crumbBox.setAttribute('placeholder', 'Saved! Drop another…');
+  crumbBox.classList.add('quick-saved');
+  setTimeout(()=>{
+    const restore = crumbBox.dataset.placeholder || 'Drop a crumb…';
+    crumbBox.setAttribute('placeholder', restore);
+    crumbBox.classList.remove('quick-saved');
+    delete crumbBox.dataset.placeholder;
+  }, 1500);
+}
+
+function quickSaveCrumb(){
+  if(!crumbBox) return;
+  const raw = crumbBox.value.trim();
+  if(!raw) return;
+  const { text, pillar } = parseQuickEntry(raw);
+  if(!text) return;
+  try{
+    saveCrumb({ pillars:[pillar], text });
+    setQuickPillar(pillar);
+    crumbBox.value = '';
+    flashSaved();
+  }catch(err){
+    console.error('Quick crumb save failed', err);
+    alert('Could not save crumb. Try again.');
+  }
+}
 
 function rand(min, max){ return Math.random() * (max - min) + min; }
 
@@ -21,6 +83,7 @@ tokens.forEach((t) => {
   t.addEventListener('click', () => {
     const pillar = t.dataset.pillar;
     if(pillar){
+      setQuickPillar(pillar);
       location.href = `./swirlfeed.html#${pillar}`;
     }
   });
@@ -49,13 +112,15 @@ function setMode(mode){
 btnSwirl.addEventListener('click',      () => setMode('swirl'));
 btnStructured.addEventListener('click', () => setMode('structured'));
 
-crumbBox?.addEventListener('change', () => {
-  const text = crumbBox.value.trim();
-  if(text){
-    alert('Crumb saved and auto-sorted!');
-    crumbBox.value = '';
-  }
-});
+if(crumbBox){
+  crumbBox.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      quickSaveCrumb();
+    }
+  });
+  crumbBox.addEventListener('blur', ()=> quickSaveCrumb());
+}
 
 // start in mode based on hash (#structured) or default to Swirlface
 const initialMode = location.hash === '#structured' ? 'structured' : 'swirl';
