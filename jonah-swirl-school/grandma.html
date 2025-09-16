@@ -132,6 +132,11 @@
       return d.toISOString().slice(0,7);
     }
 
+    window.addEventListener('swirl:changed', (evt)=>{
+      const type = evt.detail?.type || '';
+      if(type.startsWith('crumb_')) render();
+    });
+
     render();
   </script>
 </body>

@@ -100,6 +100,12 @@
 
     printBtn.onclick = ()=> window.print();
 
+    // Update when crumbs change elsewhere
+    window.addEventListener('swirl:changed', (evt)=>{
+      const type = evt.detail?.type || '';
+      if(type.startsWith('crumb_')) render();
+    });
+
     // initial
     render();
   </script>

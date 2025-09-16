@@ -163,7 +163,7 @@
 
     function renderNarrative(){
       const crumbs = todayCrumbs();
-      narrativeText.textContent = crumbs.map(c=> c.text).join(' ');
+      narrativeText.textContent = crumbs.slice().reverse().map(c=> c.text).join(' ');
     }
 
     function renderSchedule(){
