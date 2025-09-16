@@ -97,8 +97,14 @@ const crumbBox      = document.getElementById('crumbBox');
 function setMode(mode){
   document.body.classList.toggle('mode-swirl',      mode === 'swirl');
   document.body.classList.toggle('mode-structured', mode === 'structured');
-  btnSwirl.classList.toggle('active',      mode === 'swirl');
-  btnStructured.classList.toggle('active', mode === 'structured');
+  if(btnSwirl){
+    btnSwirl.classList.toggle('active', mode === 'swirl');
+    btnSwirl.setAttribute('aria-pressed', mode === 'swirl' ? 'true' : 'false');
+  }
+  if(btnStructured){
+    btnStructured.classList.toggle('active', mode === 'structured');
+    btnStructured.setAttribute('aria-pressed', mode === 'structured' ? 'true' : 'false');
+  }
 
   if(mode === 'structured'){
     tokens.forEach((t, i) => {
@@ -109,8 +115,8 @@ function setMode(mode){
   }
 }
 
-btnSwirl.addEventListener('click',      () => setMode('swirl'));
-btnStructured.addEventListener('click', () => setMode('structured'));
+btnSwirl?.addEventListener('click',      () => setMode('swirl'));
+btnStructured?.addEventListener('click', () => setMode('structured'));
 
 if(crumbBox){
   crumbBox.addEventListener('keydown', (e)=>{
@@ -125,17 +131,3 @@ if(crumbBox){
 // start in mode based on hash (#structured) or default to Swirlface
 const initialMode = location.hash === '#structured' ? 'structured' : 'swirl';
 setMode(initialMode);
-
-// draw smooth spiral
-function makeSpiralPath({cx=100, cy=100, startR=5, spacing=4, turns=4, steps=360}={}){
-  const TAU=Math.PI*2,total=turns*TAU,k=spacing/(2*Math.PI);
-  let d="";
-  for(let i=0;i<=steps;i++){
-    const t=i/steps,th=t*total+0.0001,r=startR+k*th;
-    const x=cx+r*Math.cos(th),y=cy+r*Math.sin(th);
-    d+= (i?` L ${x.toFixed(2)} ${y.toFixed(2)}`:`M ${x.toFixed(2)} ${y.toFixed(2)}`);
-  }
-  return d;
-}
-const spiralPath=document.getElementById('spiralPath');
-if(spiralPath){ spiralPath.setAttribute('d', makeSpiralPath()); }

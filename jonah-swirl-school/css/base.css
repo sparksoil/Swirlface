@@ -23,6 +23,11 @@
   --pillar-self:      #CFE8DF;  /* seafoam/minty */
   --pillar-rrr:       #BFD7F6;  /* sky blue */
   --pillar-work:      #FFB38A;  /* peach/apricot */
+  --token-divine: var(--pillar-spiritual);
+  --token-family: var(--pillar-family);
+  --token-self:   var(--pillar-self);
+  --token-rrr:    var(--pillar-rrr);
+  --token-work:   var(--pillar-work);
   --p-divine-100: rgba(207,169,242,0.22);
   --p-family-100: rgba(242,193,86,0.22);
   --p-self-100:   rgba(207,232,223,0.35);
