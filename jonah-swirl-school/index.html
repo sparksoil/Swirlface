@@ -3,53 +3,94 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Jonah Swirl — Home</title>
-    <link rel="stylesheet" href="./css/landing.css?v=jonah-1">
-  <link rel="stylesheet" href="./css/hub.css?v=jonah-1">
-  <link rel="stylesheet" href="./css/base.css?v=jonah-1">
+  <title>Jonah’s Swirl — Home</title>
+  <link rel="stylesheet" href="./css/base.css?v=jonah-3">
+  <link rel="stylesheet" href="./css/hub.css?v=jonah-3">
+  <link rel="stylesheet" href="./css/landing.css?v=jonah-3">
 </head>
 <body class="mode-swirl">
   <!-- MODE TOGGLES -->
-  <header class="lab-toolbar" aria-label="Swirlface Controls">
+  <header class="lab-toolbar" aria-label="Swirlface controls">
     <div class="brand">
       <span class="swirl-dot" aria-hidden="true"></span>
       <strong>Swirlface</strong>
     </div>
-    <nav class="modes">
+    <nav class="modes" aria-label="View mode">
       <button id="btnSwirl" class="pill active" aria-pressed="true">Swirlface</button>
-      <button id="btnStructured" class="pill">Structured</button>
+      <button id="btnStructured" class="pill" aria-pressed="false">Structured</button>
     </nav>
     <input id="crumbBox" class="pill" placeholder="Drop a crumb…" x-webkit-speech aria-label="Drop a crumb" />
     <a class="btn btn-ghost" href="./weekly.html">🗓️ Schedule</a>
   </header>
 
-  <!-- POND + SWIRL CENTER -->
+  <!-- POND -->
   <main id="pond">
     <div class="site-banner">
       <h1>Life is Learning</h1>
-      <p>Jonahs Swirl School</p>
-      <p class="page-intro">Start at the swirl hub to feel today's glow and choose the door you need; tap the bright center when you're ready to drop a crumb for the day.</p>
+      <p>Jonah’s Swirl School</p>
     </div>
-    <div class="swirl" aria-hidden="true">
-      <svg viewBox="0 0 200 200" class="swirl-svg">
-        <path id="spiralPath" fill="none" stroke="currentColor" stroke-width="1.75" opacity="0.8"
-              stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-    </div>
+
+    <!-- Spiral artwork (no center door) -->
+    <figure class="swirl" aria-label="Swirl sprout logo">
+      <img
+        src="./assets/spiral-sprout.svg"
+        alt="Sprout swirl"
+        class="swirl-svg"
+        decoding="async"
+        loading="eager"
+        width="480"
+        height="480"
+      />
+    </figure>
+
+    <!-- Invisible enter-day hotspot (kept for quick access) -->
     <a id="enterDay" class="enter-day" href="./day.html" aria-label="Enter Day"></a>
 
+    <!-- Temporary instructions (dismissible, remembered) -->
+    <aside id="instructions" class="instructions-box" role="region" aria-label="Quick instructions">
+      <button id="closeInstructions" class="instructions-close" type="button" aria-label="Dismiss instructions">×</button>
+      <h2 class="instructions-title">Start here</h2>
+      <p>Choose a door to drop today’s crumb, or tap the center to open the Day page.</p>
+      <ul>
+        <li>Tap a colored circle to jump into that pillar’s feed.</li>
+        <li>Use the box above to quickly drop a crumb anytime.</li>
+      </ul>
+    </aside>
+
     <!-- FLOATING PILLAR TOKENS -->
-    <button class="token" data-pillar="divine" data-app="Spiritual Routine" style="--hue: 288; --sat: 58%; --lit: 70%;">Spiritual Routine</button>
-    <button class="token" data-pillar="self" data-app="Self" style="--hue: 96; --sat: 62%; --lit: 68%;">Self</button>
-    <button class="token" data-pillar="family" data-app="Family &amp; Home" style="--hue: 42; --sat: 72%; --lit: 66%;">Family</button>
-    <button class="token" data-pillar="rrr" data-app="RRR" style="--hue: 210; --sat: 65%; --lit: 72%;">RRR</button>
-    <button class="token" data-pillar="work" data-app="Work" style="--hue: 12; --sat: 70%; --lit: 68%;">Work</button>
+    <button class="token" data-pillar="divine"  data-app="Spiritual Routine" aria-label="Spiritual Routine pillar"
+            style="--hue:288; --sat:58%; --lit:70%;">Spiritual Routine</button>
+    <button class="token" data-pillar="self"    data-app="Self"               aria-label="Self pillar"
+            style="--hue:96;  --sat:62%; --lit:68%;">Self</button>
+    <button class="token" data-pillar="family"  data-app="Family &amp; Home"  aria-label="Family pillar"
+            style="--hue:42;  --sat:72%; --lit:66%;">Family</button>
+    <button class="token" data-pillar="rrr"     data-app="RRR"                aria-label="Skills pillar"
+            style="--hue:210; --sat:65%; --lit:72%;">RRR</button>
+    <button class="token" data-pillar="work"    data-app="Work"               aria-label="Work pillar"
+            style="--hue:12;  --sat:70%; --lit:68%;">Work</button>
 
     <!-- Sparkles (very subtle) -->
     <div class="sparkles" aria-hidden="true"></div>
   </main>
 
-  <!-- Ensure ES module imports inside hub.js run correctly -->
+  <!-- Modules -->
   <script type="module" src="./js/hub.js?v=jonah-1"></script>
+  <script type="module">
+    // Dismissible instructions remembered in localStorage
+    const KEY = 'swirl_instructions_dismissed_v1';
+    const box = document.getElementById('instructions');
+    const btn = document.getElementById('closeInstructions');
+
+    try {
+      if (localStorage.getItem(KEY) === '1') {
+        box?.classList.add('is-hidden');
+      }
+    } catch {}
+
+    btn?.addEventListener('click', () => {
+      box?.classList.add('is-hidden');
+      try { localStorage.setItem(KEY, '1'); } catch {}
+    });
+  </script>
 </body>
 </html>
