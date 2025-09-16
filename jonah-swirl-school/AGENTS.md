@@ -13,7 +13,9 @@ Use plain, gentle copy per Mint guide (no snark; assume good intent).
 
 ## Guardrails
 1. **Data spine:** Read/write crumbs/comments ONLY through `js/storage.js`. Do not invent new keys without a playbook step.  
-2. **Theme tokens:** Use CSS variables from `css/base.css` (paper/ink/accent/season). No hardcoded colors except where a playbook specifies.  
+2. **Theme tokens:** Use CSS variables from `css/base.css` (paper/ink/accent/season).  
+   No hardcoded colors except where a playbook specifies.  
+   For palettes/layout rules, see `/design/palette.md`. 
 3. **A11y:** Every interactive element has a label/role; focus-visible states must remain visible.  
 4. **No new globals:** New JS is ES module-scoped; import what you use.  
 5. **Local-first:** No network calls, trackers, or external fonts.  
