@@ -61,7 +61,7 @@ body { margin:0; background: var(--bg); color: var(--ink); }
 .item:last-child{ border-bottom:0; }
 
 .item .txt{ white-space: pre-wrap; }
-.item .pill{ opacity:.85; font-weight:600; }
+.item .pillar-chips{ grid-column: 1 / -1; margin-top: 4px; }
 
 .item .go{
   display:inline-flex; align-items:center; gap:6px;

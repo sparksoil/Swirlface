@@ -8,6 +8,98 @@ const KEYS = {
   audit:    'swirl_audit_jonah'
 };
 
+function uniqueList(listLike){
+  const arr = Array.isArray(listLike) ? listLike : (listLike ? [listLike] : []);
+  const seen = new Set();
+  const out = [];
+  for(const item of arr){
+    const v = (item ?? '').toString().trim();
+    if(!v || seen.has(v)) continue;
+    seen.add(v);
+    out.push(v);
+  }
+  return out;
+}
+
+function cleanTags(tags){
+  if(Array.isArray(tags)){
+    return tags.map(t=> (t ?? '').toString().trim()).filter(Boolean);
+  }
+  if(typeof tags === 'string'){
+    return tags.split(',').map(t=> t.trim()).filter(Boolean);
+  }
+  return [];
+}
+
+function arraysEqual(a = [], b = []){
+  if(a.length !== b.length) return false;
+  for(let i=0;i<a.length;i++){
+    if(a[i] !== b[i]) return false;
+  }
+  return true;
+}
+
+function normalizeCrumb(raw = {}){
+  const crumb = { ...raw };
+  let dirty = false;
+
+  const sanitizedPillars = uniqueList(raw.pillars ?? raw.pillar);
+  const originalPillars = Array.isArray(raw.pillars)
+    ? raw.pillars.map(p=> (p ?? '').toString().trim()).filter(Boolean)
+    : [];
+  if(!arraysEqual(originalPillars, sanitizedPillars)) dirty = true;
+  crumb.pillars = sanitizedPillars;
+
+  const primary = sanitizedPillars[0] || '';
+  if((raw.pillar || '') !== primary){
+    dirty = true;
+    crumb.pillar = primary;
+  } else {
+    crumb.pillar = raw.pillar || primary;
+  }
+
+  const sanitizedTags = cleanTags(raw.tags);
+  const originalTags = Array.isArray(raw.tags)
+    ? raw.tags.map(t=> (t ?? '').toString().trim()).filter(Boolean)
+    : cleanTags(raw.tags);
+  if(typeof raw.tags === 'string') dirty = true;
+  if(!arraysEqual(originalTags, sanitizedTags)) dirty = true;
+  crumb.tags = sanitizedTags;
+
+  if(Array.isArray(raw.parts)){
+    crumb.parts = raw.parts;
+  }else{
+    if(raw.parts !== undefined) dirty = true;
+    crumb.parts = [];
+  }
+  if(Array.isArray(raw.skills)){
+    crumb.skills = raw.skills;
+  }else{
+    if(raw.skills !== undefined) dirty = true;
+    crumb.skills = [];
+  }
+  if(Array.isArray(raw.feelings)){
+    crumb.feelings = raw.feelings;
+  }else{
+    if(raw.feelings !== undefined) dirty = true;
+    crumb.feelings = [];
+  }
+  if(Array.isArray(raw.needs)){
+    crumb.needs = raw.needs;
+  }else{
+    if(raw.needs !== undefined) dirty = true;
+    crumb.needs = [];
+  }
+  if(Array.isArray(raw.media)){
+    crumb.media = raw.media;
+  }else{
+    if(raw.media !== undefined) dirty = true;
+    crumb.media = [];
+  }
+
+  return { crumb, dirty };
+}
+
 // Emit helper (so sync.js can listen)
 function emit(type, payload){
   try{ window.dispatchEvent(new CustomEvent('swirl:changed', { detail: { type, ...payload } })); }
@@ -19,13 +111,24 @@ const Storage = {
   _save(key, val){ localStorage.setItem(key, JSON.stringify(val)); },
 
   // --- Crumbs ---
-  getCrumbs(){ return this._load(KEYS.crumbs); },
+  getCrumbs(){
+    const raw = this._load(KEYS.crumbs);
+    let dirty = false;
+    const list = raw.map(item => {
+      const { crumb, dirty: changed } = normalizeCrumb(item || {});
+      if(changed) dirty = true;
+      return crumb;
+    });
+    if(dirty) this._save(KEYS.crumbs, list);
+    return list;
+  },
   addCrumb(crumb){
-    const list = this.getCrumbs(); list.push(crumb);
+    const { crumb: normalized } = normalizeCrumb(crumb || {});
+    const list = this.getCrumbs(); list.push(normalized);
     this._save(KEYS.crumbs, list);
-    this.audit('create','crumb', crumb.id, {pillar:crumb.pillar, text:crumb.text.slice(0,80)});
-    emit('crumb_create', { id: crumb.id, crumb });
-    return crumb;
+    this.audit('create','crumb', normalized.id, {pillars: normalized.pillars, text: normalized.text.slice(0,80)});
+    emit('crumb_create', { id: normalized.id, crumb: normalized });
+    return normalized;
   },
   deleteCrumbById(id){
     const list = this.getCrumbs();
@@ -33,7 +136,7 @@ const Storage = {
     if(idx>=0){
       const removed = list.splice(idx,1)[0];
       this._save(KEYS.crumbs, list);
-      this.audit('delete','crumb', id, {pillar:removed?.pillar});
+      this.audit('delete','crumb', id, {pillars:removed?.pillars});
       emit('crumb_delete', { id });
       return true;
     }
@@ -91,24 +194,46 @@ const Storage = {
 };
 
 // Public API
-export function preselectPillarFromHash(selectEl){
+export function preselectPillarFromHash(target){
   const h = (location.hash || '').replace('#','').trim();
-  if(!h) return;
-  const opt = [...selectEl.options].find(o=>o.value===h);
-  if(opt) selectEl.value = h;
+  if(!h || !target) return;
+  if(typeof HTMLSelectElement !== 'undefined' && target instanceof HTMLSelectElement){
+    const opt = [...target.options].find(o=>o.value===h);
+    if(opt) target.value = h;
+    return;
+  }
+  const list = Array.isArray(target)
+    ? target
+    : (typeof target.length === 'number' ? Array.from(target) : null);
+  if(list){
+    list.forEach(input=>{
+      if(input && 'value' in input && input.value === h){
+        input.checked = true;
+      }
+    });
+  }
 }
 
-export function saveCrumb({pillar, text, tags, media}){
+export function saveCrumb({ pillars, text, tags, media, packet, minutes, parts, skills, feelings, needs }){
   const id = 'c_' + Math.random().toString(36).slice(2,9);
   const crumb = {
-    id, tsISO: new Date().toISOString(),
-    pillar, text,
-    parts: [], skills: [],
-    media: Array.isArray(media) ? media : [], // <— accept compressed images
-    tags: (tags||'').split(',').map(s=>s.trim()).filter(Boolean),
-    privacy:'private', status:'pending_review'
+    id,
+    tsISO: new Date().toISOString(),
+    text: (text || '').trim(),
+    pillars: Array.isArray(pillars) ? pillars : uniqueList(pillars),
+    tags: Array.isArray(tags) ? tags : cleanTags(tags),
+    media: Array.isArray(media) ? media : [],
+    parts: Array.isArray(parts) ? parts : [],
+    skills: Array.isArray(skills) ? skills : [],
+    feelings: Array.isArray(feelings) ? feelings : [],
+    needs: Array.isArray(needs) ? needs : [],
+    packet: packet || undefined,
+    minutes: typeof minutes === 'number' ? minutes : undefined,
+    privacy:'private',
+    status:'pending_review'
   };
-  return Storage.addCrumb(crumb);
+  const { crumb: normalized } = normalizeCrumb(crumb);
+  return Storage.addCrumb(normalized);
 }
 
 export function todayCrumbs(){

@@ -100,3 +100,19 @@ body{
 .crumb-age.age-summer::before{ background:var(--season-summer); }
 .crumb-age.age-fall::before{ background:var(--season-fall); }
 .crumb-age.age-winter::before{ background:var(--season-winter); }
+
+.pillar-chips{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 0; }
+.pillar-chip{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:.35rem .65rem;
+  border-radius:999px;
+  border:1px solid var(--chip-border);
+  background: var(--chip-fill);
+  font-size:.88rem;
+  font-weight:500;
+}
+.pillar-chip[data-pillar="divine"]{ background: rgba(207,169,242,0.28); border-color: rgba(207,169,242,0.6); }
+.pillar-chip[data-pillar="family"]{ background: rgba(242,193,86,0.25); border-color: rgba(242,193,86,0.55); }
+.pillar-chip[data-pillar="self"]{ background: rgba(207,232,223,0.4); border-color: rgba(207,232,223,0.7); }
+.pillar-chip[data-pillar="rrr"]{ background: rgba(191,215,246,0.35); border-color: rgba(191,215,246,0.65); }
+.pillar-chip[data-pillar="work"]{ background: rgba(255,179,138,0.3); border-color: rgba(255,179,138,0.65); }

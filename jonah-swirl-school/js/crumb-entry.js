@@ -3,16 +3,17 @@ import { compressFileToDataUrl } from './photos.js';
 
 (function(){
   const form = document.getElementById('crumbForm');
-  const pillar = document.getElementById('pillar');
+  const pillarInputs = document.querySelectorAll('input[name="pillars"]');
   const text = document.getElementById('text');
   const tags = document.getElementById('tags');
   const photo = document.getElementById('photo');
 
-  if (pillar) preselectPillarFromHash(pillar);
+  if (pillarInputs?.length) preselectPillarFromHash(pillarInputs);
 
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
-    if(!pillar.value || !text.value.trim()) return;
+    const selectedPillars = Array.from(pillarInputs).filter(input=>input.checked).map(input=>input.value);
+    if(!selectedPillars.length || !text.value.trim()) return;
 
     let media = [];
     if(photo?.files?.length){
@@ -36,7 +37,7 @@ import { compressFileToDataUrl } from './photos.js';
     }
 
     saveCrumb({
-      pillar: pillar.value,
+      pillars: selectedPillars,
       text: text.value.trim(),
       tags: tags.value.trim(),
       media

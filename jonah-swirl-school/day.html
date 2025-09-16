@@ -24,16 +24,32 @@
     </section>
 
     <form id="crumbForm" class="card">
-      <label class="row">
-        <span class="lab">Pillar</span>
-        <select id="pillar" name="pillar" required>
-          <option value="divine">👑 Spiritual Routine</option>
-          <option value="family">🏠 Home</option>
-          <option value="self">🌱 Self</option>
-          <option value="rrr">📚 Skills</option>
-          <option value="work">💵 Work</option>
-        </select>
-      </label>
+      <fieldset class="row pill-field" aria-describedby="pillarsHelp">
+        <legend class="lab">Pillars</legend>
+        <div class="pill-options">
+          <label class="pill-option">
+            <input type="checkbox" name="pillars" value="divine" required>
+            <span>👑 Spiritual Routine</span>
+          </label>
+          <label class="pill-option">
+            <input type="checkbox" name="pillars" value="family">
+            <span>🏠 Home</span>
+          </label>
+          <label class="pill-option">
+            <input type="checkbox" name="pillars" value="self">
+            <span>🌱 Self</span>
+          </label>
+          <label class="pill-option">
+            <input type="checkbox" name="pillars" value="rrr">
+            <span>📚 Skills</span>
+          </label>
+          <label class="pill-option">
+            <input type="checkbox" name="pillars" value="work">
+            <span>💵 Work</span>
+          </label>
+        </div>
+        <p id="pillarsHelp" class="hint">Pick every pillar that this moment touched.</p>
+      </fieldset>
 
       <label class="row">
         <span class="lab">What happened?</span>
@@ -87,6 +103,7 @@
     const narrativeText = document.getElementById('narrativeText');
     const scheduleList = document.getElementById('scheduleList');
     const PILL_EMOJI = { divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵' };
+    const PILL_LABEL = { divine:'Spiritual Routine', family:'Home', self:'Self', rrr:'Skills', work:'Work' };
 
     // Parent controls: set/change PIN
     parentBtn.addEventListener('click', ()=>{
@@ -105,7 +122,11 @@
       li.className = 'crumb-age ' + seasonClass(c.tsISO);
 
       // Row content
-      const emoji = PILL_EMOJI[c.pillar] || '•';
+      const pillars = Array.isArray(c.pillars) && c.pillars.length ? c.pillars : ((c.pillar && [c.pillar]) || []);
+      const emoji = PILL_EMOJI[pillars[0]] || '•';
+      const chips = pillars.length
+        ? `<div class="pillar-chips">${pillars.map(p=>`<span class="pillar-chip" data-pillar="${p}">${PILL_EMOJI[p]||''} ${PILL_LABEL[p]||p}</span>`).join('')}</div>`
+        : '';
       li.innerHTML = `
       <div class="c-top">
         <div class="c-text">${emoji} ${escapeHtml(c.text)}</div>
@@ -113,6 +134,7 @@
           <button class="btn btn-ghost c-del" type="button" title="Delete">Delete</button>
         </div>
       </div>
+      ${chips}
       <div class="c-comments-wrap">
         <ul class="c-comments"></ul>
         <form class="c-add"><input placeholder="Add a comment…" maxlength="160"></form>

@@ -12,11 +12,11 @@ let currentPill = 'all';
 let q = '';
 
 const PILL_LABEL = {
-  divine: '👑 Spiritual Routine',
-  family: '🏠 Home',
-  self:   '🌱 Self',
-  rrr:    '📚 Skills',
-  work:   '💵 Work'
+  divine: 'Spiritual Routine',
+  family: 'Home',
+  self:   'Self',
+  rrr:    'Skills',
+  work:   'Work'
 };
 
 // preselect pillar from URL hash if provided
@@ -32,6 +32,10 @@ if(hashPill && PILL_LABEL[hashPill]){
 
 function dateOnly(iso){ return (iso||'').slice(0,10); }
 function emojiFor(p){ return ({divine:'👑', family:'🏠', self:'🌱', rrr:'📚', work:'💵'})[p] || '•'; }
+function ensurePillars(crumb){
+  if(Array.isArray(crumb.pillars) && crumb.pillars.length) return crumb.pillars;
+  return crumb.pillar ? [crumb.pillar] : [];
+}
 
 function normalize(s){ return (s||'').toLowerCase(); }
 
@@ -39,15 +43,16 @@ function normalize(s){ return (s||'').toLowerCase(); }
 function filtered(){
   const all = listCrumbs(); // newest first (we sorted in storage API)
   const qn = normalize(q);
-  return all.filter(c=>{
-    if(currentPill !== 'all' && c.pillar !== currentPill) return false;
+  return all.filter(c=>{
+    if(currentPill !== 'all' && !ensurePillars(c).includes(currentPill)) return false;
     if(!qn) return true;
-    const hay = [
-      c.text,
-      ...(Array.isArray(c.tags) ? c.tags : []),
-      ...(Array.isArray(c.skills) ? c.skills : []),
-      ...(Array.isArray(c.parts) ? c.parts : [])
-    ].join(' ').toLowerCase();
+    const hay = [
+      c.text,
+      ...(Array.isArray(c.tags) ? c.tags : []),
+      ...(Array.isArray(c.skills) ? c.skills : []),
+      ...(Array.isArray(c.parts) ? c.parts : []),
+      ...ensurePillars(c).map(p=> PILL_LABEL[p] || p)
+    ].join(' ').toLowerCase();
     return hay.includes(qn);
   });
 }
@@ -68,14 +73,22 @@ function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<'
 function makeItem(c){
   const div = document.createElement('div');
   div.className = 'item crumb-age ' + seasonClass(c.tsISO);
-  div.innerHTML = `
-    <div class="txt">${emojiFor(c.pillar)} ${escapeHtml(c.text)}</div>
-    <div class="pill">${PILL_LABEL[c.pillar]||''}</div>
-    <button class="go" type="button" aria-label="Add another ${c.pillar} crumb">Go →</button>
-  `;
-  const go = div.querySelector('.go');
-   go.addEventListener('click', ()=>{ location.href = `./day.html#${c.pillar}`; });
-  return div;
+  const pillars = ensurePillars(c);
+  const primary = pillars[0] || c.pillar;
+  const chips = pillars.length
+    ? `<div class="pillar-chips">${pillars.map(p=>`<span class="pillar-chip" data-pillar="${p}">${emojiFor(p)} ${PILL_LABEL[p]||p}</span>`).join('')}</div>`
+    : '';
+  const aria = pillars.length ? pillars.map(p=> PILL_LABEL[p] || p).join(', ') : (PILL_LABEL[primary] || primary || 'pillar');
+  div.innerHTML = `
+    <div class="txt">${emojiFor(primary)} ${escapeHtml(c.text)}</div>
+    ${chips}
+    <button class="go" type="button" aria-label="Add another ${aria} crumb">Go →</button>
+  `;
+  const go = div.querySelector('.go');
+  go.addEventListener('click', ()=>{
+    location.href = primary ? `./day.html#${primary}` : './day.html';
+  });
+  return div;
 }
 
 function render(){

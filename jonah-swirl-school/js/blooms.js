@@ -33,22 +33,30 @@ export function summarizeWeek(start, end){
     return d >= s && d <= e;
   });
 
-  const pillars = { divine:0, family:0, self:0, rrr:0, work:0 };
-  const tagCounts = new Map(); // tag -> count
-  const tagPillar = new Map(); // tag -> pillar that co-occurs most often
+  const pillars = { divine:0, family:0, self:0, rrr:0, work:0 };
+  const tagCounts = new Map(); // tag -> count
+  const tagPillar = new Map(); // tag -> pillar that co-occurs most often
 
-  // count by pillar + tags
-  for(const c of crumbs){
-    pillars[c.pillar] = (pillars[c.pillar]||0) + 1;
-    const tags = Array.isArray(c.tags) ? c.tags : [];
-    for(const t of tags){
-      const key = t.toLowerCase();
-      tagCounts.set(key, (tagCounts.get(key)||0) + 1);
-      // naive pillar association: increment per tag-pillar pair
-      const k2 = key+'|'+(c.pillar||'');
-      tagPillar.set(k2, (tagPillar.get(k2)||0) + 1);
-    }
-  }
+  // count by pillar + tags
+  for(const c of crumbs){
+    const crumbPillars = Array.isArray(c.pillars) && c.pillars.length
+      ? c.pillars
+      : (c.pillar ? [c.pillar] : []);
+    crumbPillars.forEach(p=>{
+      if(pillars[p] === undefined) pillars[p] = 0;
+      pillars[p] = (pillars[p]||0) + 1;
+    });
+    const tags = Array.isArray(c.tags) ? c.tags : [];
+    for(const t of tags){
+      const key = t.toLowerCase();
+      tagCounts.set(key, (tagCounts.get(key)||0) + 1);
+      // naive pillar association: increment per tag-pillar pair
+      crumbPillars.forEach(p=>{
+        const k2 = key+'|'+(p||'');
+        tagPillar.set(k2, (tagPillar.get(k2)||0) + 1);
+      });
+    }
+  }
 
   // determine dominant pillar per tag
   const tagToPillar = {};
