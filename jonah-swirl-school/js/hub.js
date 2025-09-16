@@ -68,14 +68,18 @@ function quickSaveCrumb(){
 function rand(min, max){ return Math.random() * (max - min) + min; }
 
 tokens.forEach((t, i) => {
-  // randomize orbits so each circle feels alive
-  const startAngle = rand(0, 360);
-  const radius     = rand(150, 260);      // distance from center
+  // randomize orbits so each circle feels alive while remaining evenly spaced
+  const slice      = 360 / tokens.length;
+  const offset     = rand(-18, 18);
+  const startAngle = (slice * i + offset + 360) % 360;
+  const radius     = rand(170, 240);      // distance from center
   const duration   = rand(26, 46);        // seconds per revolution
 
   t.style.setProperty('--angle', `${startAngle}deg`);
   t.style.setProperty('--radius', `${radius}px`);
   t.style.animationDuration = `${duration}s`;
+  t.dataset.swirlAngle = startAngle.toFixed(2);
+  t.dataset.swirlRadius = radius.toFixed(2);
 });
 
 // ~lines 20-40: click → navigate to pillar feed
@@ -111,6 +115,13 @@ function setMode(mode){
       const angle = (360 / tokens.length) * i;
       t.style.setProperty('--angle', `${angle}deg`);
       t.style.setProperty('--radius', `210px`);
+    });
+  }else{
+    tokens.forEach((t) => {
+      const angle  = t.dataset.swirlAngle;
+      const radius = t.dataset.swirlRadius;
+      if(angle)  t.style.setProperty('--angle', `${angle}deg`);
+      if(radius) t.style.setProperty('--radius', `${radius}px`);
     });
   }
 }
