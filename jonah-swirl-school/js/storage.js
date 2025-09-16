@@ -308,8 +308,33 @@ export function pinExists(){ return Storage.pinExists(); }
 export function verifyPin(input){ return Storage.verifyPin(input); }
 export function setPin(newPin, currentPin){ return Storage.setPin(newPin, currentPin); }
 
+const REACT_KEY = 'swirl_reacts_like_jonah';
+function _likes(){
+  try{
+    return new Set(JSON.parse(localStorage.getItem(REACT_KEY) || '[]'));
+  }catch{
+    return new Set();
+  }
+}
+function _saveLikes(set){
+  localStorage.setItem(REACT_KEY, JSON.stringify([...set]));
+}
+export function isLiked(crumbId){
+  return _likes().has(crumbId);
+}
+export function toggleLike(crumbId){
+  const s = _likes();
+  if(s.has(crumbId)) s.delete(crumbId);
+  else s.add(crumbId);
+  _saveLikes(s);
+  try{
+    window.dispatchEvent(new CustomEvent('swirl:changed', { detail:{ type:'like_toggle', crumbId } }));
+  }catch{}
+  return s.has(crumbId);
+}
+
 // Extra getters useful for full snapshot export/import later:
-export function _all(){ 
+export function _all(){
   return {
     crumbs: Storage.getCrumbs(),
     comments: Storage.getComments(),

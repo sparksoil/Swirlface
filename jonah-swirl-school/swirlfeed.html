@@ -15,12 +15,17 @@
     </header>
     <p class="page-intro">Scroll this cozy feed to replay every crumb, filter by pillar, and open the ones you want to linger with a little longer.</p>
 
-    <!-- FILTER BAR -->
-    <section class="filters" aria-label="Filter crumbs">
-      <div class="chips" role="tablist">
-        <button class="chip is-active" data-pill="all" role="tab" aria-selected="true">All</button>
+    <!-- STORIES ROW -->
+    <section class="stories" aria-label="Pillar stories">
+      <div id="storyTrack" class="story-track" aria-live="polite"></div>
+    </section>
+
+    <!-- FILTER BAR -->
+    <section class="filters" aria-label="Filter crumbs">
+      <div class="chips" role="tablist">
+        <button class="chip is-active" data-pill="all" role="tab" aria-selected="true">All</button>
         <button class="chip" data-pill="divine" role="tab" aria-selected="false">👑 Spiritual Routine</button>
-        <button class="chip" data-pill="family" role="tab" aria-selected="false">🏠 Home</button>
+        <button class="chip" data-pill="family" role="tab" aria-selected="false">🏠 Home</button>
         <button class="chip" data-pill="self"   role="tab" aria-selected="false">🌱 Self</button>
         <button class="chip" data-pill="rrr"    role="tab" aria-selected="false">📚 Skills</button>
         <button class="chip" data-pill="work"   role="tab" aria-selected="false">💵 Work</button>
