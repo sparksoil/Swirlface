@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jonah Swirl — Home</title>
+
+  <!-- Style order: design tokens → base → page -->
+  <link rel="stylesheet" href="./css/design/palette.css">
+  <link rel="stylesheet" href="./css/tokens.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/hub.css">
+  <!-- Only the hub uses the intro card helpers -->
+  <link rel="stylesheet" href="./css/landing.css">
+</head>
+
+<body class="mode-swirl">
+  <!-- ===================== -->
+  <!-- Toolbar / Top chrome  -->
+  <!-- ===================== -->
+  <header class="lab-toolbar" aria-label="Swirlface controls">
+    <div class="brand">
+      <span class="swirl-dot" aria-hidden="true"></span>
+      <strong>Swirlface</strong>
+    </div>
+
+    <!-- Toggle (role=switch for a11y) -->
+    <div class="view-toggle" role="group" aria-label="View mode">
+      <span class="view-toggle__legend">View</span>
+      <button
+        id="modeToggle"
+        class="mode-switch"
+        type="button"
+        role="switch"
+        aria-checked="true"
+        aria-label="View: Swirl"
+      >
+        <span class="mode-switch__label mode-switch__label--swirl" aria-hidden="true">Swirl</span>
+        <span class="mode-switch__track" aria-hidden="true">
+          <span class="mode-switch__thumb"></span>
+        </span>
+        <span class="mode-switch__label mode-switch__label--structure" aria-hidden="true">Structure</span>
+      </button>
+    </div>
+
+    <!-- Quick crumb -->
+    <label class="sr-only" for="crumbBox">Drop a crumb</label>
+    <input
+      id="crumbBox"
+      class="pill crumb-input"
+      type="text"
+      placeholder="Drop a crumb…"
+      aria-label="Drop a crumb"
+      x-webkit-speech
+      inputmode="text"
+      autocomplete="off"
+    />
+  </header>
+
+  <!-- ===================== -->
+  <!-- Main / Pond           -->
+  <!-- ===================== -->
+  <main id="pond">
+    <div class="sparkles" aria-hidden="true"></div>
+
+    <!-- Banner -->
+    <div class="site-banner" role="img" aria-label="Life is Learning — Don’t flatten the swirl">
+      <h1>Life is Learning</h1>
+      <p class="site-subtitle">Don’t flatten the swirl.</p>
+    </div>
+
+    <!-- Swirl hero (PNG first, SVG fallback) -->
+    <figure class="swirl" aria-label="Swirl hub">
+      <picture>
+        <!-- optional higher-res PNG for retina -->
+        <source srcset="./assets/spiral-sprout.png" type="image/png">
+        <img
+          src="./assets/spiral-sprout.png"
+          alt="Hand-drawn spiral with sprout"
+          class="swirl-svg"
+          width="512" height="512"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </picture>
+
+      <!-- Sacred center: go to SwirlFeed -->
+      <a id="enterDay" class="enter-day" href="./swirlfeed.html" aria-label="Visit the Swirlfeed"></a>
+    </figure>
+
+    <!-- Tokens (doors) -->
+    <div id="tokens">
+      <button class="token" data-pillar="divine" data-app="Spiritual Routine">Spiritual Routine</button>
+      <button class="token" data-pillar="self"   data-app="Self">Self</button>
+      <button class="token" data-pillar="family" data-app="Home">Home</button>
+      <button class="token" data-pillar="work"   data-app="Secular Work">Secular Work</button>
+      <button class="token" data-pillar="rrr"    data-app="RRR Classics">RRR</button>
+    </div>
+
+    <!-- Optional intro card -->
+    <aside id="introCard" class="intro-card" role="dialog" aria-modal="false" aria-labelledby="introTitle">
+      <button id="introDismiss" class="intro-close" type="button" aria-label="Dismiss help">×</button>
+      <h2 id="introTitle">Follow the strongest thread</h2>
+      <p>Tap the glowing center to enter the Swirlfeed. Each circle opens its pillar—Spiritual Routine, Self, Home, Secular Work, and RRR.</p>
+      <p>Drop a crumb anytime with the bar above so the day keeps its color.</p>
+    </aside>
+  </main>
+
+  <!-- ===================== -->
+  <!-- Minimal, robust JS    -->
+  <!-- ===================== -->
+  <script type="module">
+    // Toggle (swirl <-> structure)
+    const modeToggle = document.getElementById('modeToggle');
+    const setMode = (isSwirl) => {
+      document.body.classList.toggle('mode-swirl', isSwirl);
+      modeToggle.setAttribute('aria-checked', String(isSwirl));
+      modeToggle.setAttribute('aria-label', `View: ${isSwirl ? 'Swirl' : 'Structure'}`);
+    };
+    modeToggle?.addEventListener('click', () => {
+      const on = modeToggle.getAttribute('aria-checked') !== 'true';
+      setMode(on);
+    });
+    // start in Swirl
+    setMode(true);
+
+    // Tokens route → day.html#pillar or swirlfeed.html#pillar (pick one)
+    const map = {
+      divine: './day.html#divine',
+      self: './day.html#self',
+      family: './day.html#family',
+      work: './day.html#work',
+      rrr: './day.html#rrr',
+    };
+    document.querySelectorAll('.token').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const k = btn.getAttribute('data-pillar');
+        window.location.href = map[k] || './day.html';
+      });
+    });
+
+    // Intro card (persist dismissal)
+    const intro = document.getElementById('introCard');
+    const introBtn = document.getElementById('introDismiss');
+    const INTRO_KEY = 'swirl.intro.dismissed';
+    if (localStorage.getItem(INTRO_KEY) === '1') intro?.setAttribute('hidden', '');
+    introBtn?.addEventListener('click', () => {
+      intro?.setAttribute('hidden', '');
+      localStorage.setItem(INTRO_KEY, '1');
+    });
+
+    // Quick crumb UX: submit on Enter (no shift)
+    const crumbBox = document.getElementById('crumbBox');
+    crumbBox?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        crumbBox.blur(); // let your existing save logic hook on blur if desired
+      }
+    });
+  </script>
+</body>
+</html>
