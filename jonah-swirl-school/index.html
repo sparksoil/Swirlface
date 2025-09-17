@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Jonah Swirl — Home</title>
 
-<link rel="stylesheet" href="./css/design/palette.css">
+<link rel="stylesheet" href="./css/palette.css">
 <link rel="stylesheet" href="./css/tokens.css">
 <link rel="stylesheet" href="./css/base.css">
 <link rel="stylesheet" href="./css/hub.css">
@@ -59,22 +59,24 @@
     <!-- Title + small byline -->
     <div class="site-banner" role="img" aria-label="Life is Learning — Don’t flatten the swirl">
       <h1>Life is Learning</h1>
-      <p class="site-subtitle">Don’t flatten the swirl.</p>
+      <p class="site-subtitle">Don’t flatten the swirl</p>
     </div>
 
-    <!-- Center spiral (no central door) -->
-    <figure class="swirl" aria-label="Swirl hub">
-      <img src="./assets/spiral-sprout.svg" alt="Hand-drawn spiral with sprout" class="swirl-svg" decoding="async" fetchpriority="high" />
-      <!-- Swirlfeed door (center glow) -->
-      <a id="enterDay" class="enter-day" href="./swirlfeed.html" aria-label="Visit the Swirlfeed"></a>
-    </figure>
+    <section class="hub-core" aria-label="Swirl navigation">
+      <!-- Center spiral (no central door) -->
+      <figure class="swirl" aria-label="Swirl hub">
+        <img src="./assets/spiral-sprout.svg" alt="Hand-drawn spiral with sprout" class="swirl-svg" decoding="async" fetchpriority="high" />
+        <!-- Swirlfeed door (center glow) -->
+        <a id="enterDay" class="enter-day" href="./swirlfeed.html" aria-label="Visit the Swirlfeed"></a>
+      </figure>
 
-    <!-- Floating pillar tokens (positions styled in CSS; colors via CSS vars) -->
-    <button class="token" data-pillar="divine" data-app="Spiritual Routine">Spiritual Routine</button>
-    <button class="token" data-pillar="self" data-app="Self">Self</button>
-    <button class="token" data-pillar="family" data-app="Home">Home</button>
-    <button class="token" data-pillar="work" data-app="Secular Work">Secular Work</button>
-    <button class="token" data-pillar="rrr" data-app="RRR Classics">RRR</button>
+      <!-- Floating pillar tokens (positions styled in CSS; colors via CSS vars) -->
+      <button class="token" type="button" data-pillar="divine" data-app="Spiritual Routine">Spiritual Routine</button>
+      <button class="token" type="button" data-pillar="self" data-app="Self">Self</button>
+      <button class="token" type="button" data-pillar="family" data-app="Home">Home</button>
+      <button class="token" type="button" data-pillar="work" data-app="Secular Work">Secular Work</button>
+      <button class="token" type="button" data-pillar="rrr" data-app="RRR Classics">RRR</button>
+    </section>
 
     <!-- Dismissible intro card (temporary helper copy) -->
     <aside id="introCard" class="intro-card" role="dialog" aria-modal="false" aria-labelledby="introTitle">
