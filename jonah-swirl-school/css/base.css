@@ -1,75 +1,5 @@
-@import url("../design/palette.css");
-
-:root{
-  /* Core palette bridge */
-  --ink: var(--ink-900);
-  --ink-soft: var(--ink-700);
-  --ink-mist: color-mix(in oklab, var(--ink-500) 88%, white 12%);
-  --ink-faint: color-mix(in oklab, var(--ink-500) 60%, white 40%);
-  --paper: var(--paper-100);
-  --bg: var(--paper-100);
-  --veil: color-mix(in srgb, var(--surface) 62%, transparent);
-
-  /* translucent surface tones */
-  --surface-soft: color-mix(in srgb, var(--surface) 88%, transparent);
-  --border-strong: color-mix(in srgb, var(--ink) 14%, transparent);
-  --halo-mint: color-mix(in srgb, var(--cup-mint) 32%, transparent);
-  --halo-pink: color-mix(in srgb, var(--cup-rose) 26%, transparent);
-
-  /* pillar anchors */
-  --pillar-spiritual: var(--p-divine);
-  --pillar-family:    var(--p-family);
-  --pillar-self:      var(--p-self);
-  --pillar-rrr:       var(--p-rrr);
-  --pillar-work:      var(--p-work);
-  --token-divine: var(--pillar-spiritual);
-  --token-family: var(--pillar-family);
-  --token-self:   var(--pillar-self);
-  --token-rrr:    var(--pillar-rrr);
-  --token-work:   var(--pillar-work);
-  --p-divine-100: color-mix(in srgb, var(--pillar-spiritual) 30%, transparent);
-  --p-family-100: color-mix(in srgb, var(--pillar-family) 30%, transparent);
-  --p-self-100:   color-mix(in srgb, var(--pillar-self) 35%, transparent);
-  --p-rrr-100:    color-mix(in srgb, var(--pillar-rrr) 32%, transparent);
-  --p-work-100:   color-mix(in srgb, var(--pillar-work) 32%, transparent);
-
-  /* supportive pastels from the paint cups */
-  --pastel-pink:   var(--glow-rose);
-  --pastel-lilac:  var(--glow-lilac);
-  --pastel-peach:  var(--glow-apricot);
-  --pastel-butter: color-mix(in oklab, var(--cup-orange) 30%, white 70%);
-  --pastel-sky:    var(--glow-sky);
-
-  /* accents carried over from previous theme */
-  --accent1: var(--cup-mint);
-  --accent2: var(--cup-rose);
-  --accent3: var(--cup-orange);
-
-  /* Seasonal age bars */
-  --season-fresh:  color-mix(in oklab, var(--cup-mint) 70%, var(--cup-sky) 30%);
-  --season-spring: var(--cup-mint);
-  --season-summer: color-mix(in oklab, var(--cup-orange) 78%, var(--cup-apricot) 22%);
-  --season-fall:   color-mix(in oklab, var(--cup-orange) 60%, var(--cup-rose) 40%);
-  --season-winter: color-mix(in oklab, var(--cup-sky) 78%, var(--ink-700) 22%);
-
-  /* UI chips + gradients */
-  --chip-fill: var(--surface-strong);
-  --chip-border: color-mix(in srgb, var(--ink) 14%, transparent);
-  --chip-active: color-mix(in srgb, var(--cup-sky) 18%, var(--surface));
-  --chip-accent: color-mix(in srgb, var(--cup-mint) 18%, var(--surface));
-
-  --grad-hero: linear-gradient(180deg, var(--cup-sky) 0%, var(--cup-lilac) 100%);
-  --grad-like: linear-gradient(135deg, var(--cup-rose) 0%, var(--cup-apricot) 100%);
-  --grad-save: linear-gradient(135deg, var(--cup-mint) 0%, var(--cup-sky) 100%);
-
-  --shadow: rgba(27,31,51,0.14);
-  --shadow-strong: rgba(27,31,51,0.18);
-  --radius: 18px;
-
-  /* Jonah-friendly sizes */
-  --tap: 56px;
-  --gap: clamp(10px, 3vw, 24px);
-}
+@import url("./design/palette.css");
+@import url("./tokens.css");
 
 html,body{height:100%}
 body{
@@ -81,7 +11,8 @@ body{
   line-height: 1.5;
 }
 
-body:not(.mode-swirl){
+/* Structured background glows */
+body.mode-structured{
   background-image:
     radial-gradient(1200px 820px at 12% -10%, color-mix(in srgb, var(--glow-rose) 86%, transparent) 0 58%, transparent 72%),
     radial-gradient(900px 900px at 88% 0%, color-mix(in srgb, var(--glow-sky) 84%, transparent) 0 58%, transparent 76%),
@@ -89,152 +20,35 @@ body:not(.mode-swirl){
   background-attachment: fixed;
 }
 
-a{
-  color: inherit;
-  text-decoration: none;
-}
+a{ color:inherit; text-decoration:none; }
+a:hover{ text-decoration:underline; text-decoration-color: color-mix(in srgb, var(--ink) 35%, transparent); }
 
-a:hover{
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--ink) 35%, transparent);
-}
-
-.page-shell{
-  width: min(960px, 94vw);
-  margin: 0 auto;
-  padding: clamp(16px, 4vw, 32px) clamp(18px, 4vw, 36px) clamp(54px, 9vw, 88px);
-}
-
-.page-head{
-  display:flex;
-  align-items:center;
-  gap: clamp(10px, 2.6vw, 18px);
-  flex-wrap: wrap;
-  margin-bottom: clamp(12px, 3vw, 26px);
-}
-
-.page-head h1{
-  margin:0;
-  font-size: clamp(22px, 4.4vw, 32px);
-  letter-spacing: 0.5px;
-}
-
-.page-head .spacer{ flex:1 1 auto; }
-
-.page-intro{
-  margin: clamp(4px, 1.4vw, 12px) 0 clamp(16px, 4vw, 28px);
-  padding: 0.85rem 1rem;
-  border-radius: 18px;
-  background: color-mix(in srgb, var(--ink) 6%, transparent);
-  border: 1px dashed color-mix(in srgb, var(--ink) 12%, transparent);
-  color: var(--ink-mist);
-  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
-  line-height: 1.6;
-}
-
-body.mode-swirl .page-intro{
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  border-color: color-mix(in srgb, var(--surface) 60%, transparent);
-  color: color-mix(in srgb, var(--ink) 82%, transparent);
-}
+.page-shell{ width:min(960px,94vw); margin:0 auto; padding: clamp(16px,4vw,32px) clamp(18px,4vw,36px) clamp(54px,9vw,88px); }
 
 .card{
   background: var(--surface-strong);
   border-radius: var(--radius);
   border: 1.5px solid var(--border-soft);
   box-shadow: 0 22px 55px -32px var(--shadow-strong);
-  padding: clamp(16px, 3vw, 24px);
-  margin: clamp(16px, 3.2vw, 28px) 0;
+  padding: clamp(16px,3vw,24px);
+  margin: clamp(16px,3.2vw,28px) 0;
   backdrop-filter: blur(8px);
   transition: transform .2s ease, box-shadow .2s ease;
 }
+.card:hover{ transform: translateY(-2px); box-shadow: 0 28px 64px -30px color-mix(in srgb, var(--ink) 26%, transparent); }
 
-.card:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 28px 64px -30px color-mix(in srgb, var(--ink) 26%, transparent);
-}
-
-.btn{
-  display:inline-flex; align-items:center; justify-content:center;
-  padding: .8rem 1.1rem;
-  min-height: var(--tap);
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--accent3), color-mix(in srgb, var(--glow-apricot) 82%, var(--accent3) 18%));
-  color: color-mix(in srgb, var(--ink) 90%, var(--surface) 10%);
-  text-decoration: none;
-  box-shadow: 0 12px 24px -12px color-mix(in srgb, var(--accent3) 42%, transparent);
-  border: 0;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.btn:hover{
-  box-shadow: 0 20px 32px -18px color-mix(in srgb, var(--accent3) 55%, transparent);
-  filter: saturate(1.05);
-  text-decoration: none;
-}
-
-.btn-big{ font-size: 1.05rem; padding: 1rem 1.2rem; }
-.btn-ghost{
-  background: color-mix(in srgb, var(--surface-strong) 72%, transparent);
-  color: var(--ink);
-  border: 2px solid color-mix(in srgb, var(--accent1) 60%, transparent);
-  box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--ink) 22%, transparent);
-}
-
-.btn-ghost:hover{
-  background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
-  box-shadow: 0 16px 28px -18px color-mix(in srgb, var(--accent1) 52%, transparent);
-}
-
-.sr-only{
-  position:absolute!important; width:1px; height:1px; margin:-1px;
-  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
-}
-
-/* Seasonal age bar for crumbs */
-.crumb-age{ position:relative; }
-.crumb-age::before{
-  content:'';
-  position:absolute;
-  left:0; top:0;
-  width:6px; height:100%;
-  border-radius:6px 0 0 6px;
-}
-.crumb-age.age-fresh::before{ background:var(--season-fresh); }
-.crumb-age.age-spring::before{ background:var(--season-spring); }
-.crumb-age.age-summer::before{ background:var(--season-summer); }
-.crumb-age.age-fall::before{ background:var(--season-fall); }
-.crumb-age.age-winter::before{ background:var(--season-winter); }
-
+/* Chips used across pages */
 .pillar-chips{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 0; }
 .pillar-chip{
   display:inline-flex; align-items:center; gap:6px;
   padding:.35rem .65rem;
   border-radius:999px;
-  border:1px solid var(--chip-border);
-  background: var(--chip-fill);
-  font-size:.88rem;
-  font-weight:500;
+  border:1px solid var(--border-soft);
+  background: var(--surface-strong);
+  font-size:.88rem; font-weight:500;
 }
-.pillar-chip[data-pillar="divine"]{
-  background: color-mix(in srgb, var(--pillar-spiritual) 28%, var(--surface));
-  border-color: color-mix(in srgb, var(--pillar-spiritual) 60%, transparent);
-}
-.pillar-chip[data-pillar="family"]{
-  background: color-mix(in srgb, var(--pillar-family) 28%, var(--surface));
-  border-color: color-mix(in srgb, var(--pillar-family) 58%, transparent);
-}
-.pillar-chip[data-pillar="self"]{
-  background: color-mix(in srgb, var(--pillar-self) 34%, var(--surface));
-  border-color: color-mix(in srgb, var(--pillar-self) 62%, transparent);
-}
-.pillar-chip[data-pillar="rrr"]{
-  background: color-mix(in srgb, var(--pillar-rrr) 32%, var(--surface));
-  border-color: color-mix(in srgb, var(--pillar-rrr) 60%, transparent);
-}
-.pillar-chip[data-pillar="work"]{
-  background: color-mix(in srgb, var(--pillar-work) 32%, var(--surface));
-  border-color: color-mix(in srgb, var(--pillar-work) 60%, transparent);
-}
+.pillar-chip[data-pillar="divine"]{ background: color-mix(in srgb, var(--pillar-spiritual) 22%, var(--surface)); }
+.pillar-chip[data-pillar="family"]{ background: color-mix(in srgb, var(--pillar-family) 22%, var(--surface)); }
+.pillar-chip[data-pillar="self"]{   background: color-mix(in srgb, var(--pillar-self) 28%, var(--surface)); }
+.pillar-chip[data-pillar="rrr"]{    background: color-mix(in srgb, var(--pillar-rrr) 26%, var(--surface)); }
+.pillar-chip[data-pillar="work"]{   background: color-mix(in srgb, var(--pillar-work) 26%, var(--surface)); }
