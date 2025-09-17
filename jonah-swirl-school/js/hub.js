@@ -74,12 +74,18 @@ function quickSaveCrumb(){
 
 function rand(min, max){ return Math.random() * (max - min) + min; }
 
+const viewportWidth = Math.max(document.documentElement?.clientWidth || 0, window.innerWidth || 0);
+const baseRadius = Math.min(180, Math.max(68, viewportWidth * 0.22));
+const structuredRadiusBase = Math.min(200, Math.max(88, viewportWidth * 0.26));
+
 tokens.forEach((t, i) => {
   // randomize orbits so each circle feels alive while remaining evenly spaced
   const slice      = 360 / tokens.length;
   const offset     = rand(-18, 18);
   const startAngle = (slice * i + offset + 360) % 360;
-  const radius       = rand(170, 240);      // distance from center
+  const radiusMin    = Math.max(54, baseRadius - 16);
+  const radiusMax    = baseRadius + 22;
+  const radius       = rand(radiusMin, radiusMax);      // distance from center
   const orbitTime    = rand(28, 44);        // seconds per revolution
   const pulseTime    = rand(6, 9);          // seconds per glow wave
   const pulseDelay   = rand(0, 5);          // offset so pulses feel organic
@@ -91,6 +97,7 @@ tokens.forEach((t, i) => {
   t.style.setProperty('--pulse-delay', `${pulseDelay}s`);
   t.dataset.swirlAngle = startAngle.toFixed(2);
   t.dataset.swirlRadius = radius.toFixed(2);
+  t.dataset.structuredRadius = structuredRadiusBase.toFixed(2);
 });
 
 // ~lines 20-40: click → navigate to pillar feed
@@ -131,8 +138,10 @@ function setMode(mode, options = {}){
   if(!isSwirl){
     tokens.forEach((t, i) => {
       const angle = (360 / tokens.length) * i;
+      const storedRadius = Number.parseFloat(t.dataset.structuredRadius || '');
+      const structuredRadius = Number.isFinite(storedRadius) ? storedRadius : structuredRadiusBase;
       t.style.setProperty('--angle', `${angle}deg`);
-      t.style.setProperty('--radius', `210px`);
+      t.style.setProperty('--radius', `${structuredRadius}px`);
     });
   }else{
     tokens.forEach((t) => {

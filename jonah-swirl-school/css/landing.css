@@ -2,7 +2,7 @@
 
 /* Intro helper card */
 .intro-card{
-  position:absolute; left:50%; top:calc(50% + clamp(140px,20vw,210px)); transform:translate(-50%,0);
+  position:relative;
   width:min(420px, calc(100vw - 48px));
   padding:1.1rem 1.35rem 1.25rem; border-radius:var(--radius);
   background: color-mix(in srgb, var(--surface-strong) 94%, transparent);
@@ -11,6 +11,7 @@
   backdrop-filter: blur(12px);
   display:grid; gap:.7rem; color:color-mix(in srgb, var(--ink) 92%, transparent); z-index:8;
 }
+.intro-card:not([hidden]){ margin: clamp(16px, 4vh, 48px) auto 0; }
 .intro-card h2{ margin:0; font-size:1.15rem; color: color-mix(in srgb, var(--accent1) 58%, var(--ink) 42%); }
 .intro-close{
   position:absolute; top:12px; right:12px; width:34px; height:34px; border-radius:999px;
@@ -20,6 +21,12 @@
 }
 .intro-card[hidden]{ display:none !important; }
 
-@media (max-width:760px){
-  .intro-card{ position:static; transform:none; margin: clamp(26px,6vw,36px) auto 0; width:min(420px,100%); }
+@media (min-width: 960px){
+  .intro-card{
+    position:absolute;
+    right:clamp(36px, 11vw, 160px);
+    bottom:clamp(48px, 14vh, 180px);
+    margin:0;
+    width:min(380px, 32vw);
+  }
 }
