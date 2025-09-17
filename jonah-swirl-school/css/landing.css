@@ -1,140 +1,25 @@
-/* Layout grid with big targets */
-#swirl-stage {
-  min-height: calc(100dvh - 92px);
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-auto-rows: 180px;
-  gap: var(--gap);
-  padding: var(--gap);
-  place-items: center;
-}
+@import url("./tokens.css");
 
-/* Spiral sprout art (replaces central door) */
-.hub-spiral {
-  width: clamp(180px, 40vw, 320px);
-  height: auto;
-  display: block;
-  margin: 1.5rem auto 0;
-  filter: drop-shadow(0 6px 14px rgba(var(--hub-shadow-rgb), 0.14));
-}
-
-/* Optional: gentle drift animation */
-@media (prefers-reduced-motion: no-preference) {
-  .hub-spiral {
-    animation: drift 16s ease-in-out infinite;
-  }
-}
-
-@keyframes drift {
-  0%   { transform: translateY(-2px) rotate(-1deg); }
-  50%  { transform: translateY(7px)  rotate(1deg); }
-  100% { transform: translateY(-2px) rotate(-1deg); }
-}
-
-/* Landing footer */
-.landing-footer {
-  display: flex;
-  justify-content: center;
-  padding: 10px 16px 18px;
-}
-
-.footer-row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.shoeday {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* -------------------------- */
 /* Intro helper card */
-/* -------------------------- */
-.intro-card {
-  position: absolute;
-  left: 50%;
-  top: calc(50% + clamp(140px, 20vw, 210px));
-  transform: translate(-50%, 0);
-  width: min(420px, calc(100vw - 48px));
-  margin: 0;
-  padding: 1.1rem 1.35rem 1.25rem;
-  border-radius: var(--radius);
+.intro-card{
+  position:absolute; left:50%; top:calc(50% + clamp(140px,20vw,210px)); transform:translate(-50%,0);
+  width:min(420px, calc(100vw - 48px));
+  padding:1.1rem 1.35rem 1.25rem; border-radius:var(--radius);
   background: color-mix(in srgb, var(--surface-strong) 94%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent1) 22%, transparent);
-  box-shadow: 0 18px 44px -32px rgba(var(--hub-shadow-rgb),0.26);
+  border:1px solid color-mix(in srgb, var(--accent1) 22%, transparent);
+  box-shadow: 0 18px 44px -32px rgba(27,31,51,0.26);
   backdrop-filter: blur(12px);
-  display: grid;
-  gap: 0.7rem;
-  color: color-mix(in srgb, var(--ink) 92%, transparent);
-  line-height: 1.5;
-  text-align: left;
-  z-index: 8;
+  display:grid; gap:.7rem; color:color-mix(in srgb, var(--ink) 92%, transparent); z-index:8;
 }
-
-.intro-card h2 {
-  font-size: 1.15rem;
-  margin: 0;
-  color: color-mix(in srgb, var(--accent1) 58%, var(--ink) 42%);
-}
-
-.intro-card p {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.intro-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--accent2) 42%, transparent);
+.intro-card h2{ margin:0; font-size:1.15rem; color: color-mix(in srgb, var(--accent1) 58%, var(--ink) 42%); }
+.intro-close{
+  position:absolute; top:12px; right:12px; width:34px; height:34px; border-radius:999px;
+  border:1px solid color-mix(in srgb, var(--accent2) 42%, transparent);
   background: color-mix(in srgb, var(--surface) 94%, transparent);
-  color: color-mix(in srgb, var(--ink) 88%, transparent);
-  font-size: 1.15rem;
-  line-height: 1;
-  cursor: pointer;
-  box-shadow: 0 12px 28px -22px rgba(var(--hub-shadow-rgb),0.28);
-  display: grid;
-  place-items: center;
-  transition: background .2s ease, box-shadow .2s ease, transform .2s ease;
+  box-shadow: 0 12px 28px -22px rgba(27,31,51,0.28);
 }
+.intro-card[hidden]{ display:none !important; }
 
-.intro-close:hover,
-.intro-close:focus-visible {
-  background: color-mix(in srgb, var(--accent1) 18%, var(--surface));
-  transform: scale(1.05);
-}
-
-.intro-close:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--accent1) 45%, transparent);
-  outline-offset: 2px;
-}
-
-.intro-card[hidden] {
-  display: none !important;
-}
-
-@media (max-width: 760px) {
-  .intro-card {
-    position: static;
-    transform: none;
-    margin: clamp(26px, 6vw, 36px) auto 0;
-    width: min(420px, 100%);
-  }
-}
-
-@media (max-width: 480px) {
-  .intro-card {
-    padding: 1rem 1.1rem 1.1rem;
-  }
-  .intro-close {
-    top: 10px;
-    right: 10px;
-  }
+@media (max-width:760px){
+  .intro-card{ position:static; transform:none; margin: clamp(26px,6vw,36px) auto 0; width:min(420px,100%); }
 }
