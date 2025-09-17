@@ -1,0 +1,64 @@
+/* Jonah Swirl — Paint-Cup Palette (authoritative)
+   Source: photo cups (orange/apricot/rose/lilac/sky/mint) + inky neutrals.
+   RULES:
+   - Never hardcode colors outside this file.
+   - UI may only use tokens in the “Public Tokens” section below.
+   - If you need a new tone, add it here (HSL) and commit before use.
+*/
+
+:root{
+  /* ===== Core Cups (HSL from photo) ===== */
+  --cup-orange:  hsl(33 96% 56%);   /* bright orange cup (glow) */
+  --cup-apricot: hsl(33 86% 64%);   /* softer neighbor of orange */
+  --cup-rose:    hsl(348 84% 64%);  /* warm rose/magenta */
+  --cup-lilac:   hsl(291 55% 70%);  /* gentle lilac */
+  --cup-sky:     hsl(208 56% 72%);  /* sky blue */
+  --cup-mint:    hsl(162 45% 68%);  /* mint seafoam */
+
+  /* ===== Ink & Paper ===== */
+  --ink-900: hsl(231 27% 16%);  /* deep inky text */
+  --ink-700: hsl(231 20% 28%);
+  --ink-500: hsl(231 15% 40%);
+  --paper-100: hsl(35 45% 97%); /* warm paper background */
+  --paper-200: hsl(35 45% 94%);
+
+  /* ===== Derived Glows (for rings/auras) ===== */
+  --glow-orange:  color-mix(in oklab, var(--cup-orange) 35%, white 65%);
+  --glow-apricot: color-mix(in oklab, var(--cup-apricot) 40%, white 60%);
+  --glow-rose:    color-mix(in oklab, var(--cup-rose) 35%, white 65%);
+  --glow-lilac:   color-mix(in oklab, var(--cup-lilac) 40%, white 60%);
+  --glow-sky:     color-mix(in oklab, var(--cup-sky) 40%, white 60%);
+  --glow-mint:    color-mix(in oklab, var(--cup-mint) 40%, white 60%);
+
+  /* ===== Shadows (soft, not muddy) ===== */
+  --shadow-12: 0 12px 26px rgba(20,22,34,.14);
+  --shadow-20: 0 20px 42px rgba(20,22,34,.18);
+
+  /* ===== Public Tokens (the only ones UI uses) ===== */
+  --bg: var(--paper-100);
+  --ink: var(--ink-900);
+  --ink-soft: var(--ink-700);
+
+  /* Pillar chips / tokens */
+  --p-divine:  var(--cup-lilac);
+  --p-family:  var(--cup-apricot);
+  --p-self:    var(--cup-mint);
+  --p-rrr:     var(--cup-sky);
+  --p-work:    var(--cup-orange);
+
+  /* Hero swirl & rings */
+  --swirl-stroke:  hsl(165 19% 24%);   /* friendly dark green */
+  --ring-mint:     var(--glow-mint);
+  --ring-peach:    var(--glow-apricot);
+  --ring-sky:      var(--glow-sky);
+
+  /* Buttons */
+  --btn-primary:   var(--cup-orange);
+  --btn-ghost-bg:  color-mix(in srgb, white 92%, var(--cup-mint) 8%);
+
+  /* Utility */
+  --surface: rgba(255,255,255,.92);
+  --surface-strong: rgba(255,255,255,.96);
+  --border-soft: rgba(0,0,0,.08);
+  --radius: 18px;
+}
