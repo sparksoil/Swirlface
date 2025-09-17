@@ -1,0 +1,56 @@
+<!-- spiral-sprout-clean.svg  (transparent background) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Hand-drawn spiral with sprout">
+  <defs>
+    <!-- Tweak these to match palette -->
+    <style>
+      :root { --swirl-stroke:#6e5a49; --swirl-width:10; --dash-gap:18; }
+      .ink { fill:none; stroke:var(--swirl-stroke); stroke-width:var(--swirl-width); stroke-linecap:round; stroke-linejoin:round; }
+      .dash { stroke-dasharray:32 var(--dash-gap); }
+    </style>
+  </defs>
+
+  <!-- Main spiral (3.25 turns, gentle hand-drawn curves) -->
+  <path class="ink" d="
+    M 316 256
+    C 316 225 291 202 260 202
+      232 202 208 224 208 252
+      208 280 231 302 259 302
+      292 302 318 277 318 244
+    M 354 256
+    C 354 209 315 172 267 172
+      224 172 190 206 190 249
+      190 292 224 326 267 326
+      318 326 360 285 360 234
+    M 392 256
+    C 392 190 339 138 272 138
+      213 138 166 185 166 244
+      166 303 213 350 272 350
+      341 350 400 294 400 225
+  "/>
+
+  <!-- Sprout at lower-left of inner turn -->
+  <path class="ink" d="
+    M 208 318
+    C 196 324 187 332 182 344
+      180 349 180 354 184 358
+      189 363 199 361 206 356
+  "/>
+  <path class="ink" d="
+    M 182 344
+    C 170 330 152 326 136 332
+      127 335 118 342 114 352
+      111 360 115 367 124 368
+      137 369 153 360 163 349
+  "/>
+  <path class="ink" d="
+    M 206 356
+    C 216 368 236 374 252 370
+  "/>
+
+  <!-- Dashed outer arc (open at bottom) -->
+  <path class="ink dash" d="
+    M 106 212
+    C 140 134 220 86 308 90
+      396 94 468 155 486 238
+  "/>
+</svg>
