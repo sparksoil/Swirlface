@@ -1,11 +1,25 @@
 <!-- spiral-sprout-clean.svg  (transparent background) -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Hand-drawn spiral with sprout">
   <defs>
-    <!-- Tweak these to match palette -->
+    <!-- Palette-aligned defaults so the art renders even when embedded via <img> -->
     <style>
-      :root { --swirl-stroke:#6e5a49; --swirl-width:10; --dash-gap:18; }
-      .ink { fill:none; stroke:var(--swirl-stroke); stroke-width:var(--swirl-width); stroke-linecap:round; stroke-linejoin:round; }
-      .dash { stroke-dasharray:32 var(--dash-gap); }
+      :root {
+        --swirl-stroke: color-mix(in oklab, hsl(231 20% 28%) 75%, hsl(33 86% 64%) 25%);
+        --swirl-width: 14;
+        --swirl-dash-gap: 22;
+      }
+      .ink {
+        fill: none;
+        stroke: var(--swirl-stroke);
+        stroke-width: var(--swirl-width);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .dash {
+        stroke-dasharray: 32 var(--swirl-dash-gap);
+        stroke-linecap: round;
+        stroke-opacity: .85;
+      }
     </style>
   </defs>
 
