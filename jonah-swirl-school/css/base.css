@@ -34,12 +34,12 @@
   --p-rrr-100:    rgba(191,215,246,0.32);
   --p-work-100:   rgba(255,179,138,0.30);
 
-  /* supportive pastels from the photo */
-  --pastel-pink:   hsl(343 84% 81%);
+  /* supportive pastels from the paint-cup photo */
+  --pastel-pink:   #F7B3C8;
   --pastel-lilac:  #D9A7E1;
-  --pastel-peach:  hsl(26 92% 83%);
+  --pastel-peach:  #FFC29B;
   --pastel-butter: #F7E5A3;
-  --pastel-sky:    hsl(204 67% 79%);
+  --pastel-sky:    #A7C7E7;
 
   /* accents carried over from previous theme */
   --accent1: hsl(161 53% 69%);   /* mint aqua shimmer */
@@ -59,9 +59,9 @@
   --chip-active: #F4F7FF;
   --chip-accent: #EAF0FF;
 
-  --grad-hero: linear-gradient(180deg, #AFC8FF 0%, #D9A7E1 100%);
-  --grad-like: linear-gradient(135deg, #FF8FB2 0%, #FFB38A 100%);
-  --grad-save: linear-gradient(135deg, #B2F0E6 0%, #BFD7F6 100%);
+  --grad-hero: linear-gradient(180deg, var(--pastel-sky) 0%, var(--pastel-lilac) 100%);
+  --grad-like: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-peach) 100%);
+  --grad-save: linear-gradient(135deg, var(--accent1) 0%, var(--pastel-sky) 100%);
 
   --shadow: rgba(0,0,0,0.14);
   --shadow-strong: rgba(0,0,0,0.18);

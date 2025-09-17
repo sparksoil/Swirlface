@@ -47,31 +47,20 @@
 
     <!-- Floating pillar tokens (positions styled in CSS; colors via CSS vars) -->
     <button class="token" data-pillar="divine" data-app="Spiritual Routine">Spiritual Routine</button>
-    <button class="token" data-pillar="self" data-app="Self">Self</button>
     <button class="token" data-pillar="family" data-app="Family &amp; Home">Family</button>
+    <button class="token" data-pillar="self" data-app="Self">Self</button>
     <button class="token" data-pillar="rrr" data-app="RRR">RRR</button>
     <button class="token" data-pillar="work" data-app="Work">Work</button>
 
     <!-- Dismissible intro card (temporary helper copy) -->
-    <aside id="introCard" class="intro-card" role="dialog" aria-modal="false" aria-labelledby="introCopy">
-      <button id="introDismiss" class="intro-close" aria-label="Dismiss help">×</button>
-      <p id="introCopy">Tap the bright center to drop a crumb for today.</p>
+    <aside id="introCard" class="intro-card" role="dialog" aria-modal="false" aria-labelledby="introTitle">
+      <button id="introDismiss" class="intro-close" type="button" aria-label="Dismiss help">×</button>
+      <h2 id="introTitle">Start at the hub</h2>
+      <p>Tap the bright center when you’re ready to drop a crumb for today.</p>
     </aside>
   </main>
 
   <!-- Scripts -->
-  <script type="module">
-    // Intro card dismiss (persist once per browser using localStorage)
-    const intro = document.getElementById('introCard');
-    const introBtn = document.getElementById('introDismiss');
-    const INTRO_KEY = 'swirl.intro.dismissed';
-    if (localStorage.getItem(INTRO_KEY) === '1') intro?.setAttribute('hidden','');
-    introBtn?.addEventListener('click', () => {
-      intro?.setAttribute('hidden','');
-      localStorage.setItem(INTRO_KEY, '1');
-    });
-  </script>
-
   <!-- Keep ES module import for any shared hub logic -->
   <script type="module" src="./js/hub.js?v=jonah-2"></script>
 </body>
