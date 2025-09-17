@@ -1,0 +1,37 @@
+/* Swirlface Palette — Jonah cups + poster tones */
+:root{
+  /* Inky text scale */
+  --ink-900:#23263A; --ink-800:#2C3046; --ink-700:#3A3F57;
+  --ink-600:#4A506A; --ink-500:#5B627A; --ink-400:#7C829C;
+
+  /* Paper + surfaces (warm) */
+  --paper-100:#FAF6EF;
+  --surface:#FFFFFF;
+  --surface-strong:rgba(255,255,255,0.96);
+
+  /* Cups (vibrant) */
+  --cup-rose:#FF6FA3;
+  --cup-apricot:#FFA24D;
+  --cup-orange:#FF7A2F;
+  --cup-mint:#8FD5C4;
+  --cup-sky:#9EC5FF;
+  --cup-lilac:#C9A7F7;
+
+  /* Poster “glows” (soft pastels used for halos/washes) */
+  --glow-rose:#F7B3C8;
+  --glow-apricot:#FFC29B;
+  --glow-sky:#A7C7E7;
+  --glow-lilac:#D9A7E1;
+  --glow-mint:#CFE8DF;
+
+  /* Pillar anchors (tokens) */
+  --p-divine:#CFA9F2;
+  --p-family:#F2C156;
+  --p-self:#CFE8DF;
+  --p-rrr:#BFD7F6;
+  --p-work:#FFB38A;
+
+  /* Ring accents for ripples */
+  --ring-peach:#EBC19D;
+  --ring-mint:#B7E0D5;
+}
