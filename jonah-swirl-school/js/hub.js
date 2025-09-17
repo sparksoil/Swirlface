@@ -8,12 +8,10 @@ const QUICK_PILLARS = ['divine','family','self','rrr','work'];
 const QUICK_KEY = 'swirl_quick_pillar';
 const INTRO_KEY = 'swirl.intro.dismissed';
 
-const crumbBox      = document.getElementById('crumbBox');
-const btnSwirl      = document.getElementById('btnSwirl');
-const btnStructured = document.getElementById('btnStructured');
-const enterDay      = document.getElementById('enterDay');
-const introCard     = document.getElementById('introCard');
-const introDismiss  = document.getElementById('introDismiss');
+const crumbBox    = document.getElementById('crumbBox');
+const modeToggle  = document.getElementById('modeToggle');
+const introCard   = document.getElementById('introCard');
+const introDismiss = document.getElementById('introDismiss');
 
 function readQuickPillar(){
   try{
@@ -74,14 +72,6 @@ function quickSaveCrumb(){
   }
 }
 
-function pulseCrumbBox(){
-  if(!crumbBox) return;
-  crumbBox.classList.remove('is-pulsing');
-  void crumbBox.offsetWidth; // restart animation
-  crumbBox.classList.add('is-pulsing');
-  setTimeout(()=> crumbBox.classList.remove('is-pulsing'), 800);
-}
-
 function rand(min, max){ return Math.random() * (max - min) + min; }
 
 tokens.forEach((t, i) => {
@@ -89,12 +79,16 @@ tokens.forEach((t, i) => {
   const slice      = 360 / tokens.length;
   const offset     = rand(-18, 18);
   const startAngle = (slice * i + offset + 360) % 360;
-  const radius     = rand(170, 240);      // distance from center
-  const duration   = rand(26, 46);        // seconds per revolution
+  const radius       = rand(170, 240);      // distance from center
+  const orbitTime    = rand(28, 44);        // seconds per revolution
+  const pulseTime    = rand(6, 9);          // seconds per glow wave
+  const pulseDelay   = rand(0, 5);          // offset so pulses feel organic
 
   t.style.setProperty('--angle', `${startAngle}deg`);
   t.style.setProperty('--radius', `${radius}px`);
-  t.style.animationDuration = `${duration}s`;
+  t.style.setProperty('--orbit-duration', `${orbitTime}s`);
+  t.style.setProperty('--pulse-duration', `${pulseTime}s`);
+  t.style.setProperty('--pulse-delay', `${pulseDelay}s`);
   t.dataset.swirlAngle = startAngle.toFixed(2);
   t.dataset.swirlRadius = radius.toFixed(2);
 });
@@ -110,14 +104,6 @@ tokens.forEach((t) => {
   });
 });
 
-enterDay?.addEventListener('click', (event) => {
-  event.preventDefault();
-  if(crumbBox){
-    crumbBox.focus();
-    pulseCrumbBox();
-  }
-});
-
 if(introCard){
   try{
     if(localStorage.getItem(INTRO_KEY) === '1'){
@@ -131,16 +117,15 @@ if(introCard){
 }
 
 // ~lines 80-150: mode toggles (Swirlface ↔ Structured) + crumb capture
-function setMode(mode){
+function setMode(mode, options = {}){
   const isSwirl = mode !== 'structured';
   document.body.classList.toggle('mode-swirl', isSwirl);
-  if(btnSwirl){
-    btnSwirl.classList.toggle('active', isSwirl);
-    btnSwirl.setAttribute('aria-pressed', isSwirl ? 'true' : 'false');
-  }
-  if(btnStructured){
-    btnStructured.classList.toggle('active', !isSwirl);
-    btnStructured.setAttribute('aria-pressed', !isSwirl ? 'true' : 'false');
+  document.body.classList.toggle('mode-structured', !isSwirl);
+
+  if(modeToggle){
+    modeToggle.setAttribute('aria-checked', isSwirl ? 'true' : 'false');
+    modeToggle.setAttribute('aria-label', isSwirl ? 'View: Swirl' : 'View: Structure');
+    modeToggle.dataset.mode = isSwirl ? 'swirl' : 'structured';
   }
 
   if(!isSwirl){
@@ -157,10 +142,33 @@ function setMode(mode){
       if(radius) t.style.setProperty('--radius', `${radius}px`);
     });
   }
+
+  if(options.syncHash){
+    try{
+      if(isSwirl){
+        if(location.hash === '#structured'){
+          history.replaceState?.(null, '', location.pathname + location.search);
+        }
+      }else if(location.hash !== '#structured'){
+        location.hash = '#structured';
+      }
+    }catch{
+      if(isSwirl && location.hash === '#structured'){
+        location.hash = '';
+      }
+    }
+  }
 }
 
-btnSwirl?.addEventListener('click',      () => setMode('swirl'));
-btnStructured?.addEventListener('click', () => setMode('structured'));
+modeToggle?.addEventListener('click', () => {
+  const nextMode = document.body.classList.contains('mode-swirl') ? 'structured' : 'swirl';
+  setMode(nextMode, { syncHash: true });
+});
+
+window.addEventListener('hashchange', () => {
+  const mode = location.hash === '#structured' ? 'structured' : 'swirl';
+  setMode(mode);
+});
 
 if(crumbBox){
   crumbBox.addEventListener('keydown', (e)=>{
