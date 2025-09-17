@@ -5,7 +5,7 @@
     <style>
       .ink {
         fill: none;
-        stroke: var(--swirl-stroke, var(--ink-700));
+        stroke: var(--swirl-stroke, var(--ink-700, hsl(231 20% 28%)));
         stroke-width: var(--swirl-width, 12);
         stroke-linecap: round;
         stroke-linejoin: round;
