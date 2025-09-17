@@ -1,0 +1,45 @@
+/* Variables used across pages */
+:root{
+  --ink: var(--ink-900);
+  --ink-soft: var(--ink-700);
+  --ink-mist: color-mix(in oklab, var(--ink-500) 88%, white 12%);
+  --ink-faint: color-mix(in oklab, var(--ink-500) 60%, white 40%);
+  --paper: var(--paper-100);
+  --bg: var(--paper-100);
+  --veil: color-mix(in srgb, var(--surface) 62%, transparent);
+
+  --border-soft: color-mix(in srgb, var(--ink) 12%, transparent);
+  --border-strong: color-mix(in srgb, var(--ink) 14%, transparent);
+
+  /* Pillars → tokens */
+  --pillar-spiritual: var(--p-divine);
+  --pillar-family: var(--p-family);
+  --pillar-self: var(--p-self);
+  --pillar-rrr: var(--p-rrr);
+  --pillar-work: var(--p-work);
+
+  --token-divine: var(--pillar-spiritual);
+  --token-family: var(--pillar-family);
+  --token-self: var(--pillar-self);
+  --token-rrr: var(--pillar-rrr);
+  --token-work: var(--pillar-work);
+
+  /* Support glows */
+  --pastel-rose: var(--glow-rose);
+  --pastel-peach: var(--glow-apricot);
+  --pastel-sky: var(--glow-sky);
+  --pastel-lilac: var(--glow-lilac);
+  --pastel-mint: var(--glow-mint);
+
+  /* Accents */
+  --accent1: var(--cup-mint);
+  --accent2: var(--cup-rose);
+  --accent3: var(--cup-orange);
+
+  /* Layout */
+  --radius: 18px;
+  --shadow: rgba(27,31,51,0.14);
+  --shadow-strong: rgba(27,31,51,0.18);
+  --tap: 56px;
+  --gap: clamp(10px, 3vw, 24px);
+}
