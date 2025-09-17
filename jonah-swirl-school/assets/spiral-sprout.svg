@@ -3,9 +3,18 @@
   <defs>
     <!-- Tweak these to match palette -->
     <style>
-      :root { --swirl-stroke:#6e5a49; --swirl-width:10; --dash-gap:18; }
-      .ink { fill:none; stroke:var(--swirl-stroke); stroke-width:var(--swirl-width); stroke-linecap:round; stroke-linejoin:round; }
-      .dash { stroke-dasharray:32 var(--dash-gap); }
+      .ink {
+        fill: none;
+        stroke: var(--swirl-stroke, var(--ink-700));
+        stroke-width: var(--swirl-width, 12);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .dash {
+        stroke-dasharray: 32 var(--swirl-dash-gap, 20);
+        stroke-linecap: round;
+        stroke-opacity: .85;
+      }
     </style>
   </defs>
 

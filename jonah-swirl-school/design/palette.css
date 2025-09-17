@@ -47,7 +47,9 @@
   --p-work:    var(--cup-orange);
 
   /* Hero swirl & rings */
-  --swirl-stroke:  hsl(165 19% 24%);   /* friendly dark green */
+  --swirl-stroke:  color-mix(in oklab, var(--ink-700) 78%, var(--cup-apricot) 22%);
+  --swirl-width:   14;
+  --swirl-dash-gap: 22;
   --ring-mint:     var(--glow-mint);
   --ring-peach:    var(--glow-apricot);
   --ring-sky:      var(--glow-sky);
