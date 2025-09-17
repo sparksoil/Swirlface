@@ -6,6 +6,14 @@ import { saveCrumb } from './storage.js';
 const tokens = Array.from(document.querySelectorAll('.token'));
 const QUICK_PILLARS = ['divine','family','self','rrr','work'];
 const QUICK_KEY = 'swirl_quick_pillar';
+const INTRO_KEY = 'swirl.intro.dismissed';
+
+const crumbBox      = document.getElementById('crumbBox');
+const btnSwirl      = document.getElementById('btnSwirl');
+const btnStructured = document.getElementById('btnStructured');
+const enterDay      = document.getElementById('enterDay');
+const introCard     = document.getElementById('introCard');
+const introDismiss  = document.getElementById('introDismiss');
 
 function readQuickPillar(){
   try{
@@ -58,11 +66,20 @@ function quickSaveCrumb(){
     saveCrumb({ pillars:[pillar], text });
     setQuickPillar(pillar);
     crumbBox.value = '';
+    crumbBox.classList.remove('is-pulsing');
     flashSaved();
   }catch(err){
     console.error('Quick crumb save failed', err);
     alert('Could not save crumb. Try again.');
   }
+}
+
+function pulseCrumbBox(){
+  if(!crumbBox) return;
+  crumbBox.classList.remove('is-pulsing');
+  void crumbBox.offsetWidth; // restart animation
+  crumbBox.classList.add('is-pulsing');
+  setTimeout(()=> crumbBox.classList.remove('is-pulsing'), 800);
 }
 
 function rand(min, max){ return Math.random() * (max - min) + min; }
@@ -93,24 +110,40 @@ tokens.forEach((t) => {
   });
 });
 
-// ~lines 80-150: mode toggles (Swirlface ↔ Structured) + crumb capture
-const btnSwirl      = document.getElementById('btnSwirl');
-const btnStructured = document.getElementById('btnStructured');
-const crumbBox      = document.getElementById('crumbBox');
+enterDay?.addEventListener('click', (event) => {
+  event.preventDefault();
+  if(crumbBox){
+    crumbBox.focus();
+    pulseCrumbBox();
+  }
+});
 
+if(introCard){
+  try{
+    if(localStorage.getItem(INTRO_KEY) === '1'){
+      introCard.setAttribute('hidden','');
+    }
+  }catch{}
+  introDismiss?.addEventListener('click', () => {
+    introCard.setAttribute('hidden','');
+    try{ localStorage.setItem(INTRO_KEY, '1'); }catch{}
+  });
+}
+
+// ~lines 80-150: mode toggles (Swirlface ↔ Structured) + crumb capture
 function setMode(mode){
-  document.body.classList.toggle('mode-swirl',      mode === 'swirl');
-  document.body.classList.toggle('mode-structured', mode === 'structured');
+  const isSwirl = mode !== 'structured';
+  document.body.classList.toggle('mode-swirl', isSwirl);
   if(btnSwirl){
-    btnSwirl.classList.toggle('active', mode === 'swirl');
-    btnSwirl.setAttribute('aria-pressed', mode === 'swirl' ? 'true' : 'false');
+    btnSwirl.classList.toggle('active', isSwirl);
+    btnSwirl.setAttribute('aria-pressed', isSwirl ? 'true' : 'false');
   }
   if(btnStructured){
-    btnStructured.classList.toggle('active', mode === 'structured');
-    btnStructured.setAttribute('aria-pressed', mode === 'structured' ? 'true' : 'false');
+    btnStructured.classList.toggle('active', !isSwirl);
+    btnStructured.setAttribute('aria-pressed', !isSwirl ? 'true' : 'false');
   }
 
-  if(mode === 'structured'){
+  if(!isSwirl){
     tokens.forEach((t, i) => {
       const angle = (360 / tokens.length) * i;
       t.style.setProperty('--angle', `${angle}deg`);
@@ -136,7 +169,6 @@ if(crumbBox){
       quickSaveCrumb();
     }
   });
-  crumbBox.addEventListener('blur', ()=> quickSaveCrumb());
 }
 
 // start in mode based on hash (#structured) or default to Swirlface
