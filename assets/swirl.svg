@@ -1,5 +1,64 @@
-<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-label="Swirl">
-  <title>Met, Not Grabbed</title>
-   <path d="M454 274c0 115-93 208-208 208S38 389 38 274 131 66 246 66c82 0 149 67 149 149 0 58-47 105-105 105-46 0-83-37-83-83 0-35 28-63 63-63 27 0 49 22 49 49"
-         fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/>
+<!-- swirl-sprout.svg — warm hand-drawn spiral -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Hand-drawn spiral with sprout">
+  <defs>
+    <style>
+      .ink {
+        fill: none;
+        stroke: var(--swirl-stroke, currentColor);
+        stroke-width: var(--swirl-width, 12);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .dash {
+        stroke-dasharray: 32 var(--swirl-dash-gap, 20);
+        stroke-linecap: round;
+        stroke-opacity: .85;
+      }
+    </style>
+  </defs>
+
+  <!-- Main spiral (soft pencil-like turns) -->
+  <path class="ink" d="
+    M 316 256
+    C 316 225 291 202 260 202
+      232 202 208 224 208 252
+      208 280 231 302 259 302
+      292 302 318 277 318 244
+    M 354 256
+    C 354 209 315 172 267 172
+      224 172 190 206 190 249
+      190 292 224 326 267 326
+      318 326 360 285 360 234
+    M 392 256
+    C 392 190 339 138 272 138
+      213 138 166 185 166 244
+      166 303 213 350 272 350
+      341 350 400 294 400 225
+  "/>
+
+  <!-- Sprout at lower-left of inner turn -->
+  <path class="ink" d="
+    M 208 318
+    C 196 324 187 332 182 344
+      180 349 180 354 184 358
+      189 363 199 361 206 356
+  "/>
+  <path class="ink" d="
+    M 182 344
+    C 170 330 152 326 136 332
+      127 335 118 342 114 352
+      111 360 115 367 124 368
+      137 369 153 360 163 349
+  "/>
+  <path class="ink" d="
+    M 206 356
+    C 216 368 236 374 252 370
+  "/>
+
+  <!-- Dashed outer arc (open at bottom) -->
+  <path class="ink dash" d="
+    M 106 212
+    C 140 134 220 86 308 90
+      396 94 468 155 486 238
+  "/>
 </svg>
